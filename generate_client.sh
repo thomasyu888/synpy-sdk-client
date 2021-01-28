@@ -1,0 +1,1 @@
+openapi-generator generate -g python -o . --package-name synclient -i https://sage-bionetworks.github.io/synapse-rest-openapi/edge/openapi.json

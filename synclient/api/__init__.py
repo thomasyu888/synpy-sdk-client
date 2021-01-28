@@ -1,0 +1,16 @@
+from __future__ import absolute_import
+
+# flake8: noqa
+
+# import apis into api package
+from synclient.api.access_approval_services_api import AccessApprovalServicesApi
+from synclient.api.access_requirement_services_api import AccessRequirementServicesApi
+from synclient.api.certified_user_services_api import CertifiedUserServicesApi
+from synclient.api.challenge_services_api import ChallengeServicesApi
+from synclient.api.doi_services_api import DoiServicesApi
+from synclient.api.evaluation_services_api import EvaluationServicesApi
+from synclient.api.membership_invitation_services_api import MembershipInvitationServicesApi
+from synclient.api.membership_request_services_api import MembershipRequestServicesApi
+from synclient.api.team_services_api import TeamServicesApi
+from synclient.api.trash_services_api import TrashServicesApi
+from synclient.api.user_profile_services_api import UserProfileServicesApi
