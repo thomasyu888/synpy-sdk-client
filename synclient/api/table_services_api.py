@@ -142,7 +142,7 @@ class TableServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/table/snapshot', 'POST',
@@ -265,7 +265,7 @@ class TableServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/table/download/csv/async/get/{asyncToken}', 'GET',
@@ -388,7 +388,7 @@ class TableServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/table/download/csv/async/start', 'POST',
@@ -534,7 +534,7 @@ class TableServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/table/column/{columnId}/row/{rowId}/version/{versionNumber}/filepreview', 'GET',
@@ -680,7 +680,7 @@ class TableServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/table/column/{columnId}/row/{rowId}/version/{versionNumber}/file', 'GET',
@@ -794,7 +794,7 @@ class TableServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/column', 'GET',
@@ -917,7 +917,7 @@ class TableServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/table/filehandles', 'POST',
@@ -1040,7 +1040,7 @@ class TableServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/table/transaction/async/get/{asyncToken}', 'GET',
@@ -1163,7 +1163,7 @@ class TableServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/table/query/async/get/{asyncToken}', 'GET',
@@ -1286,7 +1286,7 @@ class TableServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/table/query/async/start', 'POST',
@@ -1409,7 +1409,7 @@ class TableServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/table/transaction/async/start', 'POST',

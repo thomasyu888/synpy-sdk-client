@@ -142,7 +142,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/schema/binding', 'PUT',
@@ -265,7 +265,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/datatype', 'PUT',
@@ -375,7 +375,7 @@ class EntityServicesApi(object):
 
         body_params = None
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/schema/binding', 'DELETE',
@@ -494,7 +494,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity', 'POST',
@@ -617,7 +617,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/acl', 'POST',
@@ -736,7 +736,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/generatedBy', 'DELETE',
@@ -860,7 +860,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}', 'DELETE',
@@ -979,7 +979,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/acl', 'DELETE',
@@ -1107,7 +1107,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/version/{versionNumber}', 'DELETE',
@@ -1235,7 +1235,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/version/{versionNumber}/filepreview', 'GET',
@@ -1358,7 +1358,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/generatedBy', 'GET',
@@ -1490,7 +1490,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/version/{versionNumber}/generatedBy', 'GET',
@@ -1618,7 +1618,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/version', 'GET',
@@ -1732,7 +1732,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/schema/binding', 'GET',
@@ -1846,7 +1846,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/children', 'POST',
@@ -1960,7 +1960,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}', 'GET',
@@ -2074,7 +2074,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/acl', 'GET',
@@ -2188,7 +2188,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/annotations2', 'GET',
@@ -2311,7 +2311,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/version/{versionNumber}/annotations2', 'GET',
@@ -2434,7 +2434,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/benefactor', 'GET',
@@ -2548,7 +2548,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/filehandles', 'GET',
@@ -2671,7 +2671,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/version/{versionNumber}/filehandles', 'GET',
@@ -2794,7 +2794,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/version/{versionNumber}', 'GET',
@@ -2917,7 +2917,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/md5/{md5}', 'GET',
@@ -3031,7 +3031,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/alias/{alias}', 'GET',
@@ -3145,7 +3145,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/json', 'GET',
@@ -3259,7 +3259,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/path', 'GET',
@@ -3373,7 +3373,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/schema/validation', 'GET',
@@ -3487,7 +3487,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/schema/validation/statistics', 'GET',
@@ -3610,7 +3610,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/type', 'GET',
@@ -3724,7 +3724,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/type', 'GET',
@@ -3838,7 +3838,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/header', 'POST',
@@ -3962,7 +3962,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/filepreview', 'GET',
@@ -4085,7 +4085,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/schema/validation/invalid', 'POST',
@@ -4208,7 +4208,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/sts', 'GET',
@@ -4322,7 +4322,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/permissions', 'GET',
@@ -4450,7 +4450,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/access', 'GET',
@@ -4564,7 +4564,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/child', 'POST',
@@ -4696,7 +4696,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/generatedBy', 'PUT',
@@ -4829,7 +4829,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}', 'PUT',
@@ -4952,7 +4952,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/acl', 'PUT',
@@ -5075,7 +5075,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/annotations2', 'PUT',
@@ -5207,7 +5207,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/version/{versionNumber}/filehandle', 'PUT',
@@ -5330,7 +5330,7 @@ class EntityServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/json', 'PUT',

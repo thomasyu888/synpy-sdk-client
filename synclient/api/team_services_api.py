@@ -148,7 +148,7 @@ class TeamServicesApi(object):
 
         body_params = None
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/team/{id}/member/{principalId}', 'PUT',
@@ -272,7 +272,7 @@ class TeamServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/teamMember', 'PUT',
@@ -386,7 +386,7 @@ class TeamServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/team', 'POST',
@@ -496,7 +496,7 @@ class TeamServicesApi(object):
 
         body_params = None
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/team/{id}', 'DELETE',
@@ -615,7 +615,7 @@ class TeamServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/team/{id}/icon/preview', 'GET',
@@ -734,7 +734,7 @@ class TeamServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/team/{id}/icon', 'GET',
@@ -848,7 +848,7 @@ class TeamServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/team/{id}', 'GET',
@@ -962,7 +962,7 @@ class TeamServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/team/{id}/acl', 'GET',
@@ -1091,7 +1091,7 @@ class TeamServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/user/{id}/team/id', 'GET',
@@ -1214,7 +1214,7 @@ class TeamServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/team/{id}/member/{principalId}', 'GET',
@@ -1333,7 +1333,7 @@ class TeamServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/teamMembers/count/{id}', 'GET',
@@ -1473,7 +1473,7 @@ class TeamServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/teamMembers/{id}', 'GET',
@@ -1596,7 +1596,7 @@ class TeamServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/team/{id}/member/{principalId}/membershipStatus', 'GET',
@@ -1722,7 +1722,7 @@ class TeamServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/user/{id}/team', 'GET',
@@ -1848,7 +1848,7 @@ class TeamServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/teams', 'GET',
@@ -1971,7 +1971,7 @@ class TeamServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/team/{id}/memberList', 'POST',
@@ -2094,7 +2094,7 @@ class TeamServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/user/{id}/memberList', 'POST',
@@ -2208,7 +2208,7 @@ class TeamServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/teamList', 'POST',
@@ -2327,7 +2327,7 @@ class TeamServicesApi(object):
 
         body_params = None
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/team/{id}/member/{principalId}', 'DELETE',
@@ -2441,7 +2441,7 @@ class TeamServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/team', 'PUT',
@@ -2555,7 +2555,7 @@ class TeamServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/team/acl', 'PUT',

@@ -142,7 +142,7 @@ class MessageServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/message', 'POST',

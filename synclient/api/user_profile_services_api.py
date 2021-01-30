@@ -133,7 +133,7 @@ class UserProfileServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/user/bundle', 'GET',
@@ -238,7 +238,7 @@ class UserProfileServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/userProfile', 'GET',
@@ -361,7 +361,7 @@ class UserProfileServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/user/{id}/bundle', 'GET',
@@ -475,7 +475,7 @@ class UserProfileServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/userGroupHeaders/aliases', 'POST',
@@ -598,7 +598,7 @@ class UserProfileServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/userGroupHeaders/batch', 'GET',
@@ -725,7 +725,7 @@ class UserProfileServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/userGroupHeaders', 'GET',
@@ -861,7 +861,7 @@ class UserProfileServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/userGroup', 'GET',
@@ -975,7 +975,7 @@ class UserProfileServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/userProfile/{profileId}', 'GET',
@@ -1109,7 +1109,7 @@ class UserProfileServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/user', 'GET',
@@ -1228,7 +1228,7 @@ class UserProfileServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/userProfile/{profileId}/image/preview', 'GET',
@@ -1347,7 +1347,7 @@ class UserProfileServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/userProfile/{profileId}/image', 'GET',
@@ -1461,7 +1461,7 @@ class UserProfileServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/userProfile', 'POST',
@@ -1575,7 +1575,7 @@ class UserProfileServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/userProfile', 'PUT',
