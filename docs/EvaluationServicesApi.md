@@ -20,6 +20,7 @@ Method | HTTP request | Description
 [**get_available_evaluations_paginated**](EvaluationServicesApi.md#get_available_evaluations_paginated) | **GET** /evaluation/available | Gets a collection of Evaluations in which the user has SUBMIT permission, within a given range. 
 [**get_evaluation**](EvaluationServicesApi.md#get_evaluation) | **GET** /evaluation/{evalId} | Gets an Evaluation.
 [**get_evaluation_round**](EvaluationServicesApi.md#get_evaluation_round) | **GET** /evaluation/{evalId}/round/{roundId} | Get Evaluation Round
+[**get_evaluations_by_content_source_paginated**](EvaluationServicesApi.md#get_evaluations_by_content_source_paginated) | **GET** /entity/{id}/evaluation | Gets Evaluations tied to a project.
 [**get_evaluations_paginated**](EvaluationServicesApi.md#get_evaluations_paginated) | **GET** /evaluation | Gets a collection of Evaluations, within a given range.
 [**get_my_submission_bundles**](EvaluationServicesApi.md#get_my_submission_bundles) | **GET** /evaluation/{evalId}/submission/bundle | Gets the requesting users bundled Submissions and SubmissionStatuses to a specified Evaluation.&#39; 
 [**get_my_submissions**](EvaluationServicesApi.md#get_my_submissions) | **GET** /evaluation/{evalId}/submission | Gets the requesting user&#39;s Submissions to a specified Evaluation.
@@ -1208,6 +1209,88 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**EvaluationRound**](EvaluationRound.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_evaluations_by_content_source_paginated**
+> PaginatedResultsOfEvaluation get_evaluations_by_content_source_paginated(id, access_type=access_type, active_only=active_only, evaluation_ids=evaluation_ids, limit=limit, offset=offset)
+
+Gets Evaluations tied to a project.
+
+Gets Evaluations tied to a project. <b>Note:</b> The response will contain only those Evaluations on which the caller is granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a> permission, unless specified otherwise with the accessType parameter. 
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+```python
+from __future__ import print_function
+import time
+import synclient
+from synclient.rest import ApiException
+from pprint import pprint
+# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = synclient.Configuration(
+    host = "https://repo-prod.prod.sagebase.org/repo/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = synclient.Configuration(
+    access_token = 'YOUR_BEARER_TOKEN'
+)
+
+# Enter a context with an instance of the API client
+with synclient.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = synclient.EvaluationServicesApi(api_client)
+    id = 'id_example' # str | the ID of the project
+access_type = synclient.ACCESSTYPE() # ACCESSTYPE | The type of access for the user to filter for, optional and defaults to <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a>  (optional)
+active_only = False # bool | If 'true' then return only those evaluations with rounds defined and for which the current time is in one of the rounds.  (optional) (default to False)
+evaluation_ids = 'evaluation_ids_example' # str | an optional, comma-delimited list of evaluation IDs to which the response is limited  (optional)
+limit = 10 # int | Limits the number of entities that will be fetched for this page. When null it will default to 10.  (optional) (default to 10)
+offset = 0 # int | The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  (optional) (default to 0)
+
+    try:
+        # Gets Evaluations tied to a project.
+        api_response = api_instance.get_evaluations_by_content_source_paginated(id, access_type=access_type, active_only=active_only, evaluation_ids=evaluation_ids, limit=limit, offset=offset)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling EvaluationServicesApi->get_evaluations_by_content_source_paginated: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **str**| the ID of the project | 
+ **access_type** | [**ACCESSTYPE**](.md)| The type of access for the user to filter for, optional and defaults to &lt;a href&#x3D;\&quot;${org.sagebionetworks.repo.model.ACCESS_TYPE}\&quot;&gt;ACCESS_TYPE.READ&lt;/a&gt;  | [optional] 
+ **active_only** | **bool**| If &#39;true&#39; then return only those evaluations with rounds defined and for which the current time is in one of the rounds.  | [optional] [default to False]
+ **evaluation_ids** | **str**| an optional, comma-delimited list of evaluation IDs to which the response is limited  | [optional] 
+ **limit** | **int**| Limits the number of entities that will be fetched for this page. When null it will default to 10.  | [optional] [default to 10]
+ **offset** | **int**| The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  | [optional] [default to 0]
+
+### Return type
+
+[**PaginatedResultsOfEvaluation**](PaginatedResultsOfEvaluation.md)
 
 ### Authorization
 

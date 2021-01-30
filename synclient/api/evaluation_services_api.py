@@ -1973,6 +1973,149 @@ class EvaluationServicesApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
+    def get_evaluations_by_content_source_paginated(self, id, **kwargs):  # noqa: E501
+        """Gets Evaluations tied to a project.  # noqa: E501
+
+        Gets Evaluations tied to a project. <b>Note:</b> The response will contain only those Evaluations on which the caller is granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a> permission, unless specified otherwise with the accessType parameter.   # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_evaluations_by_content_source_paginated(id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool: execute request asynchronously
+        :param str id: the ID of the project (required)
+        :param ACCESSTYPE access_type: The type of access for the user to filter for, optional and defaults to <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a> 
+        :param bool active_only: If 'true' then return only those evaluations with rounds defined and for which the current time is in one of the rounds. 
+        :param str evaluation_ids: an optional, comma-delimited list of evaluation IDs to which the response is limited 
+        :param int limit: Limits the number of entities that will be fetched for this page. When null it will default to 10. 
+        :param int offset: The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0. 
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :return: PaginatedResultsOfEvaluation
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        return self.get_evaluations_by_content_source_paginated_with_http_info(id, **kwargs)  # noqa: E501
+
+    def get_evaluations_by_content_source_paginated_with_http_info(self, id, **kwargs):  # noqa: E501
+        """Gets Evaluations tied to a project.  # noqa: E501
+
+        Gets Evaluations tied to a project. <b>Note:</b> The response will contain only those Evaluations on which the caller is granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a> permission, unless specified otherwise with the accessType parameter.   # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_evaluations_by_content_source_paginated_with_http_info(id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool: execute request asynchronously
+        :param str id: the ID of the project (required)
+        :param ACCESSTYPE access_type: The type of access for the user to filter for, optional and defaults to <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a> 
+        :param bool active_only: If 'true' then return only those evaluations with rounds defined and for which the current time is in one of the rounds. 
+        :param str evaluation_ids: an optional, comma-delimited list of evaluation IDs to which the response is limited 
+        :param int limit: Limits the number of entities that will be fetched for this page. When null it will default to 10. 
+        :param int offset: The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0. 
+        :param _return_http_data_only: response data without head status code
+                                       and headers
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :return: tuple(PaginatedResultsOfEvaluation, status_code(int), headers(HTTPHeaderDict))
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        local_var_params = locals()
+
+        all_params = [
+            'id',
+            'access_type',
+            'active_only',
+            'evaluation_ids',
+            'limit',
+            'offset'
+        ]
+        all_params.extend(
+            [
+                'async_req',
+                '_return_http_data_only',
+                '_preload_content',
+                '_request_timeout'
+            ]
+        )
+
+        for key, val in six.iteritems(local_var_params['kwargs']):
+            if key not in all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_evaluations_by_content_source_paginated" % key
+                )
+            local_var_params[key] = val
+        del local_var_params['kwargs']
+        # verify the required parameter 'id' is set
+        if self.api_client.client_side_validation and ('id' not in local_var_params or  # noqa: E501
+                                                        local_var_params['id'] is None):  # noqa: E501
+            raise ApiValueError("Missing the required parameter `id` when calling `get_evaluations_by_content_source_paginated`")  # noqa: E501
+
+        if self.api_client.client_side_validation and 'limit' in local_var_params and local_var_params['limit'] < 0:  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `limit` when calling `get_evaluations_by_content_source_paginated`, must be a value greater than or equal to `0`")  # noqa: E501
+        if self.api_client.client_side_validation and 'offset' in local_var_params and local_var_params['offset'] < 0:  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `offset` when calling `get_evaluations_by_content_source_paginated`, must be a value greater than or equal to `0`")  # noqa: E501
+        collection_formats = {}
+
+        path_params = {}
+        if 'id' in local_var_params:
+            path_params['id'] = local_var_params['id']  # noqa: E501
+
+        query_params = []
+        if 'access_type' in local_var_params and local_var_params['access_type'] is not None:  # noqa: E501
+            query_params.append(('accessType', local_var_params['access_type']))  # noqa: E501
+        if 'active_only' in local_var_params and local_var_params['active_only'] is not None:  # noqa: E501
+            query_params.append(('activeOnly', local_var_params['active_only']))  # noqa: E501
+        if 'evaluation_ids' in local_var_params and local_var_params['evaluation_ids'] is not None:  # noqa: E501
+            query_params.append(('evaluationIds', local_var_params['evaluation_ids']))  # noqa: E501
+        if 'limit' in local_var_params and local_var_params['limit'] is not None:  # noqa: E501
+            query_params.append(('limit', local_var_params['limit']))  # noqa: E501
+        if 'offset' in local_var_params and local_var_params['offset'] is not None:  # noqa: E501
+            query_params.append(('offset', local_var_params['offset']))  # noqa: E501
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['bearerAuth']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/entity/{id}/evaluation', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='PaginatedResultsOfEvaluation',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
     def get_evaluations_paginated(self, **kwargs):  # noqa: E501
         """Gets a collection of Evaluations, within a given range.  # noqa: E501
 
