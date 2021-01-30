@@ -59,50 +59,6 @@ Bind a JSON schema to an Entity. The bound schema will be used to validate the E
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-bind_schema_to_entity_request = synclient.BindSchemaToEntityRequest() # BindSchemaToEntityRequest | The request identifies the JSON schema to bind. (optional)
-
-    try:
-        # Bind a JSON schema to an Entity.
-        api_response = api_instance.bind_json_schema_to_entity(id, bind_schema_to_entity_request=bind_schema_to_entity_request)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->bind_json_schema_to_entity: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -120,12 +76,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -160,7 +110,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -183,50 +133,6 @@ Change the <a href=\"${org.sagebionetworks.repo.model.DataType}\" >DataType</a> 
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-type = 'type_example' # str | Type of data
-
-    try:
-        # Change the.
-        api_response = api_instance.change_entity_data_type(id, type)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->change_entity_data_type: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -244,12 +150,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -284,7 +184,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -307,48 +207,6 @@ Clear the bound JSON schema from this Entity. The schema will no longer be used 
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-
-    try:
-        # Clear the bound JSON schema from this Entity.
-        api_instance.clear_bound_schema(id)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->clear_bound_schema: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -366,12 +224,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -403,7 +255,7 @@ void (empty response body)
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -426,50 +278,6 @@ Create a new Entity. This method is used to create Projects, Folders, FileEntiti
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    generated_by = 'generated_by_example' # str | To track the Provenance of an Entity create, include the ID of the <a href=\"${org.sagebionetworks.repo.model.provenance.Activity}\">Activity</a> that was created to track the change. For more information see: <a href=\"${POST.activity}\">POST /activity</a>. You must be the creator of the <a href=\"${org.sagebionetworks.repo.model.provenance.Activity}\">Activity</a> used here.'  (optional)
-entity = synclient.Entity() # Entity |  (optional)
-
-    try:
-        # Create a new Entity.
-        api_response = api_instance.create_entity(generated_by=generated_by, entity=entity)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->create_entity: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -487,12 +295,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -527,7 +329,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -550,50 +352,6 @@ Create a new Access Control List (ACL), overriding inheritance.  <p> By default,
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-access_control_list = synclient.AccessControlList() # AccessControlList |  (optional)
-
-    try:
-        # Create a new Access Control List (ACL), overriding inheritance.
-        api_response = api_instance.create_entity_acl(id, access_control_list=access_control_list)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->create_entity_acl: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -611,12 +369,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -651,7 +403,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -674,49 +426,6 @@ Deletes the activity relationship for the current version of an Entity.
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-body = None # object |  (optional)
-
-    try:
-        # Deletes the activity relationship for the current version of an Entity.
-        api_instance.delete_activity(id, body=body)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->delete_activity: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -734,12 +443,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -773,7 +476,7 @@ void (empty response body)
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -796,50 +499,6 @@ Moves an entity in the trash can, if the skipTrashCan is set to true will flag t
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-skip_trash_can = True # bool | If true the entity will be flag for priority purge and deleted as soon as possible  (optional)
-body = None # object |  (optional)
-
-    try:
-        # Deletes an Entity
-        api_instance.delete_entity(id, skip_trash_can=skip_trash_can, body=body)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->delete_entity: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -857,12 +516,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -898,7 +551,7 @@ void (empty response body)
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -921,49 +574,6 @@ Delete the Access Control List (ACL) for a given Entity.  <p>  By default, Entit
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-body = None # object |  (optional)
-
-    try:
-        # Delete the Access Control List (ACL) for a given Entity.
-        api_instance.delete_entity_acl(id, body=body)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->delete_entity_acl: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -981,12 +591,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -1020,7 +624,7 @@ void (empty response body)
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -1043,50 +647,6 @@ Delete a specific version of a FileEntity.
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of the Entity
-version_number = 56 # int | The version number of the Entity.
-body = None # object |  (optional)
-
-    try:
-        # Delete a specific version of a FileEntity.
-        api_instance.delete_entity_version(id, version_number, body=body)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->delete_entity_version: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -1104,12 +664,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -1145,7 +699,7 @@ void (empty response body)
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -1168,51 +722,6 @@ Get the URL of the preview file associated with a specific version of a FileEnti
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of the Entity.
-version_number = 56 # int | The version number of the Entity.
-redirect = True # bool | When set to false, the URL will be returned as text/plain instead of redirecting.  (optional)
-
-    try:
-        # Get the URL of the preview file associated with a specific version of a FileEntity. 
-        api_response = api_instance.file_preview_redirect_url_for_version(id, version_number, redirect=redirect)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->file_preview_redirect_url_for_version: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -1230,12 +739,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -1272,7 +775,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -1295,50 +798,6 @@ Get an existing activity for the current version of an Entity.
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-body = None # object | Get an existing activity for the current version of an Entity. (optional)
-
-    try:
-        # Get an existing activity for the current version of an Entity.
-        api_response = api_instance.get_activity(id, body=body)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->get_activity: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -1356,12 +815,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -1396,7 +849,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -1419,51 +872,6 @@ Get an existing activity for a specific version of an Entity.
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of the Entity.
-version_number = 56 # int | The version number of the Entity.
-body = None # object | Get an existing activity for a specific version of an Entity. (optional)
-
-    try:
-        # Get an existing activity for a specific version of an Entity.
-        api_response = api_instance.get_activity_for_entity_version(id, version_number, body=body)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->get_activity_for_entity_version: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -1481,12 +889,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -1523,7 +925,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -1546,51 +948,6 @@ Get all versions of an Entity one page at a time.
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of the Entity.
-limit = 10 # int | Limits the number of entities that will be fetched for this page. When null it will default to 10.  (optional) (default to 10)
-offset = 0 # int | The offset index determines where this page will start from. When null it will default to 0.  (optional) (default to 0)
-
-    try:
-        # Get all versions of an Entity one page at a time.
-        api_response = api_instance.get_all_versions_of_entity(id, limit=limit, offset=offset)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->get_all_versions_of_entity: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -1608,12 +965,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -1650,7 +1001,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -1673,49 +1024,6 @@ Get information about a JSON schema bound to an Entity. Note: Any child Entity t
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-
-    try:
-        # Get information about a JSON schema bound to an Entity.
-        api_response = api_instance.get_bound_json_schema(id)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->get_bound_json_schema: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -1733,12 +1041,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -1771,7 +1073,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -1794,49 +1096,6 @@ Get a page of children for a given parent ID. This service can also be used to l
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    entity_children_request = synclient.EntityChildrenRequest() # EntityChildrenRequest |  (optional)
-
-    try:
-        # Get a page of children for a given parent ID.
-        api_response = api_instance.get_children(entity_children_request=entity_children_request)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->get_children: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -1854,12 +1113,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -1892,7 +1145,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -1915,49 +1168,6 @@ Get an Entity using its ID.  <p> Note: To get an Entity the caller must be grant
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-
-    try:
-        # Get an Entity
-        api_response = api_instance.get_entity(id)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->get_entity: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -1975,12 +1185,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -2013,7 +1217,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -2036,49 +1240,6 @@ Get the Access Control List (ACL) for a given entity.  <p> Note: If this method 
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-
-    try:
-        # Get the Access Control List (ACL) for a given entity.
-        api_response = api_instance.get_entity_acl(id)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->get_entity_acl: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -2096,12 +1257,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -2134,7 +1289,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -2157,49 +1312,6 @@ Get the annotations for an entity.  <p>  Note: The caller must be granted the <a
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-
-    try:
-        # Get the annotations for an entity.
-        api_response = api_instance.get_entity_annotations(id)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->get_entity_annotations: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -2217,12 +1329,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -2255,7 +1361,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -2278,50 +1384,6 @@ Get an Entity's annotations for a specific version of a FileEntity.
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of the Entity.
-version_number = 56 # int | The version number of the Entity.
-
-    try:
-        # Get an Entity's annotations for a specific version of a FileEntity.
-        api_response = api_instance.get_entity_annotations_v2_for_version(id, version_number)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->get_entity_annotations_v2_for_version: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -2339,12 +1401,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -2379,7 +1435,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -2402,50 +1458,6 @@ Get an Entity's benefactor.  <p>  The term 'benefactor' is used indicate which E
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-body = None # object |  (optional)
-
-    try:
-        # Get an Entity's benefactor.
-        api_response = api_instance.get_entity_benefactor(id, body=body)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->get_entity_benefactor: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -2463,12 +1475,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -2503,7 +1509,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -2526,49 +1532,6 @@ Get the FileHandles of the file currently associated with the current version of
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of a File Entity.
-
-    try:
-        # Get the FileHandles of the file currently associated with the current version of the Entity. 
-        api_response = api_instance.get_entity_file_handles(id)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->get_entity_file_handles: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -2586,12 +1549,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -2624,7 +1581,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -2647,50 +1604,6 @@ Get the FileHandles of the file associated with a specific version of a FileEnti
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of the Entity.
-version_number = 56 # int | The version number of the Entity.
-
-    try:
-        # Get the FileHandles of the file associated with a specific version of a FileEntity. 
-        api_response = api_instance.get_entity_file_handles_for_version(id, version_number)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->get_entity_file_handles_for_version: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -2708,12 +1621,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -2748,7 +1655,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -2771,50 +1678,6 @@ Get a specific version of an Entity.  Note: Only the current version of the Enti
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of the Entity
-version_number = 56 # int | The version number of the Entity.
-
-    try:
-        # Get a specific version of an Entity.
-        api_response = api_instance.get_entity_for_version(id, version_number)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->get_entity_for_version: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -2832,12 +1695,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -2872,7 +1729,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -2895,50 +1752,6 @@ Gets at most 200 FileEntities matching the given MD5 string which the user has r
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    md5 = 'md5_example' # str | File MD5
-body = None # object |  (optional)
-
-    try:
-        # Gets FileEntities matching the given MD5 string which the user has read access to. 
-        api_response = api_instance.get_entity_header_by_md5(md5, body=body)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->get_entity_header_by_md5: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -2956,12 +1769,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -2996,7 +1803,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -3019,49 +1826,6 @@ Lookup an Entity ID using an alias.
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    alias = 'alias_example' # str | Alias of an Entity
-
-    try:
-        # Lookup an Entity ID using an alias.
-        api_response = api_instance.get_entity_id_by_alias(alias)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->get_entity_id_by_alias: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -3079,12 +1843,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -3117,7 +1875,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -3140,49 +1898,6 @@ Get the raw JSON for the given entity. The resulting JSON can be used for the va
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-
-    try:
-        # Get the raw JSON for the given entity.
-        api_response = api_instance.get_entity_json(id)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->get_entity_json: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -3200,12 +1915,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -3238,7 +1947,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -3261,49 +1970,6 @@ Get the full path of an Entity as a List of EntityHeaders. The first EntityHeade
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-
-    try:
-        # Get the full path of an Entity as a List of EntityHeaders.
-        api_response = api_instance.get_entity_path(id)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->get_entity_path: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -3321,12 +1987,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -3359,7 +2019,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -3382,49 +2042,6 @@ Get the validation results of an Entity against its bound JSON schema. The valid
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of the Entity.
-
-    try:
-        # Get the validation results of an Entity against its bound JSON schema.
-        api_response = api_instance.get_entity_schema_validation_results(id)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->get_entity_schema_validation_results: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -3442,12 +2059,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -3480,7 +2091,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -3503,49 +2114,6 @@ Get the The summary statistics of the JSON schema validation results for a singl
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of the container Entity.
-
-    try:
-        # Get the summary statistics of the JSON schema validation results for a single container Entity such as a Project or Folder. 
-        api_response = api_instance.get_entity_schema_validation_statistics(id)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->get_entity_schema_validation_statistics: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -3563,12 +2131,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -3601,7 +2163,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -3624,50 +2186,6 @@ Get the EntityHeader of an Entity given its ID. The EntityHeader is a light weig
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of the Entity.
-body = None # object |  (optional)
-
-    try:
-        # Get the EntityHeader of an Entity given its ID.
-        api_response = api_instance.get_entity_type(id, body=body)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->get_entity_type: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -3685,12 +2203,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -3725,7 +2237,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -3748,49 +2260,6 @@ Get a batch of EntityHeader given multile Entity IDs. The EntityHeader is a ligh
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    batch = 'batch_example' # str | A comma separated list of Entity IDs to get EntityHeaders for. 
-
-    try:
-        # Get a batch of EntityHeader given multile Entity IDs.
-        api_response = api_instance.get_entity_type_batch(batch)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->get_entity_type_batch: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -3808,12 +2277,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -3846,7 +2309,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -3869,49 +2332,6 @@ Get the EntityHeader for a list of references with a POST. If any item in the ba
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    reference_list = synclient.ReferenceList() # ReferenceList |  (optional)
-
-    try:
-        # Get the EntityHeader for a list of references with a POST.
-        api_response = api_instance.get_entity_versioned_type_batch(reference_list=reference_list)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->get_entity_versioned_type_batch: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -3929,12 +2349,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -3967,7 +2381,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -3990,51 +2404,6 @@ Get the URL of the preview file associated with the current version of a FileEnt
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of a File Entity.
-redirect = True # bool | When set to false, the URL will be returned as text/plain instead of redirecting.  (optional)
-status = 56 # int | Status (optional)
-
-    try:
-        # Get the URL of the preview file associated with the current version of a FileEntity. 
-        api_response = api_instance.get_file_preview_url(id, redirect=redirect, status=status)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->get_file_preview_url: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -4052,12 +2421,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -4094,7 +2457,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -4117,50 +2480,6 @@ Get a single page of invalid JSON schema validation results for a container Enti
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of the container Entity.
-list_validation_results_request = synclient.ListValidationResultsRequest() # ListValidationResultsRequest |  (optional)
-
-    try:
-        # Get a single page of invalid JSON schema validation results for a container Entity (Project or Folder). 
-        api_response = api_instance.get_invalid_validation_results(id, list_validation_results_request=list_validation_results_request)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->get_invalid_validation_results: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -4178,12 +2497,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -4218,7 +2531,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -4241,50 +2554,6 @@ Gets the temporary S3 credentials from STS for the given entity. These credentia
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of the Folder with an STS-enabled storage location. 
-permission = 'permission_example' # str | Read-only or read-write permissions. 
-
-    try:
-        # Gets the temporary S3 credentials from STS for the given entity.
-        api_response = api_instance.get_temporary_credentials_for_entity(id, permission)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->get_temporary_credentials_for_entity: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -4302,12 +2571,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -4342,7 +2605,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -4365,49 +2628,6 @@ Get the list of permission that the caller has on a given Entity.  A User's perm
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-
-    try:
-        # Get the list of permission that the caller has on a given Entity.
-        api_response = api_instance.get_user_entity_permissions(id)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->get_user_entity_permissions: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -4425,12 +2645,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -4463,7 +2677,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -4486,51 +2700,6 @@ Determine if the caller have a given permission on a given Entity.  <p>  A User'
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-access_type = 'access_type_example' # str | The permission to check. Must be from:  <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE</a>'  (optional)
-body = None # object |  (optional)
-
-    try:
-        # Determine if the caller have a given permission on a given Entity.
-        api_response = api_instance.has_access(id, access_type=access_type, body=body)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->has_access: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -4548,12 +2717,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -4590,7 +2753,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -4613,49 +2776,6 @@ Retrieve an entityId for a given parent ID and entity name. This service can als
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    entity_lookup_request = synclient.EntityLookupRequest() # EntityLookupRequest |  (optional)
-
-    try:
-        # Retrieve an entityId for a given parent ID and entity name.
-        api_response = api_instance.lookup_child(entity_lookup_request=entity_lookup_request)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->lookup_child: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -4673,12 +2793,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -4711,7 +2825,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -4734,51 +2848,6 @@ Sets the generatedBy relationship for the current version of an Entity.
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-generated_by = 'generated_by_example' # str | The id of the activity to connect to the entity. You must be the creator of the <a href=\"${org.sagebionetworks.repo.model.provenance.Activity}\">Activity</a> used here.' 
-body = None # object | Sets the generatedBy relationship for the current version of an Entity. (optional)
-
-    try:
-        # Sets the generatedBy relationship for the current version of an Entity.
-        api_response = api_instance.update_activity_for_entity(id, generated_by, body=body)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->update_activity_for_entity: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -4796,12 +2865,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -4838,7 +2901,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -4861,52 +2924,6 @@ Update an entity.  <p>  If the Entity is a FileEntity and the dataFileHandleId f
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-generated_by = 'generated_by_example' # str | To track the Provenance of an Entity update, include the ID of the <a href=\"${org.sagebionetworks.repo.model.provenance.Activity}\">Activity</a> that was created to track the change. For more information see: <a href=\"${POST.activity}\">POST /activity</a>. You must be the creator of the <a href=\"${org.sagebionetworks.repo.model.provenance.Activity}\">Activity</a> used here.'  (optional)
-new_version = 'new_version_example' # str | To force the creation of a new version for a <a href=\"${org.sagebionetworks.repo.model.VersionableEntity}\">versionable</a> entity such as a <a href= \"${org.sagebionetworks.repo.model.FileEntity}\">FileEntity</a>, include this optional parameter with a value set to true (i.e. newVersion=true). This parameter is ignored for entities of type  <a href=\"${org.sagebionetworks.repo.model.table.Table}\">Table</a> (See <a href=\"${POST.entity.id.table.snapshot}\">POST /entity/{id}/table/snapshot</a> instead)  (optional)
-entity = synclient.Entity() # Entity |  (optional)
-
-    try:
-        # Update an entity.
-        api_response = api_instance.update_entity(id, generated_by=generated_by, new_version=new_version, entity=entity)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->update_entity: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -4924,12 +2941,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -4968,7 +2979,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -4991,50 +3002,6 @@ Update an Entity's ACL.  <p>  Note: The caller must be granted  <a href=\"${org.
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-access_control_list = synclient.AccessControlList() # AccessControlList |  (optional)
-
-    try:
-        # Update an Entity's ACL.
-        api_response = api_instance.update_entity_acl(id, access_control_list=access_control_list)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->update_entity_acl: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -5052,12 +3019,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -5092,7 +3053,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -5115,50 +3076,6 @@ Update an Entity's annotations.  <p>  Note: The caller must be granted the <a hr
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-annotations_v2 = synclient.AnnotationsV2() # AnnotationsV2 |  (optional)
-
-    try:
-        # Update an Entity's annotations.
-        api_response = api_instance.update_entity_annotations(id, annotations_v2=annotations_v2)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->update_entity_annotations: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -5176,12 +3093,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -5216,7 +3127,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -5239,51 +3150,6 @@ Updates the FileHandle associated with the FileEntity with the provided entity i
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of the Entity.
-version_number = 56 # int | The version number of the Entity.
-file_handle_update_request = synclient.FileHandleUpdateRequest() # FileHandleUpdateRequest |  (optional)
-
-    try:
-        # Updates the filehandle.
-        api_response = api_instance.update_entity_file_handle(id, version_number, file_handle_update_request=file_handle_update_request)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->update_entity_file_handle: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -5301,12 +3167,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -5343,7 +3203,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -5366,50 +3226,6 @@ Update the annotations of an entity using the raw JSON of the entity.  <p>  See:
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-body = None # object |  (optional)
-
-    try:
-        # Update the annotations of an entity using the raw JSON of the entity.
-        api_response = api_instance.update_entity_with_json(id, body=body)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EntityServicesApi->update_entity_with_json: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -5427,12 +3243,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -5467,7 +3277,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 

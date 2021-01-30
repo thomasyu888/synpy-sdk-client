@@ -52,22 +52,6 @@ class Configuration(object):
       nothing to discard.
 
     :Example:
-
-    HTTP Basic Authentication Example.
-    Given the following security scheme in the OpenAPI specification:
-      components:
-        securitySchemes:
-          http_basic_auth:
-            type: http
-            scheme: basic
-
-    Configure API client with HTTP basic authentication:
-
-conf = synclient.Configuration(
-    username='the-user',
-    password='the-password',
-)
-
     """
 
     _default = None
@@ -335,13 +319,6 @@ conf = synclient.Configuration(
         :return: The Auth Settings information dict.
         """
         auth = {}
-        if self.username is not None and self.password is not None:
-            auth['basicAuth'] = {
-                'type': 'basic',
-                'in': 'header',
-                'key': 'Authorization',
-                'value': self.get_basic_auth_token()
-            }
         if self.access_token is not None:
             auth['bearerAuth'] = {
                 'type': 'bearer',

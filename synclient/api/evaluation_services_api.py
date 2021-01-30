@@ -133,7 +133,7 @@ class EvaluationServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/evaluation', 'POST',
@@ -256,7 +256,7 @@ class EvaluationServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/evaluation/{evalId}/round', 'POST',
@@ -390,7 +390,7 @@ class EvaluationServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/evaluation/submission', 'POST',
@@ -500,7 +500,7 @@ class EvaluationServicesApi(object):
 
         body_params = None
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/evaluation/{evalId}/acl', 'DELETE',
@@ -610,7 +610,7 @@ class EvaluationServicesApi(object):
 
         body_params = None
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/evaluation/{evalId}', 'DELETE',
@@ -729,7 +729,7 @@ class EvaluationServicesApi(object):
 
         body_params = None
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/evaluation/{evalId}/round/{roundId}', 'DELETE',
@@ -839,7 +839,7 @@ class EvaluationServicesApi(object):
 
         body_params = None
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/evaluation/submission/{subId}', 'DELETE',
@@ -953,7 +953,7 @@ class EvaluationServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/evaluation/name/{name}', 'GET',
@@ -1067,7 +1067,7 @@ class EvaluationServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/evaluation/{evalId}/acl', 'GET',
@@ -1190,7 +1190,7 @@ class EvaluationServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/evaluation/{evalId}/round/list', 'POST',
@@ -1323,7 +1323,7 @@ class EvaluationServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/evaluation/{evalId}/submission/bundle/all', 'GET',
@@ -1456,7 +1456,7 @@ class EvaluationServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/evaluation/{evalId}/submission/status/all', 'GET',
@@ -1589,7 +1589,7 @@ class EvaluationServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/evaluation/{evalId}/submission/all', 'GET',
@@ -1718,7 +1718,7 @@ class EvaluationServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/evaluation/available', 'GET',
@@ -1832,7 +1832,7 @@ class EvaluationServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/evaluation/{evalId}', 'GET',
@@ -1955,7 +1955,7 @@ class EvaluationServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/evaluation/{evalId}/round/{roundId}', 'GET',
@@ -2098,7 +2098,7 @@ class EvaluationServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/evaluation', 'GET',
@@ -2234,7 +2234,7 @@ class EvaluationServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/evaluation', 'GET',
@@ -2362,7 +2362,7 @@ class EvaluationServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/evaluation/{evalId}/submission/bundle', 'GET',
@@ -2492,7 +2492,7 @@ class EvaluationServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/evaluation/{evalId}/submission', 'GET',
@@ -2606,7 +2606,7 @@ class EvaluationServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/evaluation/submission/{subId}', 'GET',
@@ -2720,7 +2720,7 @@ class EvaluationServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/evaluation/{evalId}/submission/count', 'GET',
@@ -2834,7 +2834,7 @@ class EvaluationServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/evaluation/submission/{subId}/status', 'GET',
@@ -2957,7 +2957,7 @@ class EvaluationServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/evaluation/{evalId}/team/{id}/SubmissionEligibility', 'GET',
@@ -3080,7 +3080,7 @@ class EvaluationServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/evaluation/{evalId}/access', 'GET',
@@ -3208,7 +3208,7 @@ class EvaluationServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/evaluation/submission/{subId}/file/{fileHandleId}', 'GET',
@@ -3318,7 +3318,7 @@ class EvaluationServicesApi(object):
 
         body_params = None
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/evaluation/submission/{subId}/cancellation', 'PUT',
@@ -3432,7 +3432,7 @@ class EvaluationServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/evaluation/acl', 'PUT',
@@ -3555,7 +3555,7 @@ class EvaluationServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/evaluation/{evalId}', 'PUT',
@@ -3687,7 +3687,7 @@ class EvaluationServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/evaluation/{evalId}/round/{roundId}', 'PUT',
@@ -3810,7 +3810,7 @@ class EvaluationServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/evaluation/submission/{subId}/status', 'PUT',
@@ -3933,7 +3933,7 @@ class EvaluationServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/evaluation/{evalId}/statusBatch', 'PUT',

@@ -133,7 +133,7 @@ class DiscussionServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/thread', 'POST',
@@ -243,7 +243,7 @@ class DiscussionServicesApi(object):
 
         body_params = None
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/thread/{threadId}', 'DELETE',
@@ -392,7 +392,7 @@ class DiscussionServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/thread/{threadId}/replies', 'GET',
@@ -515,7 +515,7 @@ class DiscussionServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/thread/{threadId}/replycount', 'GET',
@@ -629,7 +629,7 @@ class DiscussionServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/thread/{threadId}', 'GET',
@@ -743,7 +743,7 @@ class DiscussionServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/threadcounts', 'POST',
@@ -857,7 +857,7 @@ class DiscussionServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/thread/messageUrl', 'GET',
@@ -997,7 +997,7 @@ class DiscussionServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/threads', 'GET',
@@ -1107,7 +1107,7 @@ class DiscussionServicesApi(object):
 
         body_params = None
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/thread/{threadId}/pin', 'PUT',
@@ -1221,7 +1221,7 @@ class DiscussionServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/thread/{threadId}/restore', 'PUT',
@@ -1331,7 +1331,7 @@ class DiscussionServicesApi(object):
 
         body_params = None
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/thread/{threadId}/unpin', 'PUT',
@@ -1454,7 +1454,7 @@ class DiscussionServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/thread/{threadId}/message', 'PUT',
@@ -1577,7 +1577,7 @@ class DiscussionServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/thread/{threadId}/title', 'PUT',

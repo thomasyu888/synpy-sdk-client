@@ -36,51 +36,6 @@ Add a member to the Team.  If the one making the request is the user to be added
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id = 'id_example' # str | the ID of the Team.
-principal_id = 'principal_id_example' # str | the member's principal ID
-notification_unsubscribe_endpoint = 'notification_unsubscribe_endpoint_example' # str | the portal prefix for one-click email unsubscription. A signed, serialized token is appended to create the complete URL: <ahref=\"${org.sagebionetworks.repo.model.message.NotificationSettingsSignedToken}\">NotificationSettingsSignedToken</a>'  (optional)
-team_endpoint = 'team_endpoint_example' # str | the portal prefix for the Team URL. The team ID is appended to create the complete URL.  (optional)
-
-    try:
-        # Add a member to the Team.
-        api_instance.add_team_member(id, principal_id, notification_unsubscribe_endpoint=notification_unsubscribe_endpoint, team_endpoint=team_endpoint)
-    except ApiException as e:
-        print("Exception when calling TeamServicesApi->add_team_member: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -98,12 +53,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -141,7 +90,7 @@ void (empty response body)
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -164,51 +113,6 @@ Add a member to the Team.  Note: The request is authenticated by a hash message 
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    notification_unsubscribe_endpoint = 'notification_unsubscribe_endpoint_example' # str | notification unsubscribe endpoint (optional)
-team_endpoint = 'team_endpoint_example' # str | Team end point (optional)
-join_team_signed_token = synclient.JoinTeamSignedToken() # JoinTeamSignedToken |  (optional)
-
-    try:
-        # Add a member to the Team.
-        api_response = api_instance.add_team_member_via_signed_token(notification_unsubscribe_endpoint=notification_unsubscribe_endpoint, team_endpoint=team_endpoint, join_team_signed_token=join_team_signed_token)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling TeamServicesApi->add_team_member_via_signed_token: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -226,12 +130,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -268,7 +166,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -291,49 +189,6 @@ Create a new Team. The passed request body may contain the following fields:  <u
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    team = synclient.Team() # Team |  (optional)
-
-    try:
-        # Create a new Team.
-        api_response = api_instance.create_team(team=team)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling TeamServicesApi->create_team: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -351,12 +206,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -389,7 +238,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -412,48 +261,6 @@ Delete the Team. Note: The client must be a Team administrator to make this requ
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id = 'id_example' # str | the ID of the Team.
-
-    try:
-        # Delete the Team.
-        api_instance.delete_team(id)
-    except ApiException as e:
-        print("Exception when calling TeamServicesApi->delete_team: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -471,12 +278,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -508,7 +309,7 @@ void (empty response body)
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -531,50 +332,6 @@ Retrieve the download URL for the Team icon preview, or receive a redirect respo
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id = 'id_example' # str | the ID of the Team.
-redirect = True # bool | if true or omitted, then redirect to the URL.  If false then simply return the URL.  (optional)
-
-    try:
-        # Retrieve the download URL for the Team icon preview, or receive a redirect response to said URL. 
-        api_response = api_instance.file_preview_redirect_url_for_team_icon(id, redirect=redirect)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling TeamServicesApi->file_preview_redirect_url_for_team_icon: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -592,12 +349,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -632,7 +383,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -655,50 +406,6 @@ Retrieve the download URL for the Team icon, or receive a redirect response to s
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id = 'id_example' # str | the ID of the Team.
-redirect = True # bool | if true or omitted, then redirect to the URL.  If false then simply return the URL.  (optional)
-
-    try:
-        # Retrieve the download URL for the Team icon, or receive a redirect response to said URL 
-        api_response = api_instance.file_redirect_url_for_team_icon(id, redirect=redirect)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling TeamServicesApi->file_redirect_url_for_team_icon: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -716,12 +423,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -756,7 +457,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -779,49 +480,6 @@ Retrieve the metadata for a specified Team.  <p>  <b>Service Limits</b>  <table 
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id = 'id_example' # str | the ID of the Team.
-
-    try:
-        # Retrieve the metadata for a specified Team.
-        api_response = api_instance.get_team(id)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling TeamServicesApi->get_team: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -839,12 +497,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -877,7 +529,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -900,49 +552,6 @@ Retrieve the AccessControlList for a specified Team.
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id = 'id_example' # str | the ID of the Team.
-
-    try:
-        # Retrieve the AccessControlList for a specified Team.
-        api_response = api_instance.get_team_acl(id)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling TeamServicesApi->get_team_acl: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -960,12 +569,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -998,7 +601,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -1021,52 +624,6 @@ Retrieve a paginated list of IDs of Teams to which the given user belongs. If so
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id = 'id_example' # str | The ID of the Synapse user.
-ascending = True # bool | the direction of sort: true for ascending, and false for descending (optional)
-next_page_token = 'next_page_token_example' # str | controls pagination (optional)
-sort = 'sort_example' # str | the field to sort the team IDs on. Available options <a href=\"${org.sagebionetworks.repo.model.TeamSortOrder}\">TeamSortOrder</a>  (optional)
-
-    try:
-        # Retrieve a paginated list of IDs of Teams to which the given user belongs.
-        api_response = api_instance.get_team_ids_by_member(id, ascending=ascending, next_page_token=next_page_token, sort=sort)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling TeamServicesApi->get_team_ids_by_member: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -1084,12 +641,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -1128,7 +679,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -1151,50 +702,6 @@ Name | Type | Description  | Notes
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id = 'id_example' # str | the ID of the Team.
-principal_id = 'principal_id_example' # str | the member's principal ID
-
-    try:
-        # .
-        api_response = api_instance.get_team_member(id, principal_id)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling TeamServicesApi->get_team_member: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -1212,12 +719,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -1252,7 +753,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -1275,50 +776,6 @@ Retrieve the number of Team members matching the supplied name prefix.  If the p
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id = 'id_example' # str | the ID of the Team.
-fragment = 'fragment_example' # str | a prefix of the user's first or last name or email address  (optional)
-
-    try:
-        # Retrieve the number of Team members matching the supplied name prefix.
-        api_response = api_instance.get_team_member_count(id, fragment=fragment)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling TeamServicesApi->get_team_member_count: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -1336,12 +793,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -1376,7 +827,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -1399,53 +850,6 @@ Retrieve a paginated list of Team members matching the supplied name prefix.  If
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id = 'id_example' # str | the ID of the Team.
-fragment = 'fragment_example' # str | a prefix of the user's first or last name or email address (optional)
-limit = 10 # int | the maximum number of members to return. (optional) (default to 10)
-member_type = 'ALL' # str | the type of team user to retrieve (optional) (default to 'ALL')
-offset = 0 # int | the starting index of the returned results (optional) (default to 0)
-
-    try:
-        # Retrieve a paginated list of Team members matching the supplied name prefix.
-        api_response = api_instance.get_team_members(id, fragment=fragment, limit=limit, member_type=member_type, offset=offset)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling TeamServicesApi->get_team_members: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -1463,12 +867,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -1509,7 +907,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -1532,50 +930,6 @@ Retrieve the Team Membership Status bundle for a team and user.  This says wheth
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id = 'id_example' # str | the ID of the Team.
-principal_id = 'principal_id_example' # str | the member's principal ID
-
-    try:
-        # Retrieve the Team Membership Status bundle for a team and user.
-        api_response = api_instance.get_team_membership_status(id, principal_id)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling TeamServicesApi->get_team_membership_status: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -1593,12 +947,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -1633,7 +981,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -1656,51 +1004,6 @@ Retrieve a paginated list of Teams to which the given user belongs.
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id = 'id_example' # str | The ID of the Synapse user.
-limit = 10 # int | the maximum number of Teams to return (default 10) (optional) (default to 10)
-offset = 0 # int | the starting index of the returned results (default 0) (optional) (default to 0)
-
-    try:
-        # Retrieve a paginated list of Teams to which the given user belongs.
-        api_response = api_instance.get_teams_by_member(id, limit=limit, offset=offset)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling TeamServicesApi->get_teams_by_member: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -1718,12 +1021,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -1760,7 +1057,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -1783,51 +1080,6 @@ Retrieve a paginated list of Teams matching the supplied name fragment (optional
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    fragment = 'fragment_example' # str | a prefix of the Team name, or a prefix of any sub-string in the name preceded by a space. If omitted, all Teams are returned.  (optional)
-limit = 10 # int | the maximum number of Teams to return. (optional) (default to 10)
-offset = 0 # int | the starting index of the returned results (default 0) (optional) (default to 0)
-
-    try:
-        # Retrieve a paginated list of Teams in alphabetical order by Team name.
-        api_response = api_instance.get_teams_by_name_fragment(fragment=fragment, limit=limit, offset=offset)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling TeamServicesApi->get_teams_by_name_fragment: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -1845,12 +1097,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -1887,7 +1133,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -1910,50 +1156,6 @@ Returns the TeamMember info for a team and a given list of members' principal ID
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id = 'id_example' # str | the ID of the Team.
-id_list = synclient.IdList() # IdList |  (optional)
-
-    try:
-        # Returns the TeamMember info for a team and a given list of members' principal IDs. 
-        api_response = api_instance.list_team_members_given_teamand_user_list(id, id_list=id_list)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling TeamServicesApi->list_team_members_given_teamand_user_list: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -1971,12 +1173,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -2011,7 +1207,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -2034,50 +1230,6 @@ Returns the TeamMember info for a user and a given list of Team IDs. Not Found s
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id = 'id_example' # str | The ID of the Synapse user.
-id_list = synclient.IdList() # IdList | Team IDs (optional)
-
-    try:
-        # Returns the TeamMember info for a user and a given list of Team IDs.
-        api_response = api_instance.list_team_members_given_userand_team_list(id, id_list=id_list)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling TeamServicesApi->list_team_members_given_userand_team_list: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -2095,12 +1247,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -2135,7 +1281,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -2158,49 +1304,6 @@ Retrieve a list of Teams given their IDs. Invalid IDs in the list are ignored:  
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id_list = synclient.IdList() # IdList |  (optional)
-
-    try:
-        # Retrieve a list of Teams given their IDs.
-        api_response = api_instance.list_teams(id_list=id_list)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling TeamServicesApi->list_teams: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -2218,12 +1321,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -2256,7 +1353,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -2279,49 +1376,6 @@ Remove the given member from the specified Team. Note:  The client must either b
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id = 'id_example' # str | the ID of the Team.
-principal_id = 'principal_id_example' # str | the member's principal ID
-
-    try:
-        # Remove the given member from the specified Team.
-        api_instance.remove_team_member(id, principal_id)
-    except ApiException as e:
-        print("Exception when calling TeamServicesApi->remove_team_member: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -2339,12 +1393,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -2378,7 +1426,7 @@ void (empty response body)
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -2401,49 +1449,6 @@ Update the Team metadata for the specified Team. Note: The client must be a Team
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    team = synclient.Team() # Team | the new metadata for the Team (optional)
-
-    try:
-        # Update the Team metadata for the specified Team.
-        api_response = api_instance.update_team(team=team)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling TeamServicesApi->update_team: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -2461,12 +1466,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -2499,7 +1498,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -2522,49 +1521,6 @@ Update the Access Control List for the specified Team.
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    access_control_list = synclient.AccessControlList() # AccessControlList | the updated Access Control List (optional)
-
-    try:
-        # Update the Access Control List for the specified Team.
-        api_response = api_instance.update_team_acl(access_control_list=access_control_list)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling TeamServicesApi->update_team_acl: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -2582,12 +1538,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -2620,7 +1570,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 

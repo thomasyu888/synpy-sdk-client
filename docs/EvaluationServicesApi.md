@@ -47,49 +47,6 @@ Creates a new Evaluation.
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    evaluation = synclient.Evaluation() # Evaluation |  (optional)
-
-    try:
-        # Creates a new Evaluation.
-        api_response = api_instance.create_evaluation(evaluation=evaluation)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->create_evaluation: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -107,12 +64,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -145,7 +96,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -168,50 +119,6 @@ Create Evaluation Round
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-evaluation_round = synclient.EvaluationRound() # EvaluationRound |  (optional)
-
-    try:
-        # Create Evaluation Round
-        api_response = api_instance.create_evaluation_round(eval_id, evaluation_round=evaluation_round)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->create_evaluation_round: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -229,12 +136,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -269,7 +170,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -292,53 +193,6 @@ Creates a Submission and sends a submission notification email to the submitter'
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    challenge_endpoint = 'challenge_endpoint_example' # str | The portal endpoint prefix to the an entity/challenge page. The entity ID of the challenge project is appended to create the complete URL. In normal operation, this parameter should be omitted.'  (optional)
-etag = 'etag_example' # str | The current eTag of the Entity being submitted (optional)
-notification_unsubscribe_endpoint = 'notification_unsubscribe_endpoint_example' # str | The portal endpoint prefix for one-click email unsubscription. A signed, serialized token is appended to create the complete URL: <a href=\"${org.sagebionetworks.repo.model.message.NotificationSettingsSignedToken}\">NotificationSettingsSignedToken</a>. In normal operation, this parameter should be omitted.'  (optional)
-submission_eligibility_hash = 'submission_eligibility_hash_example' # str | The hash provided by the <a href=\"${org.sagebionetworks.evaluation.model.TeamSubmissionEligibility}\">TeamSubmissionEligibility</a> object.  (optional)
-submission_model = synclient.SubmissionModel() # SubmissionModel |  (optional)
-
-    try:
-        # Creates a Submission and sends a submission notification email to the submitter's team members. 
-        api_response = api_instance.create_submission(challenge_endpoint=challenge_endpoint, etag=etag, notification_unsubscribe_endpoint=notification_unsubscribe_endpoint, submission_eligibility_hash=submission_eligibility_hash, submission_model=submission_model)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->create_submission: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -356,12 +210,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -402,7 +250,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -425,48 +273,6 @@ This method is deprecated and should be removed from future versions of the API.
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-
-    try:
-        # This method is deprecated and should be removed from future versions of the API.
-        api_instance.delete_acl(eval_id)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->delete_acl: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -484,12 +290,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -521,7 +321,7 @@ void (empty response body)
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -544,48 +344,6 @@ Deletes an Evaluation.  <p>  <b>Note:</b> The caller must be granted the <a href
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-
-    try:
-        # Deletes an Evaluation.
-        api_instance.delete_evaluation(eval_id)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->delete_evaluation: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -603,12 +361,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -640,7 +392,7 @@ void (empty response body)
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -663,49 +415,6 @@ Delete Evaluation Round
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-round_id = 'round_id_example' # str | The ID of the evaluation round
-
-    try:
-        # Delete Evaluation Round
-        api_instance.delete_evaluation_round(eval_id, round_id)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->delete_evaluation_round: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -723,12 +432,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -762,7 +465,7 @@ void (empty response body)
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -785,48 +488,6 @@ Deletes a Submission and its accompanying SubmissionStatus.  <b>This service is 
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    sub_id = 'sub_id_example' # str | The ID of the Submission
-
-    try:
-        # Deletes a Submission and its accompanying SubmissionStatus.
-        api_instance.delete_submission(sub_id)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->delete_submission: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -844,12 +505,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -881,7 +536,7 @@ void (empty response body)
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -904,49 +559,6 @@ Finds an Evaluation by name. <p> <b>Note:</b> The caller must be granted the <a 
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    name = 'name_example' # str | The name of the desired Evaluation.
-
-    try:
-        # Finds an Evaluation by name.
-        api_response = api_instance.find_evaluation(name)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->find_evaluation: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -964,12 +576,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -1002,7 +608,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -1025,49 +631,6 @@ Gets the access control list (ACL) governing the given evaluation. The user shou
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-
-    try:
-        # Gets the access control list (ACL) governing the given evaluation.
-        api_response = api_instance.get_acl(eval_id)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->get_acl: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -1085,12 +648,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -1123,7 +680,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -1146,50 +703,6 @@ Get all rounds of an Evaluation
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-evaluation_round_list_request = synclient.EvaluationRoundListRequest() # EvaluationRoundListRequest |  (optional)
-
-    try:
-        # Get all rounds of an Evaluation
-        api_response = api_instance.get_all_evaluation_rounds(eval_id, evaluation_round_list_request=evaluation_round_list_request)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->get_all_evaluation_rounds: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -1207,12 +720,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -1247,7 +754,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -1270,52 +777,6 @@ Gets a collection of bundled Submissions and SubmissionStatuses to a given Evalu
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-limit = 10 # int | Limits the number of entities that will be fetched for this page. When null it will default to 10.'  (optional) (default to 10)
-offset = 0 # int | The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  (optional) (default to 0)
-status = 'status_example' # str | Submission Status (optional)
-
-    try:
-        # Gets a collection of bundled Submissions and SubmissionStatuses to a given Evaluation.
-        api_response = api_instance.get_all_submission_bundles(eval_id, limit=limit, offset=offset, status=status)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->get_all_submission_bundles: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -1333,12 +794,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -1377,7 +832,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -1400,52 +855,6 @@ Gets a collection of SubmissionStatuses to a specified Evaluation.
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-limit = 10 # int | Limits the number of entities that will be fetched for this page. When null it will default to 10.'  (optional) (default to 10)
-offset = 0 # int | The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  (optional) (default to 0)
-status = 'status_example' # str | Submission status (optional)
-
-    try:
-        # Gets a collection of SubmissionStatuses to a specified Evaluation.
-        api_response = api_instance.get_all_submission_statuses(eval_id, limit=limit, offset=offset, status=status)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->get_all_submission_statuses: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -1463,12 +872,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -1507,7 +910,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -1530,52 +933,6 @@ Gets a collection of Submissions to a specified Evaluation.
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-limit = 10 # int | Limits the number of entities that will be fetched for this page. When null it will default to 10, max value 100.  (optional) (default to 10)
-offset = 0 # int | The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  (optional) (default to 0)
-status = 'status_example' # str | Status of submission. (optional)
-
-    try:
-        # Gets a collection of Submissions to a specified Evaluation.
-        api_response = api_instance.get_all_submissions(eval_id, limit=limit, offset=offset, status=status)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->get_all_submissions: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -1593,12 +950,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -1637,7 +988,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -1660,52 +1011,6 @@ Gets a collection of Evaluations in which the user has SUBMIT permission, within
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    active_only = False # bool | Retrieve active only evaluation queues (optional) (default to False)
-evaluation_ids = 'evaluation_ids_example' # str | an optional, comma-delimited list of evaluation IDs to which the response is limited  (optional)
-limit = 10 # int | Limits the number of entities that will be fetched for this page. When null it will default to 10.'  (optional) (default to 10)
-offset = 0 # int | The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  (optional) (default to 0)
-
-    try:
-        # Gets a collection of Evaluations in which the user has SUBMIT permission, within a given range. 
-        api_response = api_instance.get_available_evaluations_paginated(active_only=active_only, evaluation_ids=evaluation_ids, limit=limit, offset=offset)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->get_available_evaluations_paginated: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -1723,12 +1028,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -1767,7 +1066,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -1790,49 +1089,6 @@ Gets an Evaluation.   <p>  <b>Note:</b> The caller must be granted the <a  href=
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-
-    try:
-        # Gets an Evaluation.
-        api_response = api_instance.get_evaluation(eval_id)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->get_evaluation: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -1850,12 +1106,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -1888,7 +1138,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -1911,50 +1161,6 @@ Get Evaluation Round
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-round_id = 'round_id_example' # str | The ID of the evaluation round
-
-    try:
-        # Get Evaluation Round
-        api_response = api_instance.get_evaluation_round(eval_id, round_id)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->get_evaluation_round: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -1972,12 +1178,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -2012,7 +1212,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -2035,54 +1235,6 @@ Gets Evaluations tied to a project. <b>Note:</b> The response will contain only 
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    id = 'id_example' # str | the ID of the project
-access_type = synclient.ACCESSTYPE() # ACCESSTYPE | The type of access for the user to filter for, optional and defaults to <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a>  (optional)
-active_only = False # bool | If 'true' then return only those evaluations with rounds defined and for which the current time is in one of the rounds.  (optional) (default to False)
-evaluation_ids = 'evaluation_ids_example' # str | an optional, comma-delimited list of evaluation IDs to which the response is limited  (optional)
-limit = 10 # int | Limits the number of entities that will be fetched for this page. When null it will default to 10.  (optional) (default to 10)
-offset = 0 # int | The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  (optional) (default to 0)
-
-    try:
-        # Gets Evaluations tied to a project.
-        api_response = api_instance.get_evaluations_by_content_source_paginated(id, access_type=access_type, active_only=active_only, evaluation_ids=evaluation_ids, limit=limit, offset=offset)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->get_evaluations_by_content_source_paginated: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -2100,12 +1252,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -2148,7 +1294,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -2171,53 +1317,6 @@ Gets a collection of Evaluations, within a given range.  <p>  <b>Note:</b> The r
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    access_type = 'READ' # str | The type of access for the user to filter for, optional and defaults to <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a>  (optional) (default to 'READ')
-active_only = False # bool | If 'true' then return only those evaluations with rounds defined and for which the current time is in one of the rounds.  (optional) (default to False)
-evaluation_ids = 'evaluation_ids_example' # str | an optional, comma-delimited list of evaluation IDs to which the response is limited  (optional)
-limit = 10 # int | Maximum number of results returned (optional) (default to 10)
-offset = 0 # int | The index of the pagination offset. For a page size of 10, the first page would be at offset = 0, and the second page would be at offset = 10.  (optional) (default to 0)
-
-    try:
-        # Gets a collection of Evaluations, within a given range.
-        api_response = api_instance.get_evaluations_paginated(access_type=access_type, active_only=active_only, evaluation_ids=evaluation_ids, limit=limit, offset=offset)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->get_evaluations_paginated: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -2235,12 +1334,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -2281,7 +1374,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -2304,51 +1397,6 @@ Gets the requesting user's bundled Submissions and SubmissionStatuses to a speci
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-limit = 10 # int | Limits the number of entities that will be fetched for this page. When null it will default to 10.'  (optional) (default to 10)
-offset = 0 # int | The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  (optional) (default to 0)
-
-    try:
-        # Gets the requesting users bundled Submissions and SubmissionStatuses to a specified Evaluation.' 
-        api_response = api_instance.get_my_submission_bundles(eval_id, limit=limit, offset=offset)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->get_my_submission_bundles: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -2366,12 +1414,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -2408,7 +1450,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -2431,51 +1473,6 @@ Gets the requesting user's Submissions to a specified Evaluation.
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-limit = 10 # int | Limits the number of entities that will be fetched for this page. When null it will default to 10. (optional) (default to 10)
-offset = 0 # int | The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.'  (optional) (default to 0)
-
-    try:
-        # Gets the requesting user's Submissions to a specified Evaluation.
-        api_response = api_instance.get_my_submissions(eval_id, limit=limit, offset=offset)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->get_my_submissions: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -2493,12 +1490,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -2535,7 +1526,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -2558,49 +1549,6 @@ Gets a Submission.  <p>  <b>Note:</b> The caller must be granted the <a href=\"$
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    sub_id = 'sub_id_example' # str | The ID of the Submission
-
-    try:
-        # Gets a Submission.
-        api_response = api_instance.get_submission(sub_id)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->get_submission: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -2618,12 +1566,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -2656,7 +1598,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -2679,49 +1621,6 @@ Gets the number of Submissions to a specified Evaluation. <b>Note:</b> The calle
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-
-    try:
-        # Gets the number of Submissions to a specified Evaluation.
-        api_response = api_instance.get_submission_count(eval_id)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->get_submission_count: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -2739,12 +1638,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -2777,7 +1670,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -2800,49 +1693,6 @@ Gets the SubmissionStatus object associated with a specified Submission. <p> <b>
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    sub_id = 'sub_id_example' # str | The ID of the Submission
-
-    try:
-        # Gets the SubmissionStatus object associated with a specified Submission.
-        api_response = api_instance.get_submission_status(sub_id)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->get_submission_status: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -2860,12 +1710,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -2898,7 +1742,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -2921,50 +1765,6 @@ Find out whether a Team and its members are eligible to submit to a given Evalua
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-id = 'id_example' # str | The ID of a Team.
-
-    try:
-        # Find out whether a Team and its members are eligible to submit to a given Evaluation queue (at the current time).' 
-        api_response = api_instance.get_team_submission_eligibility(eval_id, id)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->get_team_submission_eligibility: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -2982,12 +1782,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -3022,7 +1816,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -3045,50 +1839,6 @@ Determines whether the logged in user has a certain <a href=\"${org.sagebionetwo
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-access_type = 'access_type_example' # str | Synapse access type
-
-    try:
-        # Determines whether a specified Synapse user has a certain access type on evaluation.
-        api_response = api_instance.has_access2(eval_id, access_type)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->has_access2: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -3106,12 +1856,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -3146,7 +1890,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -3169,51 +1913,6 @@ Gets a pre-signed URL to access a requested File contained within a specified Su
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    file_handle_id = 'file_handle_id_example' # str | the ID of the requested FileHandle contained in the Submission.
-sub_id = 'sub_id_example' # str | The ID of the Submission
-redirect = True # bool | To redirect (optional)
-
-    try:
-        # Gets a pre-signed URL to access a requested File contained within a specified Submission. 
-        api_response = api_instance.redirect_url_for_file_handle(file_handle_id, sub_id, redirect=redirect)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->redirect_url_for_file_handle: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -3231,12 +1930,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -3273,7 +1966,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -3296,48 +1989,6 @@ User requests to cancel their submission. Only the user who submitted a submissi
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    sub_id = 'sub_id_example' # str | The ID of the Submission
-
-    try:
-        # User requests to cancel their submission.
-        api_instance.request_to_cancel_submission(sub_id)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->request_to_cancel_submission: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -3355,12 +2006,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -3392,7 +2037,7 @@ void (empty response body)
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -3415,49 +2060,6 @@ Updates the supplied access control list (ACL) for an evaluation. The <a href=\"
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    access_control_list = synclient.AccessControlList() # AccessControlList | The ACL being updated. (optional)
-
-    try:
-        # Updates the supplied access control list (ACL) for an evaluation.
-        api_response = api_instance.update_acl(access_control_list=access_control_list)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->update_acl: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -3475,12 +2077,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -3513,7 +2109,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -3536,50 +2132,6 @@ Updates an Evaluation.
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-evaluation = synclient.Evaluation() # Evaluation |  (optional)
-
-    try:
-        # Updates an Evaluation.
-        api_response = api_instance.update_evaluation(eval_id, evaluation=evaluation)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->update_evaluation: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -3597,12 +2149,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -3637,7 +2183,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -3660,51 +2206,6 @@ Update Evaluation Round
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-round_id = 'round_id_example' # str | The ID of the evaluation round
-evaluation_round = synclient.EvaluationRound() # EvaluationRound |  (optional)
-
-    try:
-        # Update Evaluation Round
-        api_response = api_instance.update_evaluation_round(eval_id, round_id, evaluation_round=evaluation_round)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->update_evaluation_round: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -3722,12 +2223,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -3764,7 +2259,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -3787,50 +2282,6 @@ Updates a SubmissionStatus object.   <p>  Synapse employs an Optimistic Concurre
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    sub_id = 'sub_id_example' # str | The ID of the Submission
-submission_status_model = synclient.SubmissionStatusModel() # SubmissionStatusModel |  (optional)
-
-    try:
-        # Updates a SubmissionStatus object.
-        api_response = api_instance.update_submission_status(sub_id, submission_status_model=submission_status_model)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->update_submission_status: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -3848,12 +2299,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -3888,7 +2333,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -3911,50 +2356,6 @@ Update multiple SubmissionStatuses. The maximum batch size is 500.  To allow upl
 
 ### Example
 
-* Basic Authentication (basicAuth):
-```python
-from __future__ import print_function
-import time
-import synclient
-from synclient.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = synclient.Configuration(
-    host = "https://repo-prod.prod.sagebase.org/repo/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = synclient.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
-)
-
-# Enter a context with an instance of the API client
-with synclient.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-submission_status_batch = synclient.SubmissionStatusBatch() # SubmissionStatusBatch |  (optional)
-
-    try:
-        # Update multiple SubmissionStatuses.
-        api_response = api_instance.update_submission_status_batch(eval_id, submission_status_batch=submission_status_batch)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling EvaluationServicesApi->update_submission_status_batch: %s\n" % e)
-```
-
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
 from __future__ import print_function
@@ -3972,12 +2373,6 @@ configuration = synclient.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
-
-# Configure HTTP basic authorization: basicAuth
-configuration = synclient.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
-)
 
 # Configure Bearer authorization (JWT): bearerAuth
 configuration = synclient.Configuration(
@@ -4012,7 +2407,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 

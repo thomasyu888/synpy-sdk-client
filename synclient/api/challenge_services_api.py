@@ -133,7 +133,7 @@ class ChallengeServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/challenge', 'POST',
@@ -256,7 +256,7 @@ class ChallengeServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/challenge/{challengeId}/challengeTeam', 'POST',
@@ -366,7 +366,7 @@ class ChallengeServicesApi(object):
 
         body_params = None
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/challenge/{challengeId}', 'DELETE',
@@ -476,7 +476,7 @@ class ChallengeServicesApi(object):
 
         body_params = None
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/challengeTeam/{challengeTeamId}', 'DELETE',
@@ -590,7 +590,7 @@ class ChallengeServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/challenge/{challengeId}', 'GET',
@@ -704,7 +704,7 @@ class ChallengeServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/challenge', 'GET',
@@ -834,7 +834,7 @@ class ChallengeServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/challenge/{challengeId}/challengeTeam', 'GET',
@@ -964,7 +964,7 @@ class ChallengeServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/challenge', 'GET',
@@ -1099,7 +1099,7 @@ class ChallengeServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/challenge/{challengeId}/participant', 'GET',
@@ -1229,7 +1229,7 @@ class ChallengeServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/challenge/{challengeId}/registratableTeam', 'GET',
@@ -1359,7 +1359,7 @@ class ChallengeServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/challenge/{challengeId}/submissionTeams', 'GET',
@@ -1482,7 +1482,7 @@ class ChallengeServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/challenge/{challengeId}', 'PUT',
@@ -1614,7 +1614,7 @@ class ChallengeServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/challenge/{challengeId}/challengeTeam/{challengeTeamId}', 'PUT',

@@ -133,7 +133,7 @@ class AccessRequirementServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/lockAccessRequirement', 'POST',
@@ -263,7 +263,7 @@ class AccessRequirementServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/entity/{id}/accessRequirement', 'GET',
@@ -393,7 +393,7 @@ class AccessRequirementServicesApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['basicAuth', 'bearerAuth']  # noqa: E501
+        auth_settings = ['bearerAuth']  # noqa: E501
 
         return self.api_client.call_api(
             '/team/{id}/accessRequirement', 'GET',
