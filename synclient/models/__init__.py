@@ -60,8 +60,15 @@ from synclient.models.entity import Entity
 from synclient.models.entity_bundle_create_v2 import EntityBundleCreateV2
 from synclient.models.entity_bundle_request import EntityBundleRequest
 from synclient.models.entity_bundle_v2 import EntityBundleV2
+from synclient.models.entity_children_request import EntityChildrenRequest
+from synclient.models.entity_children_response import EntityChildrenResponse
 from synclient.models.entity_header import EntityHeader
+from synclient.models.entity_id import EntityId
+from synclient.models.entity_id_list import EntityIdList
+from synclient.models.entity_lookup_request import EntityLookupRequest
 from synclient.models.entity_path import EntityPath
+from synclient.models.entity_thread_count import EntityThreadCount
+from synclient.models.entity_thread_counts import EntityThreadCounts
 from synclient.models.entity_type import EntityType
 from synclient.models.evaluation import Evaluation
 from synclient.models.evaluation_round import EvaluationRound
@@ -75,6 +82,7 @@ from synclient.models.facet_column_result import FacetColumnResult
 from synclient.models.facet_type import FacetType
 from synclient.models.file_handle import FileHandle
 from synclient.models.file_handle_results import FileHandleResults
+from synclient.models.file_handle_update_request import FileHandleUpdateRequest
 from synclient.models.id_list import IdList
 from synclient.models.join_team_signed_token import JoinTeamSignedToken
 from synclient.models.json_schema_object_binding import JsonSchemaObjectBinding
@@ -97,6 +105,7 @@ from synclient.models.paginated_ids import PaginatedIds
 from synclient.models.paginated_results_of_access_requirement import PaginatedResultsOfAccessRequirement
 from synclient.models.paginated_results_of_discussion_thread_bundle import PaginatedResultsOfDiscussionThreadBundle
 from synclient.models.paginated_results_of_docker_commit import PaginatedResultsOfDockerCommit
+from synclient.models.paginated_results_of_entity_header import PaginatedResultsOfEntityHeader
 from synclient.models.paginated_results_of_evaluation import PaginatedResultsOfEvaluation
 from synclient.models.paginated_results_of_membership_invitation import PaginatedResultsOfMembershipInvitation
 from synclient.models.paginated_results_of_membership_request import PaginatedResultsOfMembershipRequest
@@ -108,6 +117,7 @@ from synclient.models.paginated_results_of_team_member import PaginatedResultsOf
 from synclient.models.paginated_results_of_trashed_entity import PaginatedResultsOfTrashedEntity
 from synclient.models.paginated_results_of_user_group import PaginatedResultsOfUserGroup
 from synclient.models.paginated_results_of_user_profile import PaginatedResultsOfUserProfile
+from synclient.models.paginated_results_of_version_info import PaginatedResultsOfVersionInfo
 from synclient.models.paginated_team_ids import PaginatedTeamIds
 from synclient.models.passing_record import PassingRecord
 from synclient.models.query import Query
@@ -117,6 +127,8 @@ from synclient.models.query_result import QueryResult
 from synclient.models.query_result_bundle import QueryResultBundle
 from synclient.models.question import Question
 from synclient.models.question_response import QuestionResponse
+from synclient.models.reference import Reference
+from synclient.models.reference_list import ReferenceList
 from synclient.models.resource_access import ResourceAccess
 from synclient.models.response_correctness import ResponseCorrectness
 from synclient.models.response_message import ResponseMessage
@@ -132,6 +144,7 @@ from synclient.models.select_column import SelectColumn
 from synclient.models.settings import Settings
 from synclient.models.snapshot_request import SnapshotRequest
 from synclient.models.snapshot_response import SnapshotResponse
+from synclient.models.sort_by import SortBy
 from synclient.models.sort_direction import SortDirection
 from synclient.models.sort_item import SortItem
 from synclient.models.string_annotation import StringAnnotation
@@ -171,4 +184,5 @@ from synclient.models.validation_summary_statistics import ValidationSummaryStat
 from synclient.models.verification_state import VerificationState
 from synclient.models.verification_state_enum import VerificationStateEnum
 from synclient.models.verification_submission import VerificationSubmission
+from synclient.models.version_info import VersionInfo
 from synclient.models.wiki_page_key import WikiPageKey

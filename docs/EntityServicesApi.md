@@ -12,26 +12,41 @@ Method | HTTP request | Description
 [**delete_activity**](EntityServicesApi.md#delete_activity) | **DELETE** /entity/{id}/generatedBy | Deletes the activity relationship for the current version of an Entity.
 [**delete_entity**](EntityServicesApi.md#delete_entity) | **DELETE** /entity/{id} | Deletes an Entity
 [**delete_entity_acl**](EntityServicesApi.md#delete_entity_acl) | **DELETE** /entity/{id}/acl | Delete the Access Control List (ACL) for a given Entity.
+[**delete_entity_version**](EntityServicesApi.md#delete_entity_version) | **DELETE** /entity/{id}/version/{versionNumber} | Delete a specific version of a FileEntity.
+[**file_preview_redirect_url_for_version**](EntityServicesApi.md#file_preview_redirect_url_for_version) | **GET** /entity/{id}/version/{versionNumber}/filepreview | Get the URL of the preview file associated with a specific version of a FileEntity. 
 [**get_activity**](EntityServicesApi.md#get_activity) | **GET** /entity/{id}/generatedBy | Get an existing activity for the current version of an Entity.
+[**get_activity_for_entity_version**](EntityServicesApi.md#get_activity_for_entity_version) | **GET** /entity/{id}/version/{versionNumber}/generatedBy | Get an existing activity for a specific version of an Entity.
+[**get_all_versions_of_entity**](EntityServicesApi.md#get_all_versions_of_entity) | **GET** /entity/{id}/version | Get all versions of an Entity one page at a time.
 [**get_bound_json_schema**](EntityServicesApi.md#get_bound_json_schema) | **GET** /entity/{id}/schema/binding | Get information about a JSON schema bound to an Entity.
+[**get_children**](EntityServicesApi.md#get_children) | **POST** /entity/children | Get a page of children for a given parent ID.
 [**get_entity**](EntityServicesApi.md#get_entity) | **GET** /entity/{id} | Get an Entity
 [**get_entity_acl**](EntityServicesApi.md#get_entity_acl) | **GET** /entity/{id}/acl | Get the Access Control List (ACL) for a given entity.
 [**get_entity_annotations**](EntityServicesApi.md#get_entity_annotations) | **GET** /entity/{id}/annotations2 | Get the annotations for an entity.
+[**get_entity_annotations_v2_for_version**](EntityServicesApi.md#get_entity_annotations_v2_for_version) | **GET** /entity/{id}/version/{versionNumber}/annotations2 | Get an Entity&#39;s annotations for a specific version of a FileEntity.
 [**get_entity_benefactor**](EntityServicesApi.md#get_entity_benefactor) | **GET** /entity/{id}/benefactor | Get an Entity&#39;s benefactor.
 [**get_entity_file_handles**](EntityServicesApi.md#get_entity_file_handles) | **GET** /entity/{id}/filehandles | Get the FileHandles of the file currently associated with the current version of the Entity. 
+[**get_entity_file_handles_for_version**](EntityServicesApi.md#get_entity_file_handles_for_version) | **GET** /entity/{id}/version/{versionNumber}/filehandles | Get the FileHandles of the file associated with a specific version of a FileEntity. 
+[**get_entity_for_version**](EntityServicesApi.md#get_entity_for_version) | **GET** /entity/{id}/version/{versionNumber} | Get a specific version of an Entity.
+[**get_entity_header_by_md5**](EntityServicesApi.md#get_entity_header_by_md5) | **GET** /entity/md5/{md5} | Gets FileEntities matching the given MD5 string which the user has read access to. 
+[**get_entity_id_by_alias**](EntityServicesApi.md#get_entity_id_by_alias) | **GET** /entity/alias/{alias} | Lookup an Entity ID using an alias.
 [**get_entity_json**](EntityServicesApi.md#get_entity_json) | **GET** /entity/{id}/json | Get the raw JSON for the given entity.
 [**get_entity_path**](EntityServicesApi.md#get_entity_path) | **GET** /entity/{id}/path | Get the full path of an Entity as a List of EntityHeaders.
 [**get_entity_schema_validation_results**](EntityServicesApi.md#get_entity_schema_validation_results) | **GET** /entity/{id}/schema/validation | Get the validation results of an Entity against its bound JSON schema.
 [**get_entity_schema_validation_statistics**](EntityServicesApi.md#get_entity_schema_validation_statistics) | **GET** /entity/{id}/schema/validation/statistics | Get the summary statistics of the JSON schema validation results for a single container Entity such as a Project or Folder. 
+[**get_entity_type**](EntityServicesApi.md#get_entity_type) | **GET** /entity/{id}/type | Get the EntityHeader of an Entity given its ID.
+[**get_entity_type_batch**](EntityServicesApi.md#get_entity_type_batch) | **GET** /entity/type | Get a batch of EntityHeader given multile Entity IDs.
+[**get_entity_versioned_type_batch**](EntityServicesApi.md#get_entity_versioned_type_batch) | **POST** /entity/header | Get the EntityHeader for a list of references with a POST.
 [**get_file_preview_url**](EntityServicesApi.md#get_file_preview_url) | **GET** /entity/{id}/filepreview | Get the URL of the preview file associated with the current version of a FileEntity. 
 [**get_invalid_validation_results**](EntityServicesApi.md#get_invalid_validation_results) | **POST** /entity/{id}/schema/validation/invalid | Get a single page of invalid JSON schema validation results for a container Entity (Project or Folder). 
 [**get_temporary_credentials_for_entity**](EntityServicesApi.md#get_temporary_credentials_for_entity) | **GET** /entity/{id}/sts | Gets the temporary S3 credentials from STS for the given entity.
 [**get_user_entity_permissions**](EntityServicesApi.md#get_user_entity_permissions) | **GET** /entity/{id}/permissions | Get the list of permission that the caller has on a given Entity.
 [**has_access**](EntityServicesApi.md#has_access) | **GET** /entity/{id}/access | Determine if the caller have a given permission on a given Entity.
+[**lookup_child**](EntityServicesApi.md#lookup_child) | **POST** /entity/child | Retrieve an entityId for a given parent ID and entity name.
 [**update_activity_for_entity**](EntityServicesApi.md#update_activity_for_entity) | **PUT** /entity/{id}/generatedBy | Sets the generatedBy relationship for the current version of an Entity.
 [**update_entity**](EntityServicesApi.md#update_entity) | **PUT** /entity/{id} | Update an entity.
 [**update_entity_acl**](EntityServicesApi.md#update_entity_acl) | **PUT** /entity/{id}/acl | Update an Entity&#39;s ACL.
 [**update_entity_annotations**](EntityServicesApi.md#update_entity_annotations) | **PUT** /entity/{id}/annotations2 | Update an Entity&#39;s annotations.
+[**update_entity_file_handle**](EntityServicesApi.md#update_entity_file_handle) | **PUT** /entity/{id}/version/{versionNumber}/filehandle | Updates the filehandle.
 [**update_entity_with_json**](EntityServicesApi.md#update_entity_with_json) | **PUT** /entity/{id}/json | Update the annotations of an entity using the raw JSON of the entity.
 
 
@@ -623,6 +638,157 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **delete_entity_version**
+> delete_entity_version(id, version_number, body=body)
+
+Delete a specific version of a FileEntity.
+
+Delete a specific version of a FileEntity.
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+```python
+from __future__ import print_function
+import time
+import synclient
+from synclient.rest import ApiException
+from pprint import pprint
+# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = synclient.Configuration(
+    host = "https://repo-prod.prod.sagebase.org/repo/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = synclient.Configuration(
+    access_token = 'YOUR_BEARER_TOKEN'
+)
+
+# Enter a context with an instance of the API client
+with synclient.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = synclient.EntityServicesApi(api_client)
+    id = 'id_example' # str | The ID of the Entity
+version_number = 56 # int | The version number of the Entity.
+body = None # object |  (optional)
+
+    try:
+        # Delete a specific version of a FileEntity.
+        api_instance.delete_entity_version(id, version_number, body=body)
+    except ApiException as e:
+        print("Exception when calling EntityServicesApi->delete_entity_version: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **str**| The ID of the Entity | 
+ **version_number** | **int**| The version number of the Entity. | 
+ **body** | **object**|  | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | The resource has been deleted. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **file_preview_redirect_url_for_version**
+> str file_preview_redirect_url_for_version(id, version_number, redirect=redirect)
+
+Get the URL of the preview file associated with a specific version of a FileEntity. 
+
+Get the URL of the preview file associated with a specific version of a FileEntity.  Note: This call will result in a HTTP temporary redirect (307), to the actual file URL if the caller meets all of the download requirements. 
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+```python
+from __future__ import print_function
+import time
+import synclient
+from synclient.rest import ApiException
+from pprint import pprint
+# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = synclient.Configuration(
+    host = "https://repo-prod.prod.sagebase.org/repo/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = synclient.Configuration(
+    access_token = 'YOUR_BEARER_TOKEN'
+)
+
+# Enter a context with an instance of the API client
+with synclient.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = synclient.EntityServicesApi(api_client)
+    id = 'id_example' # str | The ID of the Entity.
+version_number = 56 # int | The version number of the Entity.
+redirect = True # bool | When set to false, the URL will be returned as text/plain instead of redirecting.  (optional)
+
+    try:
+        # Get the URL of the preview file associated with a specific version of a FileEntity. 
+        api_response = api_instance.file_preview_redirect_url_for_version(id, version_number, redirect=redirect)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling EntityServicesApi->file_preview_redirect_url_for_version: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **str**| The ID of the Entity. | 
+ **version_number** | **int**| The version number of the Entity. | 
+ **redirect** | **bool**| When set to false, the URL will be returned as text/plain instead of redirecting.  | [optional] 
+
+### Return type
+
+**str**
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **get_activity**
 > Activity get_activity(id, body=body)
 
@@ -697,6 +863,158 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **get_activity_for_entity_version**
+> Activity get_activity_for_entity_version(id, version_number, body=body)
+
+Get an existing activity for a specific version of an Entity.
+
+Get an existing activity for a specific version of an Entity.
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+```python
+from __future__ import print_function
+import time
+import synclient
+from synclient.rest import ApiException
+from pprint import pprint
+# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = synclient.Configuration(
+    host = "https://repo-prod.prod.sagebase.org/repo/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = synclient.Configuration(
+    access_token = 'YOUR_BEARER_TOKEN'
+)
+
+# Enter a context with an instance of the API client
+with synclient.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = synclient.EntityServicesApi(api_client)
+    id = 'id_example' # str | The ID of the Entity.
+version_number = 56 # int | The version number of the Entity.
+body = None # object | Get an existing activity for a specific version of an Entity. (optional)
+
+    try:
+        # Get an existing activity for a specific version of an Entity.
+        api_response = api_instance.get_activity_for_entity_version(id, version_number, body=body)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling EntityServicesApi->get_activity_for_entity_version: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **str**| The ID of the Entity. | 
+ **version_number** | **int**| The version number of the Entity. | 
+ **body** | **object**| Get an existing activity for a specific version of an Entity. | [optional] 
+
+### Return type
+
+[**Activity**](Activity.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_all_versions_of_entity**
+> PaginatedResultsOfVersionInfo get_all_versions_of_entity(id, limit=limit, offset=offset)
+
+Get all versions of an Entity one page at a time.
+
+Get all versions of an Entity one page at a time.
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+```python
+from __future__ import print_function
+import time
+import synclient
+from synclient.rest import ApiException
+from pprint import pprint
+# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = synclient.Configuration(
+    host = "https://repo-prod.prod.sagebase.org/repo/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = synclient.Configuration(
+    access_token = 'YOUR_BEARER_TOKEN'
+)
+
+# Enter a context with an instance of the API client
+with synclient.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = synclient.EntityServicesApi(api_client)
+    id = 'id_example' # str | The ID of the Entity.
+limit = 10 # int | Limits the number of entities that will be fetched for this page. When null it will default to 10.  (optional) (default to 10)
+offset = 0 # int | The offset index determines where this page will start from. When null it will default to 0.  (optional) (default to 0)
+
+    try:
+        # Get all versions of an Entity one page at a time.
+        api_response = api_instance.get_all_versions_of_entity(id, limit=limit, offset=offset)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling EntityServicesApi->get_all_versions_of_entity: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **str**| The ID of the Entity. | 
+ **limit** | **int**| Limits the number of entities that will be fetched for this page. When null it will default to 10.  | [optional] [default to 10]
+ **offset** | **int**| The offset index determines where this page will start from. When null it will default to 0.  | [optional] [default to 0]
+
+### Return type
+
+[**PaginatedResultsOfVersionInfo**](PaginatedResultsOfVersionInfo.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **get_bound_json_schema**
 > JsonSchemaObjectBinding get_bound_json_schema(id)
 
@@ -760,6 +1078,78 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_children**
+> EntityChildrenResponse get_children(entity_children_request=entity_children_request)
+
+Get a page of children for a given parent ID.
+
+Get a page of children for a given parent ID. This service can also be used to list projects by setting the parentId to NULL in EntityChildrenRequest. 
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+```python
+from __future__ import print_function
+import time
+import synclient
+from synclient.rest import ApiException
+from pprint import pprint
+# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = synclient.Configuration(
+    host = "https://repo-prod.prod.sagebase.org/repo/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = synclient.Configuration(
+    access_token = 'YOUR_BEARER_TOKEN'
+)
+
+# Enter a context with an instance of the API client
+with synclient.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = synclient.EntityServicesApi(api_client)
+    entity_children_request = synclient.EntityChildrenRequest() # EntityChildrenRequest |  (optional)
+
+    try:
+        # Get a page of children for a given parent ID.
+        api_response = api_instance.get_children(entity_children_request=entity_children_request)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling EntityServicesApi->get_children: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **entity_children_request** | [**EntityChildrenRequest**](EntityChildrenRequest.md)|  | [optional] 
+
+### Return type
+
+[**EntityChildrenResponse**](EntityChildrenResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 ### HTTP response details
@@ -985,6 +1375,80 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **get_entity_annotations_v2_for_version**
+> AnnotationsV2 get_entity_annotations_v2_for_version(id, version_number)
+
+Get an Entity's annotations for a specific version of a FileEntity.
+
+Get an Entity's annotations for a specific version of a FileEntity.
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+```python
+from __future__ import print_function
+import time
+import synclient
+from synclient.rest import ApiException
+from pprint import pprint
+# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = synclient.Configuration(
+    host = "https://repo-prod.prod.sagebase.org/repo/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = synclient.Configuration(
+    access_token = 'YOUR_BEARER_TOKEN'
+)
+
+# Enter a context with an instance of the API client
+with synclient.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = synclient.EntityServicesApi(api_client)
+    id = 'id_example' # str | The ID of the Entity.
+version_number = 56 # int | The version number of the Entity.
+
+    try:
+        # Get an Entity's annotations for a specific version of a FileEntity.
+        api_response = api_instance.get_entity_annotations_v2_for_version(id, version_number)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling EntityServicesApi->get_entity_annotations_v2_for_version: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **str**| The ID of the Entity. | 
+ **version_number** | **int**| The version number of the Entity. | 
+
+### Return type
+
+[**AnnotationsV2**](AnnotationsV2.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **get_entity_benefactor**
 > EntityHeader get_entity_benefactor(id, body=body)
 
@@ -1114,6 +1578,300 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**FileHandleResults**](FileHandleResults.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_entity_file_handles_for_version**
+> FileHandleResults get_entity_file_handles_for_version(id, version_number)
+
+Get the FileHandles of the file associated with a specific version of a FileEntity. 
+
+Get the FileHandles of the file associated with a specific version of a FileEntity.  If a preview exists for the file then the handle of the preview and the file will be returned with this call. 
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+```python
+from __future__ import print_function
+import time
+import synclient
+from synclient.rest import ApiException
+from pprint import pprint
+# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = synclient.Configuration(
+    host = "https://repo-prod.prod.sagebase.org/repo/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = synclient.Configuration(
+    access_token = 'YOUR_BEARER_TOKEN'
+)
+
+# Enter a context with an instance of the API client
+with synclient.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = synclient.EntityServicesApi(api_client)
+    id = 'id_example' # str | The ID of the Entity.
+version_number = 56 # int | The version number of the Entity.
+
+    try:
+        # Get the FileHandles of the file associated with a specific version of a FileEntity. 
+        api_response = api_instance.get_entity_file_handles_for_version(id, version_number)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling EntityServicesApi->get_entity_file_handles_for_version: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **str**| The ID of the Entity. | 
+ **version_number** | **int**| The version number of the Entity. | 
+
+### Return type
+
+[**FileHandleResults**](FileHandleResults.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_entity_for_version**
+> Entity get_entity_for_version(id, version_number)
+
+Get a specific version of an Entity.
+
+Get a specific version of an Entity.  Note: Only the current version of the Entity can be used for an Entity update. Therefore, only the current version of the Entity will be returned with the actual etag. All older versions will be returned with an eTag '00000000-0000-0000-0000-000000000000'. 
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+```python
+from __future__ import print_function
+import time
+import synclient
+from synclient.rest import ApiException
+from pprint import pprint
+# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = synclient.Configuration(
+    host = "https://repo-prod.prod.sagebase.org/repo/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = synclient.Configuration(
+    access_token = 'YOUR_BEARER_TOKEN'
+)
+
+# Enter a context with an instance of the API client
+with synclient.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = synclient.EntityServicesApi(api_client)
+    id = 'id_example' # str | The ID of the Entity
+version_number = 56 # int | The version number of the Entity.
+
+    try:
+        # Get a specific version of an Entity.
+        api_response = api_instance.get_entity_for_version(id, version_number)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling EntityServicesApi->get_entity_for_version: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **str**| The ID of the Entity | 
+ **version_number** | **int**| The version number of the Entity. | 
+
+### Return type
+
+[**Entity**](Entity.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_entity_header_by_md5**
+> PaginatedResultsOfEntityHeader get_entity_header_by_md5(md5, body=body)
+
+Gets FileEntities matching the given MD5 string which the user has read access to. 
+
+Gets at most 200 FileEntities matching the given MD5 string which the user has read access to. NOTE: Another option is to create a file view that includes MD5 values. https://docs.synapse.org/articles/views.html 
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+```python
+from __future__ import print_function
+import time
+import synclient
+from synclient.rest import ApiException
+from pprint import pprint
+# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = synclient.Configuration(
+    host = "https://repo-prod.prod.sagebase.org/repo/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = synclient.Configuration(
+    access_token = 'YOUR_BEARER_TOKEN'
+)
+
+# Enter a context with an instance of the API client
+with synclient.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = synclient.EntityServicesApi(api_client)
+    md5 = 'md5_example' # str | File MD5
+body = None # object |  (optional)
+
+    try:
+        # Gets FileEntities matching the given MD5 string which the user has read access to. 
+        api_response = api_instance.get_entity_header_by_md5(md5, body=body)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling EntityServicesApi->get_entity_header_by_md5: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **md5** | **str**| File MD5 | 
+ **body** | **object**|  | [optional] 
+
+### Return type
+
+[**PaginatedResultsOfEntityHeader**](PaginatedResultsOfEntityHeader.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_entity_id_by_alias**
+> EntityId get_entity_id_by_alias(alias)
+
+Lookup an Entity ID using an alias.
+
+Lookup an Entity ID using an alias.
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+```python
+from __future__ import print_function
+import time
+import synclient
+from synclient.rest import ApiException
+from pprint import pprint
+# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = synclient.Configuration(
+    host = "https://repo-prod.prod.sagebase.org/repo/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = synclient.Configuration(
+    access_token = 'YOUR_BEARER_TOKEN'
+)
+
+# Enter a context with an instance of the API client
+with synclient.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = synclient.EntityServicesApi(api_client)
+    alias = 'alias_example' # str | Alias of an Entity
+
+    try:
+        # Lookup an Entity ID using an alias.
+        api_response = api_instance.get_entity_id_by_alias(alias)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling EntityServicesApi->get_entity_id_by_alias: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **alias** | **str**| Alias of an Entity | 
+
+### Return type
+
+[**EntityId**](EntityId.md)
 
 ### Authorization
 
@@ -1410,6 +2168,224 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_entity_type**
+> EntityHeader get_entity_type(id, body=body)
+
+Get the EntityHeader of an Entity given its ID.
+
+Get the EntityHeader of an Entity given its ID. The EntityHeader is a light weight object with basic information about an Entity includes its type. 
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+```python
+from __future__ import print_function
+import time
+import synclient
+from synclient.rest import ApiException
+from pprint import pprint
+# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = synclient.Configuration(
+    host = "https://repo-prod.prod.sagebase.org/repo/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = synclient.Configuration(
+    access_token = 'YOUR_BEARER_TOKEN'
+)
+
+# Enter a context with an instance of the API client
+with synclient.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = synclient.EntityServicesApi(api_client)
+    id = 'id_example' # str | The ID of the Entity.
+body = None # object |  (optional)
+
+    try:
+        # Get the EntityHeader of an Entity given its ID.
+        api_response = api_instance.get_entity_type(id, body=body)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling EntityServicesApi->get_entity_type: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **str**| The ID of the Entity. | 
+ **body** | **object**|  | [optional] 
+
+### Return type
+
+[**EntityHeader**](EntityHeader.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_entity_type_batch**
+> PaginatedResultsOfEntityHeader get_entity_type_batch(batch)
+
+Get a batch of EntityHeader given multile Entity IDs.
+
+Get a batch of EntityHeader given multile Entity IDs. The EntityHeader is a light weight object with basic information about an Entity includes its type. 
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+```python
+from __future__ import print_function
+import time
+import synclient
+from synclient.rest import ApiException
+from pprint import pprint
+# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = synclient.Configuration(
+    host = "https://repo-prod.prod.sagebase.org/repo/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = synclient.Configuration(
+    access_token = 'YOUR_BEARER_TOKEN'
+)
+
+# Enter a context with an instance of the API client
+with synclient.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = synclient.EntityServicesApi(api_client)
+    batch = 'batch_example' # str | A comma separated list of Entity IDs to get EntityHeaders for. 
+
+    try:
+        # Get a batch of EntityHeader given multile Entity IDs.
+        api_response = api_instance.get_entity_type_batch(batch)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling EntityServicesApi->get_entity_type_batch: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **batch** | **str**| A comma separated list of Entity IDs to get EntityHeaders for.  | 
+
+### Return type
+
+[**PaginatedResultsOfEntityHeader**](PaginatedResultsOfEntityHeader.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_entity_versioned_type_batch**
+> PaginatedResultsOfEntityHeader get_entity_versioned_type_batch(reference_list=reference_list)
+
+Get the EntityHeader for a list of references with a POST.
+
+Get the EntityHeader for a list of references with a POST. If any item in the batch fails (e.g., with a 404) it will be EXCLUDED in the result set. 
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+```python
+from __future__ import print_function
+import time
+import synclient
+from synclient.rest import ApiException
+from pprint import pprint
+# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = synclient.Configuration(
+    host = "https://repo-prod.prod.sagebase.org/repo/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = synclient.Configuration(
+    access_token = 'YOUR_BEARER_TOKEN'
+)
+
+# Enter a context with an instance of the API client
+with synclient.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = synclient.EntityServicesApi(api_client)
+    reference_list = synclient.ReferenceList() # ReferenceList |  (optional)
+
+    try:
+        # Get the EntityHeader for a list of references with a POST.
+        api_response = api_instance.get_entity_versioned_type_batch(reference_list=reference_list)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling EntityServicesApi->get_entity_versioned_type_batch: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **reference_list** | [**ReferenceList**](ReferenceList.md)|  | [optional] 
+
+### Return type
+
+[**PaginatedResultsOfEntityHeader**](PaginatedResultsOfEntityHeader.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 ### HTTP response details
@@ -1791,6 +2767,78 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **lookup_child**
+> EntityId lookup_child(entity_lookup_request=entity_lookup_request)
+
+Retrieve an entityId for a given parent ID and entity name.
+
+Retrieve an entityId for a given parent ID and entity name. This service can also be used to lookup projectId by setting the parentId to NULL in EntityLookupRequest. 
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+```python
+from __future__ import print_function
+import time
+import synclient
+from synclient.rest import ApiException
+from pprint import pprint
+# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = synclient.Configuration(
+    host = "https://repo-prod.prod.sagebase.org/repo/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = synclient.Configuration(
+    access_token = 'YOUR_BEARER_TOKEN'
+)
+
+# Enter a context with an instance of the API client
+with synclient.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = synclient.EntityServicesApi(api_client)
+    entity_lookup_request = synclient.EntityLookupRequest() # EntityLookupRequest |  (optional)
+
+    try:
+        # Retrieve an entityId for a given parent ID and entity name.
+        api_response = api_instance.lookup_child(entity_lookup_request=entity_lookup_request)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling EntityServicesApi->lookup_child: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **entity_lookup_request** | [**EntityLookupRequest**](EntityLookupRequest.md)|  | [optional] 
+
+### Return type
+
+[**EntityId**](EntityId.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **update_activity_for_entity**
 > Activity update_activity_for_entity(id, generated_by, body=body)
 
@@ -2076,6 +3124,82 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**AnnotationsV2**](AnnotationsV2.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **update_entity_file_handle**
+> str update_entity_file_handle(id, version_number, file_handle_update_request=file_handle_update_request)
+
+Updates the filehandle.
+
+Updates the FileHandle associated with the FileEntity with the provided entity id and version. 
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+```python
+from __future__ import print_function
+import time
+import synclient
+from synclient.rest import ApiException
+from pprint import pprint
+# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = synclient.Configuration(
+    host = "https://repo-prod.prod.sagebase.org/repo/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = synclient.Configuration(
+    access_token = 'YOUR_BEARER_TOKEN'
+)
+
+# Enter a context with an instance of the API client
+with synclient.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = synclient.EntityServicesApi(api_client)
+    id = 'id_example' # str | The ID of the Entity.
+version_number = 56 # int | The version number of the Entity.
+file_handle_update_request = synclient.FileHandleUpdateRequest() # FileHandleUpdateRequest |  (optional)
+
+    try:
+        # Updates the filehandle.
+        api_response = api_instance.update_entity_file_handle(id, version_number, file_handle_update_request=file_handle_update_request)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling EntityServicesApi->update_entity_file_handle: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **str**| The ID of the Entity. | 
+ **version_number** | **int**| The version number of the Entity. | 
+ **file_handle_update_request** | [**FileHandleUpdateRequest**](FileHandleUpdateRequest.md)|  | [optional] 
+
+### Return type
+
+**str**
 
 ### Authorization
 
