@@ -13,6 +13,7 @@ from synclient.api.doi_services_api import DoiServicesApi
 from synclient.api.entity_bundle_v2_services_api import EntityBundleV2ServicesApi
 from synclient.api.entity_services_api import EntityServicesApi
 from synclient.api.evaluation_services_api import EvaluationServicesApi
+from synclient.api.form_services_api import FormServicesApi
 from synclient.api.membership_invitation_services_api import MembershipInvitationServicesApi
 from synclient.api.membership_request_services_api import MembershipRequestServicesApi
 from synclient.api.message_services_api import MessageServicesApi

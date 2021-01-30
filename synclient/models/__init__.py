@@ -83,10 +83,16 @@ from synclient.models.facet_type import FacetType
 from synclient.models.file_handle import FileHandle
 from synclient.models.file_handle_results import FileHandleResults
 from synclient.models.file_handle_update_request import FileHandleUpdateRequest
+from synclient.models.form_change_request import FormChangeRequest
+from synclient.models.form_data import FormData
+from synclient.models.form_group import FormGroup
+from synclient.models.form_rejection import FormRejection
 from synclient.models.id_list import IdList
 from synclient.models.join_team_signed_token import JoinTeamSignedToken
 from synclient.models.json_schema_object_binding import JsonSchemaObjectBinding
 from synclient.models.json_schema_version_info import JsonSchemaVersionInfo
+from synclient.models.list_request import ListRequest
+from synclient.models.list_response import ListResponse
 from synclient.models.list_validation_results_request import ListValidationResultsRequest
 from synclient.models.list_validation_results_response import ListValidationResultsResponse
 from synclient.models.list_wrapper_of_team import ListWrapperOfTeam
@@ -147,6 +153,7 @@ from synclient.models.snapshot_response import SnapshotResponse
 from synclient.models.sort_by import SortBy
 from synclient.models.sort_direction import SortDirection
 from synclient.models.sort_item import SortItem
+from synclient.models.state_enum import StateEnum
 from synclient.models.string_annotation import StringAnnotation
 from synclient.models.sts_credentials import StsCredentials
 from synclient.models.submission_bundle import SubmissionBundle
@@ -156,6 +163,7 @@ from synclient.models.submission_model import SubmissionModel
 from synclient.models.submission_quota import SubmissionQuota
 from synclient.models.submission_status_batch import SubmissionStatusBatch
 from synclient.models.submission_status_enum import SubmissionStatusEnum
+from synclient.models.submission_status_form import SubmissionStatusForm
 from synclient.models.submission_status_model import SubmissionStatusModel
 from synclient.models.sum_file_sizes import SumFileSizes
 from synclient.models.table_bundle import TableBundle
