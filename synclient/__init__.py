@@ -68,9 +68,11 @@ from synclient.models.challenge_team_paged_results import ChallengeTeamPagedResu
 from synclient.models.column_model import ColumnModel
 from synclient.models.column_type import ColumnType
 from synclient.models.count import Count
+from synclient.models.create_discussion_thread import CreateDiscussionThread
 from synclient.models.csv_table_descriptor import CsvTableDescriptor
 from synclient.models.data_type import DataType
 from synclient.models.data_type_response import DataTypeResponse
+from synclient.models.discussion_reply_bundle import DiscussionReplyBundle
 from synclient.models.discussion_thread_bundle import DiscussionThreadBundle
 from synclient.models.docker_commit import DockerCommit
 from synclient.models.doi import Doi
@@ -134,12 +136,14 @@ from synclient.models.member_submission_eligibility import MemberSubmissionEligi
 from synclient.models.membership_invitation import MembershipInvitation
 from synclient.models.membership_request import MembershipRequest
 from synclient.models.message_to_user import MessageToUser
+from synclient.models.message_url import MessageURL
 from synclient.models.name_identifier_scheme import NameIdentifierScheme
 from synclient.models.object_type import ObjectType
 from synclient.models.object_type_schema import ObjectTypeSchema
 from synclient.models.paginated_column_models import PaginatedColumnModels
 from synclient.models.paginated_ids import PaginatedIds
 from synclient.models.paginated_results_of_access_requirement import PaginatedResultsOfAccessRequirement
+from synclient.models.paginated_results_of_discussion_reply_bundle import PaginatedResultsOfDiscussionReplyBundle
 from synclient.models.paginated_results_of_discussion_thread_bundle import PaginatedResultsOfDiscussionThreadBundle
 from synclient.models.paginated_results_of_docker_commit import PaginatedResultsOfDockerCommit
 from synclient.models.paginated_results_of_entity_header import PaginatedResultsOfEntityHeader
@@ -166,6 +170,7 @@ from synclient.models.question import Question
 from synclient.models.question_response import QuestionResponse
 from synclient.models.reference import Reference
 from synclient.models.reference_list import ReferenceList
+from synclient.models.reply_count import ReplyCount
 from synclient.models.resource_access import ResourceAccess
 from synclient.models.response_correctness import ResponseCorrectness
 from synclient.models.response_message import ResponseMessage
@@ -208,6 +213,8 @@ from synclient.models.team_member import TeamMember
 from synclient.models.team_membership_status import TeamMembershipStatus
 from synclient.models.team_submission_eligibility import TeamSubmissionEligibility
 from synclient.models.trashed_entity import TrashedEntity
+from synclient.models.update_thread_message import UpdateThreadMessage
+from synclient.models.update_thread_title import UpdateThreadTitle
 from synclient.models.used import Used
 from synclient.models.user_bundle import UserBundle
 from synclient.models.user_entity_permissions import UserEntityPermissions
