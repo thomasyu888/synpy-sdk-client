@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **id** | **float** | The unique immutable ID. Provided by the system, the user may not set this field. | [optional] 
 **modified_by** | **str** | The user that last modified this object. Provided by the system, the user may not set this field. | [optional] 
 **modified_on** | **str** | The date this object was last modified. Provided by the system, the user may not set this field. | [optional] 
-**subject_ids** | [**list[RestrictableObjectDescriptor]**](RestrictableObjectDescriptor.md) | The IDs of the items controlled by this Access Requirement. Required when creating or updating. | [optional] 
+**subject_ids** | [**[RestrictableObjectDescriptor]**](RestrictableObjectDescriptor.md) | The IDs of the items controlled by this Access Requirement. Required when creating or updating. | [optional] 
 **version_number** | **int** | The version number issued to this version on the object. | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

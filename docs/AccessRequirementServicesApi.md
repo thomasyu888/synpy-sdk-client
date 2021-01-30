@@ -20,10 +20,10 @@ Add a temporary access restriction that prevents access pending review by the Sy
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import access_requirement_services_api
+from synclient.model.access_requirement import AccessRequirement
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -44,14 +44,15 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.AccessRequirementServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
+    api_instance = access_requirement_services_api.AccessRequirementServicesApi(api_client)
+    id = "id_example" # str | The ID of an Entity.
 
+    # example passing only required values which don't have defaults set
     try:
         # Add a temporary access restriction that prevents access pending review by the Synapse ACT. 
         api_response = api_instance.create_lock_access_requirement(id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling AccessRequirementServicesApi->create_lock_access_requirement: %s\n" % e)
 ```
 
@@ -59,7 +60,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of an Entity. | 
+ **id** | **str**| The ID of an Entity. |
 
 ### Return type
 
@@ -82,7 +83,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_entity_access_requirements**
-> PaginatedResultsOfAccessRequirement get_entity_access_requirements(id, limit=limit, offset=offset)
+> PaginatedResultsOfAccessRequirement get_entity_access_requirements(id)
 
 Retrieve paginated list of ALL Access Requirements associated with an entity.
 
@@ -92,10 +93,10 @@ Retrieve paginated list of ALL Access Requirements associated with an entity.
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import access_requirement_services_api
+from synclient.model.paginated_results_of_access_requirement import PaginatedResultsOfAccessRequirement
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -116,16 +117,26 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.AccessRequirementServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-limit = 56 # int | Limits the size of the page returned. For example, a page size of 10 require limit = 10. The maximum limit for this call is 50.  (optional)
-offset = 56 # int | The index of the pagination offset. For a page size of 10, the first page would be at offset = 0, and the second page would be at offset = 10.  (optional)
+    api_instance = access_requirement_services_api.AccessRequirementServicesApi(api_client)
+    id = "id_example" # str | The ID of an Entity.
+    limit = 10 # int | Limits the size of the page returned. For example, a page size of 10 require limit = 10. The maximum limit for this call is 50.  (optional)
+    offset = 0 # int | The index of the pagination offset. For a page size of 10, the first page would be at offset = 0, and the second page would be at offset = 10.  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Retrieve paginated list of ALL Access Requirements associated with an entity.
+        api_response = api_instance.get_entity_access_requirements(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling AccessRequirementServicesApi->get_entity_access_requirements: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Retrieve paginated list of ALL Access Requirements associated with an entity.
         api_response = api_instance.get_entity_access_requirements(id, limit=limit, offset=offset)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling AccessRequirementServicesApi->get_entity_access_requirements: %s\n" % e)
 ```
 
@@ -133,9 +144,9 @@ offset = 56 # int | The index of the pagination offset. For a page size of 10, t
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of an Entity. | 
- **limit** | **int**| Limits the size of the page returned. For example, a page size of 10 require limit &#x3D; 10. The maximum limit for this call is 50.  | [optional] 
- **offset** | **int**| The index of the pagination offset. For a page size of 10, the first page would be at offset &#x3D; 0, and the second page would be at offset &#x3D; 10.  | [optional] 
+ **id** | **str**| The ID of an Entity. |
+ **limit** | **int**| Limits the size of the page returned. For example, a page size of 10 require limit &#x3D; 10. The maximum limit for this call is 50.  | [optional]
+ **offset** | **int**| The index of the pagination offset. For a page size of 10, the first page would be at offset &#x3D; 0, and the second page would be at offset &#x3D; 10.  | [optional]
 
 ### Return type
 
@@ -158,7 +169,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_team_access_requirements**
-> PaginatedResultsOfAccessRequirement get_team_access_requirements(id, limit=limit, offset=offset)
+> PaginatedResultsOfAccessRequirement get_team_access_requirements(id)
 
 Retrieve paginated list of ALL Access Requirements associated with a Team.
 
@@ -168,10 +179,10 @@ Retrieve paginated list of ALL Access Requirements associated with a Team.
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import access_requirement_services_api
+from synclient.model.paginated_results_of_access_requirement import PaginatedResultsOfAccessRequirement
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -192,16 +203,26 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.AccessRequirementServicesApi(api_client)
-    id = 'id_example' # str | the ID of the Team.
-limit = 10 # int | Limits the size of the page returned. For example, a page size of 10 require limit = 10. The maximum limit for this call is 50.  (optional) (default to 10)
-offset = 0 # int | The index of the pagination offset. For a page size of 10, the first page would be at offset = 0, and the second page would be at offset = 10.  (optional) (default to 0)
+    api_instance = access_requirement_services_api.AccessRequirementServicesApi(api_client)
+    id = "id_example" # str | the ID of the Team.
+    limit = 10 # int | Limits the size of the page returned. For example, a page size of 10 require limit = 10. The maximum limit for this call is 50.  (optional) if omitted the server will use the default value of 10
+    offset = 0 # int | The index of the pagination offset. For a page size of 10, the first page would be at offset = 0, and the second page would be at offset = 10.  (optional) if omitted the server will use the default value of 0
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Retrieve paginated list of ALL Access Requirements associated with a Team.
+        api_response = api_instance.get_team_access_requirements(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling AccessRequirementServicesApi->get_team_access_requirements: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Retrieve paginated list of ALL Access Requirements associated with a Team.
         api_response = api_instance.get_team_access_requirements(id, limit=limit, offset=offset)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling AccessRequirementServicesApi->get_team_access_requirements: %s\n" % e)
 ```
 
@@ -209,9 +230,9 @@ offset = 0 # int | The index of the pagination offset. For a page size of 10, th
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| the ID of the Team. | 
- **limit** | **int**| Limits the size of the page returned. For example, a page size of 10 require limit &#x3D; 10. The maximum limit for this call is 50.  | [optional] [default to 10]
- **offset** | **int**| The index of the pagination offset. For a page size of 10, the first page would be at offset &#x3D; 0, and the second page would be at offset &#x3D; 10.  | [optional] [default to 0]
+ **id** | **str**| the ID of the Team. |
+ **limit** | **int**| Limits the size of the page returned. For example, a page size of 10 require limit &#x3D; 10. The maximum limit for this call is 50.  | [optional] if omitted the server will use the default value of 10
+ **offset** | **int**| The index of the pagination offset. For a page size of 10, the first page would be at offset &#x3D; 0, and the second page would be at offset &#x3D; 10.  | [optional] if omitted the server will use the default value of 0
 
 ### Return type
 

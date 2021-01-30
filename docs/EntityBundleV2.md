@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **doi_association** | [**DoiAssociation**](DoiAssociation.md) |  | [optional] 
 **entity** | [**Entity**](Entity.md) |  | [optional] 
 **entity_type** | [**EntityType**](EntityType.md) |  | [optional] 
-**file_handles** | [**list[FileHandle]**](FileHandle.md) | FileHandles associated with this Entity | [optional] 
+**file_handles** | [**[FileHandle]**](FileHandle.md) | FileHandles associated with this Entity | [optional] 
 **file_name** | **str** | If this Entity is a FileEntity, this is its filename | [optional] 
 **has_children** | **bool** | Whether or not this Entity has children | [optional] 
 **path** | [**EntityPath**](EntityPath.md) |  | [optional] 

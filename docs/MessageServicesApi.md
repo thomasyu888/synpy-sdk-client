@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **send_message_to_entity_owner**
-> MessageToUser send_message_to_entity_owner(id, message_to_user=message_to_user)
+> MessageToUser send_message_to_entity_owner(id)
 
 Adds the owner of the given entity as an additional recipient of the message.
 
@@ -18,10 +18,10 @@ Adds the owner of the given entity as an additional recipient of the message.
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import message_services_api
+from synclient.model.message_to_user import MessageToUser
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -42,15 +42,44 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.MessageServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-message_to_user = synclient.MessageToUser() # MessageToUser |  (optional)
+    api_instance = message_services_api.MessageServicesApi(api_client)
+    id = "id_example" # str | The ID of an Entity.
+    message_to_user = MessageToUser(
+        bcc="bcc_example",
+        cc="cc_example",
+        created_by="created_by_example",
+        created_on="created_on_example",
+        file_handle_id="file_handle_id_example",
+        id="id_example",
+        in_reply_to="in_reply_to_example",
+        in_reply_to_root="in_reply_to_root_example",
+        is_notification_message=True,
+        notification_unsubscribe_endpoint="notification_unsubscribe_endpoint_example",
+        recipients=[
+            "recipients_example",
+        ],
+        subject="subject_example",
+        to="to_example",
+        user_profile_setting_endpoint="user_profile_setting_endpoint_example",
+        with_profile_setting_link=True,
+        with_unsubscribe_link=True,
+    ) # MessageToUser |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Adds the owner of the given entity as an additional recipient of the message.
+        api_response = api_instance.send_message_to_entity_owner(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling MessageServicesApi->send_message_to_entity_owner: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Adds the owner of the given entity as an additional recipient of the message.
         api_response = api_instance.send_message_to_entity_owner(id, message_to_user=message_to_user)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling MessageServicesApi->send_message_to_entity_owner: %s\n" % e)
 ```
 
@@ -58,8 +87,8 @@ message_to_user = synclient.MessageToUser() # MessageToUser |  (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of an Entity. | 
- **message_to_user** | [**MessageToUser**](MessageToUser.md)|  | [optional] 
+ **id** | **str**| The ID of an Entity. |
+ **message_to_user** | [**MessageToUser**](MessageToUser.md)|  | [optional]
 
 ### Return type
 

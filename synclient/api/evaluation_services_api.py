@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     Platform Repository Service
 
@@ -11,18 +9,35 @@
 """
 
 
-from __future__ import absolute_import
-
 import re  # noqa: F401
+import sys  # noqa: F401
 
-# python 2 and python 3 compatibility library
-import six
-
-from synclient.api_client import ApiClient
-from synclient.exceptions import (  # noqa: F401
-    ApiTypeError,
-    ApiValueError
+from synclient.api_client import ApiClient, Endpoint
+from synclient.model_utils import (  # noqa: F401
+    check_allowed_values,
+    check_validations,
+    date,
+    datetime,
+    file_type,
+    none_type,
+    validate_and_convert_types
 )
+from synclient.model.accesstype import ACCESSTYPE
+from synclient.model.access_control_list import AccessControlList
+from synclient.model.batch_upload_response import BatchUploadResponse
+from synclient.model.boolean_result import BooleanResult
+from synclient.model.evaluation import Evaluation
+from synclient.model.evaluation_round import EvaluationRound
+from synclient.model.evaluation_round_list_request import EvaluationRoundListRequest
+from synclient.model.evaluation_round_list_response import EvaluationRoundListResponse
+from synclient.model.paginated_results_of_evaluation import PaginatedResultsOfEvaluation
+from synclient.model.paginated_results_of_submission import PaginatedResultsOfSubmission
+from synclient.model.paginated_results_of_submission_bundle import PaginatedResultsOfSubmissionBundle
+from synclient.model.paginated_results_of_submission_status import PaginatedResultsOfSubmissionStatus
+from synclient.model.submission_model import SubmissionModel
+from synclient.model.submission_status_batch import SubmissionStatusBatch
+from synclient.model.submission_status_model import SubmissionStatusModel
+from synclient.model.team_submission_eligibility import TeamSubmissionEligibility
 
 
 class EvaluationServicesApi(object):
@@ -37,3916 +52,4137 @@ class EvaluationServicesApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def create_evaluation(self, **kwargs):  # noqa: E501
-        """Creates a new Evaluation.  # noqa: E501
+        def __create_evaluation(
+            self,
+            **kwargs
+        ):
+            """Creates a new Evaluation.  # noqa: E501
 
-        'Creates a new Evaluation. The passed request body should contain the following fields:  <ul>  <li>name - Give your new Evaluation a name.</li>  <li>contentSource - The ID of the parent Entity, such as a Folder or Project.</li>  <li>status - The initial state of the Evaluation, an  <a href=\"${org.sagebionetworks.evaluation.model.EvaluationStatus}\">EvaluationStatus</a></li>  </ul>  <p>  <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.CREATE</a> on the contentSource Entity.  </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.create_evaluation(async_req=True)
-        >>> result = thread.get()
+            'Creates a new Evaluation. The passed request body should contain the following fields:  <ul>  <li>name - Give your new Evaluation a name.</li>  <li>contentSource - The ID of the parent Entity, such as a Folder or Project.</li>  <li>status - The initial state of the Evaluation, an  <a href=\"${org.sagebionetworks.evaluation.model.EvaluationStatus}\">EvaluationStatus</a></li>  </ul>  <p>  <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.CREATE</a> on the contentSource Entity.  </p>   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        :param async_req bool: execute request asynchronously
-        :param Evaluation evaluation:
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: Evaluation
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.create_evaluation_with_http_info(**kwargs)  # noqa: E501
+            >>> thread = api.create_evaluation(async_req=True)
+            >>> result = thread.get()
 
-    def create_evaluation_with_http_info(self, **kwargs):  # noqa: E501
-        """Creates a new Evaluation.  # noqa: E501
 
-        'Creates a new Evaluation. The passed request body should contain the following fields:  <ul>  <li>name - Give your new Evaluation a name.</li>  <li>contentSource - The ID of the parent Entity, such as a Folder or Project.</li>  <li>status - The initial state of the Evaluation, an  <a href=\"${org.sagebionetworks.evaluation.model.EvaluationStatus}\">EvaluationStatus</a></li>  </ul>  <p>  <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.CREATE</a> on the contentSource Entity.  </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.create_evaluation_with_http_info(async_req=True)
-        >>> result = thread.get()
+            Keyword Args:
+                evaluation (Evaluation): [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        :param async_req bool: execute request asynchronously
-        :param Evaluation evaluation:
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(Evaluation, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
+            Returns:
+                Evaluation
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            return self.call_with_http_info(**kwargs)
 
-        local_var_params = locals()
-
-        all_params = [
-            'evaluation'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.create_evaluation = Endpoint(
+            settings={
+                'response_type': (Evaluation,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/evaluation',
+                'operation_id': 'create_evaluation',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'evaluation',
+                ],
+                'required': [],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'evaluation':
+                        (Evaluation,),
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                    'evaluation': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__create_evaluation
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method create_evaluation" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+        def __create_evaluation_round(
+            self,
+            eval_id,
+            **kwargs
+        ):
+            """Create Evaluation Round  # noqa: E501
 
-        collection_formats = {}
+            Create Evaluation Round  # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
+            >>> thread = api.create_evaluation_round(eval_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                eval_id (str): The ID of the specified Evaluation.
 
-        header_params = {}
+            Keyword Args:
+                evaluation_round (EvaluationRound): [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                EvaluationRound
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['eval_id'] = \
+                eval_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        if 'evaluation' in local_var_params:
-            body_params = local_var_params['evaluation']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/evaluation', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='Evaluation',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def create_evaluation_round(self, eval_id, **kwargs):  # noqa: E501
-        """Create Evaluation Round  # noqa: E501
-
-        Create Evaluation Round  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.create_evaluation_round(eval_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param EvaluationRound evaluation_round:
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: EvaluationRound
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.create_evaluation_round_with_http_info(eval_id, **kwargs)  # noqa: E501
-
-    def create_evaluation_round_with_http_info(self, eval_id, **kwargs):  # noqa: E501
-        """Create Evaluation Round  # noqa: E501
-
-        Create Evaluation Round  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.create_evaluation_round_with_http_info(eval_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param EvaluationRound evaluation_round:
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(EvaluationRound, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'eval_id',
-            'evaluation_round'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.create_evaluation_round = Endpoint(
+            settings={
+                'response_type': (EvaluationRound,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/evaluation/{evalId}/round',
+                'operation_id': 'create_evaluation_round',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'eval_id',
+                    'evaluation_round',
+                ],
+                'required': [
+                    'eval_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'eval_id':
+                        (str,),
+                    'evaluation_round':
+                        (EvaluationRound,),
+                },
+                'attribute_map': {
+                    'eval_id': 'evalId',
+                },
+                'location_map': {
+                    'eval_id': 'path',
+                    'evaluation_round': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__create_evaluation_round
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method create_evaluation_round" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'eval_id' is set
-        if self.api_client.client_side_validation and ('eval_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['eval_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `eval_id` when calling `create_evaluation_round`")  # noqa: E501
+        def __create_submission(
+            self,
+            **kwargs
+        ):
+            """Creates a Submission and sends a submission notification email to the submitter's team members.   # noqa: E501
 
-        collection_formats = {}
+            Creates a Submission and sends a submission notification email to the submitter's team members.  The passed request body should contain the following fields:  <ul>  <li>evaluationId - The ID of the Evaluation to which this Submission belongs.</li>  <li>entityId - The ID of the Entity being submitted.</li>  <li>versionNumber - The specific version of the Entity being submitted.</li>  </ul>  <p>  A Submission must be either a Team or an Individual submission.  A Team submission must include a Team ID in the teamId field and the request must include a submissionEligibilityHash request parameter.  A Team submission may also include a list of submission contributors. (The submitter is taken to be a contributor and need not be included in the list.) An individual submission must have a null teamId, a null or empty contributor list, and no submissionEligibilityHash parameter.  </p>  <p>  <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.SUBMIT</a>.  </p>  <p>  This call also creates an associated <a href=\"${org.sagebionetworks.evaluation.model.SubmissionStatus}\">SubmissionStatus</a>, initialized with a SubmissionStatusEnum value of RECEIVED.  </p>   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'eval_id' in local_var_params:
-            path_params['evalId'] = local_var_params['eval_id']  # noqa: E501
+            >>> thread = api.create_submission(async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
 
-        header_params = {}
+            Keyword Args:
+                challenge_endpoint (str): The portal endpoint prefix to the an entity/challenge page. The entity ID of the challenge project is appended to create the complete URL. In normal operation, this parameter should be omitted.' . [optional]
+                etag (str): The current eTag of the Entity being submitted. [optional]
+                notification_unsubscribe_endpoint (str): The portal endpoint prefix for one-click email unsubscription. A signed, serialized token is appended to create the complete URL: <a href=\"${org.sagebionetworks.repo.model.message.NotificationSettingsSignedToken}\">NotificationSettingsSignedToken</a>. In normal operation, this parameter should be omitted.' . [optional]
+                submission_eligibility_hash (str): The hash provided by the <a href=\"${org.sagebionetworks.evaluation.model.TeamSubmissionEligibility}\">TeamSubmissionEligibility</a> object. . [optional]
+                submission_model (SubmissionModel): [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                SubmissionModel
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        if 'evaluation_round' in local_var_params:
-            body_params = local_var_params['evaluation_round']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/evaluation/{evalId}/round', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='EvaluationRound',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def create_submission(self, **kwargs):  # noqa: E501
-        """Creates a Submission and sends a submission notification email to the submitter's team members.   # noqa: E501
-
-        Creates a Submission and sends a submission notification email to the submitter's team members.  The passed request body should contain the following fields:  <ul>  <li>evaluationId - The ID of the Evaluation to which this Submission belongs.</li>  <li>entityId - The ID of the Entity being submitted.</li>  <li>versionNumber - The specific version of the Entity being submitted.</li>  </ul>  <p>  A Submission must be either a Team or an Individual submission.  A Team submission must include a Team ID in the teamId field and the request must include a submissionEligibilityHash request parameter.  A Team submission may also include a list of submission contributors. (The submitter is taken to be a contributor and need not be included in the list.) An individual submission must have a null teamId, a null or empty contributor list, and no submissionEligibilityHash parameter.  </p>  <p>  <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.SUBMIT</a>.  </p>  <p>  This call also creates an associated <a href=\"${org.sagebionetworks.evaluation.model.SubmissionStatus}\">SubmissionStatus</a>, initialized with a SubmissionStatusEnum value of RECEIVED.  </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.create_submission(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str challenge_endpoint: The portal endpoint prefix to the an entity/challenge page. The entity ID of the challenge project is appended to create the complete URL. In normal operation, this parameter should be omitted.' 
-        :param str etag: The current eTag of the Entity being submitted
-        :param str notification_unsubscribe_endpoint: The portal endpoint prefix for one-click email unsubscription. A signed, serialized token is appended to create the complete URL: <a href=\"${org.sagebionetworks.repo.model.message.NotificationSettingsSignedToken}\">NotificationSettingsSignedToken</a>. In normal operation, this parameter should be omitted.' 
-        :param str submission_eligibility_hash: The hash provided by the <a href=\"${org.sagebionetworks.evaluation.model.TeamSubmissionEligibility}\">TeamSubmissionEligibility</a> object. 
-        :param SubmissionModel submission_model:
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: SubmissionModel
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.create_submission_with_http_info(**kwargs)  # noqa: E501
-
-    def create_submission_with_http_info(self, **kwargs):  # noqa: E501
-        """Creates a Submission and sends a submission notification email to the submitter's team members.   # noqa: E501
-
-        Creates a Submission and sends a submission notification email to the submitter's team members.  The passed request body should contain the following fields:  <ul>  <li>evaluationId - The ID of the Evaluation to which this Submission belongs.</li>  <li>entityId - The ID of the Entity being submitted.</li>  <li>versionNumber - The specific version of the Entity being submitted.</li>  </ul>  <p>  A Submission must be either a Team or an Individual submission.  A Team submission must include a Team ID in the teamId field and the request must include a submissionEligibilityHash request parameter.  A Team submission may also include a list of submission contributors. (The submitter is taken to be a contributor and need not be included in the list.) An individual submission must have a null teamId, a null or empty contributor list, and no submissionEligibilityHash parameter.  </p>  <p>  <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.SUBMIT</a>.  </p>  <p>  This call also creates an associated <a href=\"${org.sagebionetworks.evaluation.model.SubmissionStatus}\">SubmissionStatus</a>, initialized with a SubmissionStatusEnum value of RECEIVED.  </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.create_submission_with_http_info(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str challenge_endpoint: The portal endpoint prefix to the an entity/challenge page. The entity ID of the challenge project is appended to create the complete URL. In normal operation, this parameter should be omitted.' 
-        :param str etag: The current eTag of the Entity being submitted
-        :param str notification_unsubscribe_endpoint: The portal endpoint prefix for one-click email unsubscription. A signed, serialized token is appended to create the complete URL: <a href=\"${org.sagebionetworks.repo.model.message.NotificationSettingsSignedToken}\">NotificationSettingsSignedToken</a>. In normal operation, this parameter should be omitted.' 
-        :param str submission_eligibility_hash: The hash provided by the <a href=\"${org.sagebionetworks.evaluation.model.TeamSubmissionEligibility}\">TeamSubmissionEligibility</a> object. 
-        :param SubmissionModel submission_model:
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(SubmissionModel, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'challenge_endpoint',
-            'etag',
-            'notification_unsubscribe_endpoint',
-            'submission_eligibility_hash',
-            'submission_model'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.create_submission = Endpoint(
+            settings={
+                'response_type': (SubmissionModel,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/evaluation/submission',
+                'operation_id': 'create_submission',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'challenge_endpoint',
+                    'etag',
+                    'notification_unsubscribe_endpoint',
+                    'submission_eligibility_hash',
+                    'submission_model',
+                ],
+                'required': [],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'challenge_endpoint':
+                        (str,),
+                    'etag':
+                        (str,),
+                    'notification_unsubscribe_endpoint':
+                        (str,),
+                    'submission_eligibility_hash':
+                        (str,),
+                    'submission_model':
+                        (SubmissionModel,),
+                },
+                'attribute_map': {
+                    'challenge_endpoint': 'challengeEndpoint',
+                    'etag': 'etag',
+                    'notification_unsubscribe_endpoint': 'notificationUnsubscribeEndpoint',
+                    'submission_eligibility_hash': 'submissionEligibilityHash',
+                },
+                'location_map': {
+                    'challenge_endpoint': 'query',
+                    'etag': 'query',
+                    'notification_unsubscribe_endpoint': 'query',
+                    'submission_eligibility_hash': 'query',
+                    'submission_model': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__create_submission
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method create_submission" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+        def __delete_acl(
+            self,
+            eval_id,
+            **kwargs
+        ):
+            """This method is deprecated and should be removed from future versions of the API.  # noqa: E501
 
-        collection_formats = {}
+            This method is deprecated and should be removed from future versions of the API.  Deletes the ACL (access control list) of the specified evaluation. The user should have the proper <a href=\"${org.sagebionetworks.evaluation.model.UserEvaluationPermissions}\">permissions</a> to delete the ACL.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
+            >>> thread = api.delete_acl(eval_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
-        if 'challenge_endpoint' in local_var_params and local_var_params['challenge_endpoint'] is not None:  # noqa: E501
-            query_params.append(('challengeEndpoint', local_var_params['challenge_endpoint']))  # noqa: E501
-        if 'etag' in local_var_params and local_var_params['etag'] is not None:  # noqa: E501
-            query_params.append(('etag', local_var_params['etag']))  # noqa: E501
-        if 'notification_unsubscribe_endpoint' in local_var_params and local_var_params['notification_unsubscribe_endpoint'] is not None:  # noqa: E501
-            query_params.append(('notificationUnsubscribeEndpoint', local_var_params['notification_unsubscribe_endpoint']))  # noqa: E501
-        if 'submission_eligibility_hash' in local_var_params and local_var_params['submission_eligibility_hash'] is not None:  # noqa: E501
-            query_params.append(('submissionEligibilityHash', local_var_params['submission_eligibility_hash']))  # noqa: E501
+            Args:
+                eval_id (str): The ID of the specified Evaluation.
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                None
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['eval_id'] = \
+                eval_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        if 'submission_model' in local_var_params:
-            body_params = local_var_params['submission_model']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/evaluation/submission', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='SubmissionModel',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def delete_acl(self, eval_id, **kwargs):  # noqa: E501
-        """This method is deprecated and should be removed from future versions of the API.  # noqa: E501
-
-        This method is deprecated and should be removed from future versions of the API.  Deletes the ACL (access control list) of the specified evaluation. The user should have the proper <a href=\"${org.sagebionetworks.evaluation.model.UserEvaluationPermissions}\">permissions</a> to delete the ACL.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.delete_acl(eval_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.delete_acl_with_http_info(eval_id, **kwargs)  # noqa: E501
-
-    def delete_acl_with_http_info(self, eval_id, **kwargs):  # noqa: E501
-        """This method is deprecated and should be removed from future versions of the API.  # noqa: E501
-
-        This method is deprecated and should be removed from future versions of the API.  Deletes the ACL (access control list) of the specified evaluation. The user should have the proper <a href=\"${org.sagebionetworks.evaluation.model.UserEvaluationPermissions}\">permissions</a> to delete the ACL.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.delete_acl_with_http_info(eval_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'eval_id'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.delete_acl = Endpoint(
+            settings={
+                'response_type': None,
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/evaluation/{evalId}/acl',
+                'operation_id': 'delete_acl',
+                'http_method': 'DELETE',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'eval_id',
+                ],
+                'required': [
+                    'eval_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'eval_id':
+                        (str,),
+                },
+                'attribute_map': {
+                    'eval_id': 'evalId',
+                },
+                'location_map': {
+                    'eval_id': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__delete_acl
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method delete_acl" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'eval_id' is set
-        if self.api_client.client_side_validation and ('eval_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['eval_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `eval_id` when calling `delete_acl`")  # noqa: E501
+        def __delete_evaluation(
+            self,
+            eval_id,
+            **kwargs
+        ):
+            """Deletes an Evaluation.  # noqa: E501
 
-        collection_formats = {}
+            Deletes an Evaluation.  <p>  <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.DELETE</a> on the specified Evaluation.  </p>   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'eval_id' in local_var_params:
-            path_params['evalId'] = local_var_params['eval_id']  # noqa: E501
+            >>> thread = api.delete_evaluation(eval_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                eval_id (str): The ID of the specified Evaluation.
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                None
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['eval_id'] = \
+                eval_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/evaluation/{evalId}/acl', 'DELETE',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type=None,  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def delete_evaluation(self, eval_id, **kwargs):  # noqa: E501
-        """Deletes an Evaluation.  # noqa: E501
-
-        Deletes an Evaluation.  <p>  <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.DELETE</a> on the specified Evaluation.  </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.delete_evaluation(eval_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.delete_evaluation_with_http_info(eval_id, **kwargs)  # noqa: E501
-
-    def delete_evaluation_with_http_info(self, eval_id, **kwargs):  # noqa: E501
-        """Deletes an Evaluation.  # noqa: E501
-
-        Deletes an Evaluation.  <p>  <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.DELETE</a> on the specified Evaluation.  </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.delete_evaluation_with_http_info(eval_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'eval_id'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.delete_evaluation = Endpoint(
+            settings={
+                'response_type': None,
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/evaluation/{evalId}',
+                'operation_id': 'delete_evaluation',
+                'http_method': 'DELETE',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'eval_id',
+                ],
+                'required': [
+                    'eval_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'eval_id':
+                        (str,),
+                },
+                'attribute_map': {
+                    'eval_id': 'evalId',
+                },
+                'location_map': {
+                    'eval_id': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__delete_evaluation
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method delete_evaluation" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'eval_id' is set
-        if self.api_client.client_side_validation and ('eval_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['eval_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `eval_id` when calling `delete_evaluation`")  # noqa: E501
+        def __delete_evaluation_round(
+            self,
+            eval_id,
+            round_id,
+            **kwargs
+        ):
+            """Delete Evaluation Round  # noqa: E501
 
-        collection_formats = {}
+            Delete Evaluation Round  # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'eval_id' in local_var_params:
-            path_params['evalId'] = local_var_params['eval_id']  # noqa: E501
+            >>> thread = api.delete_evaluation_round(eval_id, round_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                eval_id (str): The ID of the specified Evaluation.
+                round_id (str): The ID of the evaluation round
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                None
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['eval_id'] = \
+                eval_id
+            kwargs['round_id'] = \
+                round_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/evaluation/{evalId}', 'DELETE',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type=None,  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def delete_evaluation_round(self, eval_id, round_id, **kwargs):  # noqa: E501
-        """Delete Evaluation Round  # noqa: E501
-
-        Delete Evaluation Round  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.delete_evaluation_round(eval_id, round_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param str round_id: The ID of the evaluation round (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.delete_evaluation_round_with_http_info(eval_id, round_id, **kwargs)  # noqa: E501
-
-    def delete_evaluation_round_with_http_info(self, eval_id, round_id, **kwargs):  # noqa: E501
-        """Delete Evaluation Round  # noqa: E501
-
-        Delete Evaluation Round  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.delete_evaluation_round_with_http_info(eval_id, round_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param str round_id: The ID of the evaluation round (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'eval_id',
-            'round_id'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.delete_evaluation_round = Endpoint(
+            settings={
+                'response_type': None,
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/evaluation/{evalId}/round/{roundId}',
+                'operation_id': 'delete_evaluation_round',
+                'http_method': 'DELETE',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'eval_id',
+                    'round_id',
+                ],
+                'required': [
+                    'eval_id',
+                    'round_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'eval_id':
+                        (str,),
+                    'round_id':
+                        (str,),
+                },
+                'attribute_map': {
+                    'eval_id': 'evalId',
+                    'round_id': 'roundId',
+                },
+                'location_map': {
+                    'eval_id': 'path',
+                    'round_id': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__delete_evaluation_round
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method delete_evaluation_round" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'eval_id' is set
-        if self.api_client.client_side_validation and ('eval_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['eval_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `eval_id` when calling `delete_evaluation_round`")  # noqa: E501
-        # verify the required parameter 'round_id' is set
-        if self.api_client.client_side_validation and ('round_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['round_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `round_id` when calling `delete_evaluation_round`")  # noqa: E501
+        def __delete_submission(
+            self,
+            sub_id,
+            **kwargs
+        ):
+            """Deletes a Submission and its accompanying SubmissionStatus.  # noqa: E501
 
-        collection_formats = {}
+            Deletes a Submission and its accompanying SubmissionStatus.  <b>This service is intended to only be used by ChallengesInfrastructure service account.</b>  <p>  <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.DELETE_SUBMISSION</a> on the specified Evaluation.  </p>   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'eval_id' in local_var_params:
-            path_params['evalId'] = local_var_params['eval_id']  # noqa: E501
-        if 'round_id' in local_var_params:
-            path_params['roundId'] = local_var_params['round_id']  # noqa: E501
+            >>> thread = api.delete_submission(sub_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                sub_id (str): The ID of the Submission
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                None
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['sub_id'] = \
+                sub_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/evaluation/{evalId}/round/{roundId}', 'DELETE',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type=None,  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def delete_submission(self, sub_id, **kwargs):  # noqa: E501
-        """Deletes a Submission and its accompanying SubmissionStatus.  # noqa: E501
-
-        Deletes a Submission and its accompanying SubmissionStatus.  <b>This service is intended to only be used by ChallengesInfrastructure service account.</b>  <p>  <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.DELETE_SUBMISSION</a> on the specified Evaluation.  </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.delete_submission(sub_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str sub_id: The ID of the Submission (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.delete_submission_with_http_info(sub_id, **kwargs)  # noqa: E501
-
-    def delete_submission_with_http_info(self, sub_id, **kwargs):  # noqa: E501
-        """Deletes a Submission and its accompanying SubmissionStatus.  # noqa: E501
-
-        Deletes a Submission and its accompanying SubmissionStatus.  <b>This service is intended to only be used by ChallengesInfrastructure service account.</b>  <p>  <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.DELETE_SUBMISSION</a> on the specified Evaluation.  </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.delete_submission_with_http_info(sub_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str sub_id: The ID of the Submission (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'sub_id'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.delete_submission = Endpoint(
+            settings={
+                'response_type': None,
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/evaluation/submission/{subId}',
+                'operation_id': 'delete_submission',
+                'http_method': 'DELETE',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'sub_id',
+                ],
+                'required': [
+                    'sub_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'sub_id':
+                        (str,),
+                },
+                'attribute_map': {
+                    'sub_id': 'subId',
+                },
+                'location_map': {
+                    'sub_id': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__delete_submission
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method delete_submission" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'sub_id' is set
-        if self.api_client.client_side_validation and ('sub_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['sub_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `sub_id` when calling `delete_submission`")  # noqa: E501
+        def __find_evaluation(
+            self,
+            name,
+            **kwargs
+        ):
+            """Finds an Evaluation by name.  # noqa: E501
 
-        collection_formats = {}
+            Finds an Evaluation by name. <p> <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a> on the specified Evaluation. </p>   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'sub_id' in local_var_params:
-            path_params['subId'] = local_var_params['sub_id']  # noqa: E501
+            >>> thread = api.find_evaluation(name, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                name (str): The name of the desired Evaluation.
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                Evaluation
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['name'] = \
+                name
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/evaluation/submission/{subId}', 'DELETE',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type=None,  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def find_evaluation(self, name, **kwargs):  # noqa: E501
-        """Finds an Evaluation by name.  # noqa: E501
-
-        Finds an Evaluation by name. <p> <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a> on the specified Evaluation. </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.find_evaluation(name, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str name: The name of the desired Evaluation. (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: Evaluation
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.find_evaluation_with_http_info(name, **kwargs)  # noqa: E501
-
-    def find_evaluation_with_http_info(self, name, **kwargs):  # noqa: E501
-        """Finds an Evaluation by name.  # noqa: E501
-
-        Finds an Evaluation by name. <p> <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a> on the specified Evaluation. </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.find_evaluation_with_http_info(name, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str name: The name of the desired Evaluation. (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(Evaluation, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'name'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.find_evaluation = Endpoint(
+            settings={
+                'response_type': (Evaluation,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/evaluation/name/{name}',
+                'operation_id': 'find_evaluation',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'name',
+                ],
+                'required': [
+                    'name',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'name':
+                        (str,),
+                },
+                'attribute_map': {
+                    'name': 'name',
+                },
+                'location_map': {
+                    'name': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__find_evaluation
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method find_evaluation" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'name' is set
-        if self.api_client.client_side_validation and ('name' not in local_var_params or  # noqa: E501
-                                                        local_var_params['name'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `name` when calling `find_evaluation`")  # noqa: E501
+        def __get_acl(
+            self,
+            eval_id,
+            **kwargs
+        ):
+            """Gets the access control list (ACL) governing the given evaluation.  # noqa: E501
 
-        collection_formats = {}
+            Gets the access control list (ACL) governing the given evaluation. The user should have the proper <a href=\"${org.sagebionetworks.evaluation.model.UserEvaluationPermissions}\">permissions</a> to read the ACL.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'name' in local_var_params:
-            path_params['name'] = local_var_params['name']  # noqa: E501
+            >>> thread = api.get_acl(eval_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                eval_id (str): The ID of the specified Evaluation.
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                AccessControlList
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['eval_id'] = \
+                eval_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/evaluation/name/{name}', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='Evaluation',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def get_acl(self, eval_id, **kwargs):  # noqa: E501
-        """Gets the access control list (ACL) governing the given evaluation.  # noqa: E501
-
-        Gets the access control list (ACL) governing the given evaluation. The user should have the proper <a href=\"${org.sagebionetworks.evaluation.model.UserEvaluationPermissions}\">permissions</a> to read the ACL.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_acl(eval_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: AccessControlList
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_acl_with_http_info(eval_id, **kwargs)  # noqa: E501
-
-    def get_acl_with_http_info(self, eval_id, **kwargs):  # noqa: E501
-        """Gets the access control list (ACL) governing the given evaluation.  # noqa: E501
-
-        Gets the access control list (ACL) governing the given evaluation. The user should have the proper <a href=\"${org.sagebionetworks.evaluation.model.UserEvaluationPermissions}\">permissions</a> to read the ACL.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_acl_with_http_info(eval_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(AccessControlList, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'eval_id'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.get_acl = Endpoint(
+            settings={
+                'response_type': (AccessControlList,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/evaluation/{evalId}/acl',
+                'operation_id': 'get_acl',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'eval_id',
+                ],
+                'required': [
+                    'eval_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'eval_id':
+                        (str,),
+                },
+                'attribute_map': {
+                    'eval_id': 'evalId',
+                },
+                'location_map': {
+                    'eval_id': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_acl
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_acl" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'eval_id' is set
-        if self.api_client.client_side_validation and ('eval_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['eval_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `eval_id` when calling `get_acl`")  # noqa: E501
+        def __get_all_evaluation_rounds(
+            self,
+            eval_id,
+            **kwargs
+        ):
+            """Get all rounds of an Evaluation  # noqa: E501
 
-        collection_formats = {}
+            Get all rounds of an Evaluation  # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'eval_id' in local_var_params:
-            path_params['evalId'] = local_var_params['eval_id']  # noqa: E501
+            >>> thread = api.get_all_evaluation_rounds(eval_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                eval_id (str): The ID of the specified Evaluation.
 
-        header_params = {}
+            Keyword Args:
+                evaluation_round_list_request (EvaluationRoundListRequest): [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                EvaluationRoundListResponse
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['eval_id'] = \
+                eval_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/evaluation/{evalId}/acl', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='AccessControlList',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def get_all_evaluation_rounds(self, eval_id, **kwargs):  # noqa: E501
-        """Get all rounds of an Evaluation  # noqa: E501
-
-        Get all rounds of an Evaluation  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_all_evaluation_rounds(eval_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param EvaluationRoundListRequest evaluation_round_list_request:
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: EvaluationRoundListResponse
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_all_evaluation_rounds_with_http_info(eval_id, **kwargs)  # noqa: E501
-
-    def get_all_evaluation_rounds_with_http_info(self, eval_id, **kwargs):  # noqa: E501
-        """Get all rounds of an Evaluation  # noqa: E501
-
-        Get all rounds of an Evaluation  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_all_evaluation_rounds_with_http_info(eval_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param EvaluationRoundListRequest evaluation_round_list_request:
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(EvaluationRoundListResponse, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'eval_id',
-            'evaluation_round_list_request'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.get_all_evaluation_rounds = Endpoint(
+            settings={
+                'response_type': (EvaluationRoundListResponse,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/evaluation/{evalId}/round/list',
+                'operation_id': 'get_all_evaluation_rounds',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'eval_id',
+                    'evaluation_round_list_request',
+                ],
+                'required': [
+                    'eval_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'eval_id':
+                        (str,),
+                    'evaluation_round_list_request':
+                        (EvaluationRoundListRequest,),
+                },
+                'attribute_map': {
+                    'eval_id': 'evalId',
+                },
+                'location_map': {
+                    'eval_id': 'path',
+                    'evaluation_round_list_request': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__get_all_evaluation_rounds
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_all_evaluation_rounds" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'eval_id' is set
-        if self.api_client.client_side_validation and ('eval_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['eval_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `eval_id` when calling `get_all_evaluation_rounds`")  # noqa: E501
+        def __get_all_submission_bundles(
+            self,
+            eval_id,
+            **kwargs
+        ):
+            """Gets a collection of bundled Submissions and SubmissionStatuses to a given Evaluation.  # noqa: E501
 
-        collection_formats = {}
+            Gets a collection of bundled Submissions and SubmissionStatuses to a given Evaluation.  <p> <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ_PRIVATE_SUBMISSION</a> on the specified Evaluation. </p>   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'eval_id' in local_var_params:
-            path_params['evalId'] = local_var_params['eval_id']  # noqa: E501
+            >>> thread = api.get_all_submission_bundles(eval_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                eval_id (str): The ID of the specified Evaluation.
 
-        header_params = {}
+            Keyword Args:
+                limit (int): Limits the number of entities that will be fetched for this page. When null it will default to 10.' . [optional] if omitted the server will use the default value of 10
+                offset (int): The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0. . [optional] if omitted the server will use the default value of 0
+                status (str): Submission Status. [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                PaginatedResultsOfSubmissionBundle
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['eval_id'] = \
+                eval_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        if 'evaluation_round_list_request' in local_var_params:
-            body_params = local_var_params['evaluation_round_list_request']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+        self.get_all_submission_bundles = Endpoint(
+            settings={
+                'response_type': (PaginatedResultsOfSubmissionBundle,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/evaluation/{evalId}/submission/bundle/all',
+                'operation_id': 'get_all_submission_bundles',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'eval_id',
+                    'limit',
+                    'offset',
+                    'status',
+                ],
+                'required': [
+                    'eval_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                    'limit',
+                ]
+            },
+            root_map={
+                'validations': {
+                    ('limit',): {
 
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/evaluation/{evalId}/round/list', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='EvaluationRoundListResponse',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def get_all_submission_bundles(self, eval_id, **kwargs):  # noqa: E501
-        """Gets a collection of bundled Submissions and SubmissionStatuses to a given Evaluation.  # noqa: E501
-
-        Gets a collection of bundled Submissions and SubmissionStatuses to a given Evaluation.  <p> <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ_PRIVATE_SUBMISSION</a> on the specified Evaluation. </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_all_submission_bundles(eval_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param int limit: Limits the number of entities that will be fetched for this page. When null it will default to 10.' 
-        :param int offset: The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0. 
-        :param str status: Submission Status
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: PaginatedResultsOfSubmissionBundle
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_all_submission_bundles_with_http_info(eval_id, **kwargs)  # noqa: E501
-
-    def get_all_submission_bundles_with_http_info(self, eval_id, **kwargs):  # noqa: E501
-        """Gets a collection of bundled Submissions and SubmissionStatuses to a given Evaluation.  # noqa: E501
-
-        Gets a collection of bundled Submissions and SubmissionStatuses to a given Evaluation.  <p> <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ_PRIVATE_SUBMISSION</a> on the specified Evaluation. </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_all_submission_bundles_with_http_info(eval_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param int limit: Limits the number of entities that will be fetched for this page. When null it will default to 10.' 
-        :param int offset: The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0. 
-        :param str status: Submission Status
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(PaginatedResultsOfSubmissionBundle, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'eval_id',
-            'limit',
-            'offset',
-            'status'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+                        'inclusive_maximum': 100,
+                        'inclusive_minimum': 10,
+                    },
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'eval_id':
+                        (str,),
+                    'limit':
+                        (int,),
+                    'offset':
+                        (int,),
+                    'status':
+                        (str,),
+                },
+                'attribute_map': {
+                    'eval_id': 'evalId',
+                    'limit': 'limit',
+                    'offset': 'offset',
+                    'status': 'status',
+                },
+                'location_map': {
+                    'eval_id': 'path',
+                    'limit': 'query',
+                    'offset': 'query',
+                    'status': 'query',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_all_submission_bundles
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_all_submission_bundles" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'eval_id' is set
-        if self.api_client.client_side_validation and ('eval_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['eval_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `eval_id` when calling `get_all_submission_bundles`")  # noqa: E501
+        def __get_all_submission_statuses(
+            self,
+            eval_id,
+            **kwargs
+        ):
+            """Gets a collection of SubmissionStatuses to a specified Evaluation.  # noqa: E501
 
-        if self.api_client.client_side_validation and 'limit' in local_var_params and local_var_params['limit'] > 100:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `limit` when calling `get_all_submission_bundles`, must be a value less than or equal to `100`")  # noqa: E501
-        if self.api_client.client_side_validation and 'limit' in local_var_params and local_var_params['limit'] < 10:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `limit` when calling `get_all_submission_bundles`, must be a value greater than or equal to `10`")  # noqa: E501
-        collection_formats = {}
+            'Gets a collection of SubmissionStatuses to a specified Evaluation.  <p>  <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a> on the specified Evaluation. Furthermore, the caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ_PRIVATE_SUBMISSION</a> to see all data marked as \"private\" in the SubmissionStatuses.  </p>   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'eval_id' in local_var_params:
-            path_params['evalId'] = local_var_params['eval_id']  # noqa: E501
+            >>> thread = api.get_all_submission_statuses(eval_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
-        if 'limit' in local_var_params and local_var_params['limit'] is not None:  # noqa: E501
-            query_params.append(('limit', local_var_params['limit']))  # noqa: E501
-        if 'offset' in local_var_params and local_var_params['offset'] is not None:  # noqa: E501
-            query_params.append(('offset', local_var_params['offset']))  # noqa: E501
-        if 'status' in local_var_params and local_var_params['status'] is not None:  # noqa: E501
-            query_params.append(('status', local_var_params['status']))  # noqa: E501
+            Args:
+                eval_id (str): The ID of the specified Evaluation.
 
-        header_params = {}
+            Keyword Args:
+                limit (int): Limits the number of entities that will be fetched for this page. When null it will default to 10.' . [optional] if omitted the server will use the default value of 10
+                offset (int): The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0. . [optional] if omitted the server will use the default value of 0
+                status (str): Submission status. [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                PaginatedResultsOfSubmissionStatus
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['eval_id'] = \
+                eval_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+        self.get_all_submission_statuses = Endpoint(
+            settings={
+                'response_type': (PaginatedResultsOfSubmissionStatus,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/evaluation/{evalId}/submission/status/all',
+                'operation_id': 'get_all_submission_statuses',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'eval_id',
+                    'limit',
+                    'offset',
+                    'status',
+                ],
+                'required': [
+                    'eval_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                    'limit',
+                ]
+            },
+            root_map={
+                'validations': {
+                    ('limit',): {
 
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/evaluation/{evalId}/submission/bundle/all', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='PaginatedResultsOfSubmissionBundle',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def get_all_submission_statuses(self, eval_id, **kwargs):  # noqa: E501
-        """Gets a collection of SubmissionStatuses to a specified Evaluation.  # noqa: E501
-
-        'Gets a collection of SubmissionStatuses to a specified Evaluation.  <p>  <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a> on the specified Evaluation. Furthermore, the caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ_PRIVATE_SUBMISSION</a> to see all data marked as \"private\" in the SubmissionStatuses.  </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_all_submission_statuses(eval_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param int limit: Limits the number of entities that will be fetched for this page. When null it will default to 10.' 
-        :param int offset: The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0. 
-        :param str status: Submission status
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: PaginatedResultsOfSubmissionStatus
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_all_submission_statuses_with_http_info(eval_id, **kwargs)  # noqa: E501
-
-    def get_all_submission_statuses_with_http_info(self, eval_id, **kwargs):  # noqa: E501
-        """Gets a collection of SubmissionStatuses to a specified Evaluation.  # noqa: E501
-
-        'Gets a collection of SubmissionStatuses to a specified Evaluation.  <p>  <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a> on the specified Evaluation. Furthermore, the caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ_PRIVATE_SUBMISSION</a> to see all data marked as \"private\" in the SubmissionStatuses.  </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_all_submission_statuses_with_http_info(eval_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param int limit: Limits the number of entities that will be fetched for this page. When null it will default to 10.' 
-        :param int offset: The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0. 
-        :param str status: Submission status
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(PaginatedResultsOfSubmissionStatus, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'eval_id',
-            'limit',
-            'offset',
-            'status'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+                        'inclusive_maximum': 100,
+                        'inclusive_minimum': 10,
+                    },
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'eval_id':
+                        (str,),
+                    'limit':
+                        (int,),
+                    'offset':
+                        (int,),
+                    'status':
+                        (str,),
+                },
+                'attribute_map': {
+                    'eval_id': 'evalId',
+                    'limit': 'limit',
+                    'offset': 'offset',
+                    'status': 'status',
+                },
+                'location_map': {
+                    'eval_id': 'path',
+                    'limit': 'query',
+                    'offset': 'query',
+                    'status': 'query',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_all_submission_statuses
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_all_submission_statuses" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'eval_id' is set
-        if self.api_client.client_side_validation and ('eval_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['eval_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `eval_id` when calling `get_all_submission_statuses`")  # noqa: E501
+        def __get_all_submissions(
+            self,
+            eval_id,
+            **kwargs
+        ):
+            """Gets a collection of Submissions to a specified Evaluation.  # noqa: E501
 
-        if self.api_client.client_side_validation and 'limit' in local_var_params and local_var_params['limit'] > 100:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `limit` when calling `get_all_submission_statuses`, must be a value less than or equal to `100`")  # noqa: E501
-        if self.api_client.client_side_validation and 'limit' in local_var_params and local_var_params['limit'] < 10:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `limit` when calling `get_all_submission_statuses`, must be a value greater than or equal to `10`")  # noqa: E501
-        collection_formats = {}
+            'Gets a collection of Submissions to a specified Evaluation. <p> <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ_PRIVATE_SUBMISSION</a> on the specified Evaluation. </p>   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'eval_id' in local_var_params:
-            path_params['evalId'] = local_var_params['eval_id']  # noqa: E501
+            >>> thread = api.get_all_submissions(eval_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
-        if 'limit' in local_var_params and local_var_params['limit'] is not None:  # noqa: E501
-            query_params.append(('limit', local_var_params['limit']))  # noqa: E501
-        if 'offset' in local_var_params and local_var_params['offset'] is not None:  # noqa: E501
-            query_params.append(('offset', local_var_params['offset']))  # noqa: E501
-        if 'status' in local_var_params and local_var_params['status'] is not None:  # noqa: E501
-            query_params.append(('status', local_var_params['status']))  # noqa: E501
+            Args:
+                eval_id (str): The ID of the specified Evaluation.
 
-        header_params = {}
+            Keyword Args:
+                limit (int): Limits the number of entities that will be fetched for this page. When null it will default to 10, max value 100. . [optional] if omitted the server will use the default value of 10
+                offset (int): The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0. . [optional] if omitted the server will use the default value of 0
+                status (str): Status of submission.. [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                PaginatedResultsOfSubmission
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['eval_id'] = \
+                eval_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+        self.get_all_submissions = Endpoint(
+            settings={
+                'response_type': (PaginatedResultsOfSubmission,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/evaluation/{evalId}/submission/all',
+                'operation_id': 'get_all_submissions',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'eval_id',
+                    'limit',
+                    'offset',
+                    'status',
+                ],
+                'required': [
+                    'eval_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                    'limit',
+                ]
+            },
+            root_map={
+                'validations': {
+                    ('limit',): {
 
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/evaluation/{evalId}/submission/status/all', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='PaginatedResultsOfSubmissionStatus',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def get_all_submissions(self, eval_id, **kwargs):  # noqa: E501
-        """Gets a collection of Submissions to a specified Evaluation.  # noqa: E501
-
-        'Gets a collection of Submissions to a specified Evaluation. <p> <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ_PRIVATE_SUBMISSION</a> on the specified Evaluation. </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_all_submissions(eval_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param int limit: Limits the number of entities that will be fetched for this page. When null it will default to 10, max value 100. 
-        :param int offset: The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0. 
-        :param str status: Status of submission.
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: PaginatedResultsOfSubmission
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_all_submissions_with_http_info(eval_id, **kwargs)  # noqa: E501
-
-    def get_all_submissions_with_http_info(self, eval_id, **kwargs):  # noqa: E501
-        """Gets a collection of Submissions to a specified Evaluation.  # noqa: E501
-
-        'Gets a collection of Submissions to a specified Evaluation. <p> <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ_PRIVATE_SUBMISSION</a> on the specified Evaluation. </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_all_submissions_with_http_info(eval_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param int limit: Limits the number of entities that will be fetched for this page. When null it will default to 10, max value 100. 
-        :param int offset: The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0. 
-        :param str status: Status of submission.
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(PaginatedResultsOfSubmission, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'eval_id',
-            'limit',
-            'offset',
-            'status'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+                        'inclusive_maximum': 100,
+                        'inclusive_minimum': 10,
+                    },
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'eval_id':
+                        (str,),
+                    'limit':
+                        (int,),
+                    'offset':
+                        (int,),
+                    'status':
+                        (str,),
+                },
+                'attribute_map': {
+                    'eval_id': 'evalId',
+                    'limit': 'limit',
+                    'offset': 'offset',
+                    'status': 'status',
+                },
+                'location_map': {
+                    'eval_id': 'path',
+                    'limit': 'query',
+                    'offset': 'query',
+                    'status': 'query',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_all_submissions
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_all_submissions" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'eval_id' is set
-        if self.api_client.client_side_validation and ('eval_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['eval_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `eval_id` when calling `get_all_submissions`")  # noqa: E501
+        def __get_available_evaluations_paginated(
+            self,
+            **kwargs
+        ):
+            """Gets a collection of Evaluations in which the user has SUBMIT permission, within a given range.   # noqa: E501
 
-        if self.api_client.client_side_validation and 'limit' in local_var_params and local_var_params['limit'] > 100:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `limit` when calling `get_all_submissions`, must be a value less than or equal to `100`")  # noqa: E501
-        if self.api_client.client_side_validation and 'limit' in local_var_params and local_var_params['limit'] < 10:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `limit` when calling `get_all_submissions`, must be a value greater than or equal to `10`")  # noqa: E501
-        collection_formats = {}
+            Gets a collection of Evaluations in which the user has SUBMIT permission, within a given range. <p> <b>Note:</b> The response will contain only those Evaluations on which the caller must is granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.SUBMIT</a> permission. </p>   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'eval_id' in local_var_params:
-            path_params['evalId'] = local_var_params['eval_id']  # noqa: E501
+            >>> thread = api.get_available_evaluations_paginated(async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
-        if 'limit' in local_var_params and local_var_params['limit'] is not None:  # noqa: E501
-            query_params.append(('limit', local_var_params['limit']))  # noqa: E501
-        if 'offset' in local_var_params and local_var_params['offset'] is not None:  # noqa: E501
-            query_params.append(('offset', local_var_params['offset']))  # noqa: E501
-        if 'status' in local_var_params and local_var_params['status'] is not None:  # noqa: E501
-            query_params.append(('status', local_var_params['status']))  # noqa: E501
 
-        header_params = {}
+            Keyword Args:
+                active_only (bool): Retrieve active only evaluation queues. [optional] if omitted the server will use the default value of False
+                evaluation_ids (str): an optional, comma-delimited list of evaluation IDs to which the response is limited . [optional]
+                limit (int): Limits the number of entities that will be fetched for this page. When null it will default to 10.' . [optional] if omitted the server will use the default value of 10
+                offset (int): The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0. . [optional] if omitted the server will use the default value of 0
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                PaginatedResultsOfEvaluation
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+        self.get_available_evaluations_paginated = Endpoint(
+            settings={
+                'response_type': (PaginatedResultsOfEvaluation,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/evaluation/available',
+                'operation_id': 'get_available_evaluations_paginated',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'active_only',
+                    'evaluation_ids',
+                    'limit',
+                    'offset',
+                ],
+                'required': [],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                    'limit',
+                ]
+            },
+            root_map={
+                'validations': {
+                    ('limit',): {
 
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/evaluation/{evalId}/submission/all', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='PaginatedResultsOfSubmission',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def get_available_evaluations_paginated(self, **kwargs):  # noqa: E501
-        """Gets a collection of Evaluations in which the user has SUBMIT permission, within a given range.   # noqa: E501
-
-        Gets a collection of Evaluations in which the user has SUBMIT permission, within a given range. <p> <b>Note:</b> The response will contain only those Evaluations on which the caller must is granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.SUBMIT</a> permission. </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_available_evaluations_paginated(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param bool active_only: Retrieve active only evaluation queues
-        :param str evaluation_ids: an optional, comma-delimited list of evaluation IDs to which the response is limited 
-        :param int limit: Limits the number of entities that will be fetched for this page. When null it will default to 10.' 
-        :param int offset: The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0. 
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: PaginatedResultsOfEvaluation
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_available_evaluations_paginated_with_http_info(**kwargs)  # noqa: E501
-
-    def get_available_evaluations_paginated_with_http_info(self, **kwargs):  # noqa: E501
-        """Gets a collection of Evaluations in which the user has SUBMIT permission, within a given range.   # noqa: E501
-
-        Gets a collection of Evaluations in which the user has SUBMIT permission, within a given range. <p> <b>Note:</b> The response will contain only those Evaluations on which the caller must is granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.SUBMIT</a> permission. </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_available_evaluations_paginated_with_http_info(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param bool active_only: Retrieve active only evaluation queues
-        :param str evaluation_ids: an optional, comma-delimited list of evaluation IDs to which the response is limited 
-        :param int limit: Limits the number of entities that will be fetched for this page. When null it will default to 10.' 
-        :param int offset: The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0. 
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(PaginatedResultsOfEvaluation, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'active_only',
-            'evaluation_ids',
-            'limit',
-            'offset'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+                        'inclusive_maximum': 100,
+                        'inclusive_minimum': 10,
+                    },
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'active_only':
+                        (bool,),
+                    'evaluation_ids':
+                        (str,),
+                    'limit':
+                        (int,),
+                    'offset':
+                        (int,),
+                },
+                'attribute_map': {
+                    'active_only': 'activeOnly',
+                    'evaluation_ids': 'evaluationIds',
+                    'limit': 'limit',
+                    'offset': 'offset',
+                },
+                'location_map': {
+                    'active_only': 'query',
+                    'evaluation_ids': 'query',
+                    'limit': 'query',
+                    'offset': 'query',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_available_evaluations_paginated
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_available_evaluations_paginated" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+        def __get_evaluation(
+            self,
+            eval_id,
+            **kwargs
+        ):
+            """Gets an Evaluation.  # noqa: E501
 
-        if self.api_client.client_side_validation and 'limit' in local_var_params and local_var_params['limit'] > 100:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `limit` when calling `get_available_evaluations_paginated`, must be a value less than or equal to `100`")  # noqa: E501
-        if self.api_client.client_side_validation and 'limit' in local_var_params and local_var_params['limit'] < 10:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `limit` when calling `get_available_evaluations_paginated`, must be a value greater than or equal to `10`")  # noqa: E501
-        collection_formats = {}
+            Gets an Evaluation.   <p>  <b>Note:</b> The caller must be granted the <a  href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\"  >ACCESS_TYPE.READ</a> on the specified Evaluation.  </p>   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
+            >>> thread = api.get_evaluation(eval_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
-        if 'active_only' in local_var_params and local_var_params['active_only'] is not None:  # noqa: E501
-            query_params.append(('activeOnly', local_var_params['active_only']))  # noqa: E501
-        if 'evaluation_ids' in local_var_params and local_var_params['evaluation_ids'] is not None:  # noqa: E501
-            query_params.append(('evaluationIds', local_var_params['evaluation_ids']))  # noqa: E501
-        if 'limit' in local_var_params and local_var_params['limit'] is not None:  # noqa: E501
-            query_params.append(('limit', local_var_params['limit']))  # noqa: E501
-        if 'offset' in local_var_params and local_var_params['offset'] is not None:  # noqa: E501
-            query_params.append(('offset', local_var_params['offset']))  # noqa: E501
+            Args:
+                eval_id (str): The ID of the specified Evaluation.
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                Evaluation
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['eval_id'] = \
+                eval_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/evaluation/available', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='PaginatedResultsOfEvaluation',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def get_evaluation(self, eval_id, **kwargs):  # noqa: E501
-        """Gets an Evaluation.  # noqa: E501
-
-        Gets an Evaluation.   <p>  <b>Note:</b> The caller must be granted the <a  href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\"  >ACCESS_TYPE.READ</a> on the specified Evaluation.  </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_evaluation(eval_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: Evaluation
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_evaluation_with_http_info(eval_id, **kwargs)  # noqa: E501
-
-    def get_evaluation_with_http_info(self, eval_id, **kwargs):  # noqa: E501
-        """Gets an Evaluation.  # noqa: E501
-
-        Gets an Evaluation.   <p>  <b>Note:</b> The caller must be granted the <a  href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\"  >ACCESS_TYPE.READ</a> on the specified Evaluation.  </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_evaluation_with_http_info(eval_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(Evaluation, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'eval_id'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.get_evaluation = Endpoint(
+            settings={
+                'response_type': (Evaluation,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/evaluation/{evalId}',
+                'operation_id': 'get_evaluation',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'eval_id',
+                ],
+                'required': [
+                    'eval_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'eval_id':
+                        (str,),
+                },
+                'attribute_map': {
+                    'eval_id': 'evalId',
+                },
+                'location_map': {
+                    'eval_id': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_evaluation
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_evaluation" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'eval_id' is set
-        if self.api_client.client_side_validation and ('eval_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['eval_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `eval_id` when calling `get_evaluation`")  # noqa: E501
+        def __get_evaluation_round(
+            self,
+            eval_id,
+            round_id,
+            **kwargs
+        ):
+            """Get Evaluation Round  # noqa: E501
 
-        collection_formats = {}
+            Get Evaluation Round  # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'eval_id' in local_var_params:
-            path_params['evalId'] = local_var_params['eval_id']  # noqa: E501
+            >>> thread = api.get_evaluation_round(eval_id, round_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                eval_id (str): The ID of the specified Evaluation.
+                round_id (str): The ID of the evaluation round
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                EvaluationRound
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['eval_id'] = \
+                eval_id
+            kwargs['round_id'] = \
+                round_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/evaluation/{evalId}', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='Evaluation',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def get_evaluation_round(self, eval_id, round_id, **kwargs):  # noqa: E501
-        """Get Evaluation Round  # noqa: E501
-
-        Get Evaluation Round  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_evaluation_round(eval_id, round_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param str round_id: The ID of the evaluation round (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: EvaluationRound
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_evaluation_round_with_http_info(eval_id, round_id, **kwargs)  # noqa: E501
-
-    def get_evaluation_round_with_http_info(self, eval_id, round_id, **kwargs):  # noqa: E501
-        """Get Evaluation Round  # noqa: E501
-
-        Get Evaluation Round  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_evaluation_round_with_http_info(eval_id, round_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param str round_id: The ID of the evaluation round (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(EvaluationRound, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'eval_id',
-            'round_id'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.get_evaluation_round = Endpoint(
+            settings={
+                'response_type': (EvaluationRound,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/evaluation/{evalId}/round/{roundId}',
+                'operation_id': 'get_evaluation_round',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'eval_id',
+                    'round_id',
+                ],
+                'required': [
+                    'eval_id',
+                    'round_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'eval_id':
+                        (str,),
+                    'round_id':
+                        (str,),
+                },
+                'attribute_map': {
+                    'eval_id': 'evalId',
+                    'round_id': 'roundId',
+                },
+                'location_map': {
+                    'eval_id': 'path',
+                    'round_id': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_evaluation_round
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_evaluation_round" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'eval_id' is set
-        if self.api_client.client_side_validation and ('eval_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['eval_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `eval_id` when calling `get_evaluation_round`")  # noqa: E501
-        # verify the required parameter 'round_id' is set
-        if self.api_client.client_side_validation and ('round_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['round_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `round_id` when calling `get_evaluation_round`")  # noqa: E501
+        def __get_evaluations_by_content_source_paginated(
+            self,
+            id,
+            **kwargs
+        ):
+            """Gets Evaluations tied to a project.  # noqa: E501
 
-        collection_formats = {}
+            Gets Evaluations tied to a project. <b>Note:</b> The response will contain only those Evaluations on which the caller is granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a> permission, unless specified otherwise with the accessType parameter.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'eval_id' in local_var_params:
-            path_params['evalId'] = local_var_params['eval_id']  # noqa: E501
-        if 'round_id' in local_var_params:
-            path_params['roundId'] = local_var_params['round_id']  # noqa: E501
+            >>> thread = api.get_evaluations_by_content_source_paginated(id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                id (str): the ID of the project
 
-        header_params = {}
+            Keyword Args:
+                access_type (ACCESSTYPE): The type of access for the user to filter for, optional and defaults to <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a> . [optional]
+                active_only (bool): If 'true' then return only those evaluations with rounds defined and for which the current time is in one of the rounds. . [optional] if omitted the server will use the default value of False
+                evaluation_ids (str): an optional, comma-delimited list of evaluation IDs to which the response is limited . [optional]
+                limit (int): Limits the number of entities that will be fetched for this page. When null it will default to 10. . [optional] if omitted the server will use the default value of 10
+                offset (int): The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0. . [optional] if omitted the server will use the default value of 0
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                PaginatedResultsOfEvaluation
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['id'] = \
+                id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+        self.get_evaluations_by_content_source_paginated = Endpoint(
+            settings={
+                'response_type': (PaginatedResultsOfEvaluation,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/entity/{id}/evaluation',
+                'operation_id': 'get_evaluations_by_content_source_paginated',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'id',
+                    'access_type',
+                    'active_only',
+                    'evaluation_ids',
+                    'limit',
+                    'offset',
+                ],
+                'required': [
+                    'id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                    'limit',
+                    'offset',
+                ]
+            },
+            root_map={
+                'validations': {
+                    ('limit',): {
 
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+                        'inclusive_minimum': 0,
+                    },
+                    ('offset',): {
 
-        return self.api_client.call_api(
-            '/evaluation/{evalId}/round/{roundId}', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='EvaluationRound',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def get_evaluations_by_content_source_paginated(self, id, **kwargs):  # noqa: E501
-        """Gets Evaluations tied to a project.  # noqa: E501
-
-        Gets Evaluations tied to a project. <b>Note:</b> The response will contain only those Evaluations on which the caller is granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a> permission, unless specified otherwise with the accessType parameter.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_evaluations_by_content_source_paginated(id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str id: the ID of the project (required)
-        :param ACCESSTYPE access_type: The type of access for the user to filter for, optional and defaults to <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a> 
-        :param bool active_only: If 'true' then return only those evaluations with rounds defined and for which the current time is in one of the rounds. 
-        :param str evaluation_ids: an optional, comma-delimited list of evaluation IDs to which the response is limited 
-        :param int limit: Limits the number of entities that will be fetched for this page. When null it will default to 10. 
-        :param int offset: The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0. 
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: PaginatedResultsOfEvaluation
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_evaluations_by_content_source_paginated_with_http_info(id, **kwargs)  # noqa: E501
-
-    def get_evaluations_by_content_source_paginated_with_http_info(self, id, **kwargs):  # noqa: E501
-        """Gets Evaluations tied to a project.  # noqa: E501
-
-        Gets Evaluations tied to a project. <b>Note:</b> The response will contain only those Evaluations on which the caller is granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a> permission, unless specified otherwise with the accessType parameter.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_evaluations_by_content_source_paginated_with_http_info(id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str id: the ID of the project (required)
-        :param ACCESSTYPE access_type: The type of access for the user to filter for, optional and defaults to <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a> 
-        :param bool active_only: If 'true' then return only those evaluations with rounds defined and for which the current time is in one of the rounds. 
-        :param str evaluation_ids: an optional, comma-delimited list of evaluation IDs to which the response is limited 
-        :param int limit: Limits the number of entities that will be fetched for this page. When null it will default to 10. 
-        :param int offset: The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0. 
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(PaginatedResultsOfEvaluation, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'id',
-            'access_type',
-            'active_only',
-            'evaluation_ids',
-            'limit',
-            'offset'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+                        'inclusive_minimum': 0,
+                    },
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'id':
+                        (str,),
+                    'access_type':
+                        (ACCESSTYPE,),
+                    'active_only':
+                        (bool,),
+                    'evaluation_ids':
+                        (str,),
+                    'limit':
+                        (int,),
+                    'offset':
+                        (int,),
+                },
+                'attribute_map': {
+                    'id': 'id',
+                    'access_type': 'accessType',
+                    'active_only': 'activeOnly',
+                    'evaluation_ids': 'evaluationIds',
+                    'limit': 'limit',
+                    'offset': 'offset',
+                },
+                'location_map': {
+                    'id': 'path',
+                    'access_type': 'query',
+                    'active_only': 'query',
+                    'evaluation_ids': 'query',
+                    'limit': 'query',
+                    'offset': 'query',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_evaluations_by_content_source_paginated
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_evaluations_by_content_source_paginated" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'id' is set
-        if self.api_client.client_side_validation and ('id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `id` when calling `get_evaluations_by_content_source_paginated`")  # noqa: E501
+        def __get_evaluations_paginated(
+            self,
+            **kwargs
+        ):
+            """Gets a collection of Evaluations, within a given range.  # noqa: E501
 
-        if self.api_client.client_side_validation and 'limit' in local_var_params and local_var_params['limit'] < 0:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `limit` when calling `get_evaluations_by_content_source_paginated`, must be a value greater than or equal to `0`")  # noqa: E501
-        if self.api_client.client_side_validation and 'offset' in local_var_params and local_var_params['offset'] < 0:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `offset` when calling `get_evaluations_by_content_source_paginated`, must be a value greater than or equal to `0`")  # noqa: E501
-        collection_formats = {}
+            Gets a collection of Evaluations, within a given range.  <p>  <b>Note:</b> The response will contain only those Evaluations on which the caller is  granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a>  permission, unless specified otherwise with the accessType parameter.  </p>   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'id' in local_var_params:
-            path_params['id'] = local_var_params['id']  # noqa: E501
+            >>> thread = api.get_evaluations_paginated(async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
-        if 'access_type' in local_var_params and local_var_params['access_type'] is not None:  # noqa: E501
-            query_params.append(('accessType', local_var_params['access_type']))  # noqa: E501
-        if 'active_only' in local_var_params and local_var_params['active_only'] is not None:  # noqa: E501
-            query_params.append(('activeOnly', local_var_params['active_only']))  # noqa: E501
-        if 'evaluation_ids' in local_var_params and local_var_params['evaluation_ids'] is not None:  # noqa: E501
-            query_params.append(('evaluationIds', local_var_params['evaluation_ids']))  # noqa: E501
-        if 'limit' in local_var_params and local_var_params['limit'] is not None:  # noqa: E501
-            query_params.append(('limit', local_var_params['limit']))  # noqa: E501
-        if 'offset' in local_var_params and local_var_params['offset'] is not None:  # noqa: E501
-            query_params.append(('offset', local_var_params['offset']))  # noqa: E501
 
-        header_params = {}
+            Keyword Args:
+                access_type (str): The type of access for the user to filter for, optional and defaults to <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a> . [optional] if omitted the server will use the default value of "READ"
+                active_only (bool): If 'true' then return only those evaluations with rounds defined and for which the current time is in one of the rounds. . [optional] if omitted the server will use the default value of False
+                evaluation_ids (str): an optional, comma-delimited list of evaluation IDs to which the response is limited . [optional]
+                limit (int): Maximum number of results returned. [optional] if omitted the server will use the default value of 10
+                offset (int): The index of the pagination offset. For a page size of 10, the first page would be at offset = 0, and the second page would be at offset = 10. . [optional] if omitted the server will use the default value of 0
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                PaginatedResultsOfEvaluation
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+        self.get_evaluations_paginated = Endpoint(
+            settings={
+                'response_type': (PaginatedResultsOfEvaluation,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/evaluation',
+                'operation_id': 'get_evaluations_paginated',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'access_type',
+                    'active_only',
+                    'evaluation_ids',
+                    'limit',
+                    'offset',
+                ],
+                'required': [],
+                'nullable': [
+                ],
+                'enum': [
+                    'access_type',
+                ],
+                'validation': [
+                    'limit',
+                    'offset',
+                ]
+            },
+            root_map={
+                'validations': {
+                    ('limit',): {
 
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+                        'inclusive_maximum': 100,
+                        'inclusive_minimum': 10,
+                    },
+                    ('offset',): {
 
-        return self.api_client.call_api(
-            '/entity/{id}/evaluation', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='PaginatedResultsOfEvaluation',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+                        'inclusive_minimum': 0,
+                    },
+                },
+                'allowed_values': {
+                    ('access_type',): {
 
-    def get_evaluations_paginated(self, **kwargs):  # noqa: E501
-        """Gets a collection of Evaluations, within a given range.  # noqa: E501
-
-        Gets a collection of Evaluations, within a given range.  <p>  <b>Note:</b> The response will contain only those Evaluations on which the caller is  granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a>  permission, unless specified otherwise with the accessType parameter.  </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_evaluations_paginated(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str access_type: The type of access for the user to filter for, optional and defaults to <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a> 
-        :param bool active_only: If 'true' then return only those evaluations with rounds defined and for which the current time is in one of the rounds. 
-        :param str evaluation_ids: an optional, comma-delimited list of evaluation IDs to which the response is limited 
-        :param int limit: Maximum number of results returned
-        :param int offset: The index of the pagination offset. For a page size of 10, the first page would be at offset = 0, and the second page would be at offset = 10. 
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: PaginatedResultsOfEvaluation
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_evaluations_paginated_with_http_info(**kwargs)  # noqa: E501
-
-    def get_evaluations_paginated_with_http_info(self, **kwargs):  # noqa: E501
-        """Gets a collection of Evaluations, within a given range.  # noqa: E501
-
-        Gets a collection of Evaluations, within a given range.  <p>  <b>Note:</b> The response will contain only those Evaluations on which the caller is  granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a>  permission, unless specified otherwise with the accessType parameter.  </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_evaluations_paginated_with_http_info(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str access_type: The type of access for the user to filter for, optional and defaults to <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a> 
-        :param bool active_only: If 'true' then return only those evaluations with rounds defined and for which the current time is in one of the rounds. 
-        :param str evaluation_ids: an optional, comma-delimited list of evaluation IDs to which the response is limited 
-        :param int limit: Maximum number of results returned
-        :param int offset: The index of the pagination offset. For a page size of 10, the first page would be at offset = 0, and the second page would be at offset = 10. 
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(PaginatedResultsOfEvaluation, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'access_type',
-            'active_only',
-            'evaluation_ids',
-            'limit',
-            'offset'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+                        "CHANGE_PERMISSIONS": "CHANGE_PERMISSIONS",
+                        "CHANGE_SETTINGS": "CHANGE_SETTINGS",
+                        "CREATE": "CREATE",
+                        "DELETE": "DELETE",
+                        "DELETE_SUBMISSION": "DELETE_SUBMISSION",
+                        "DOWNLOAD": "DOWNLOAD",
+                        "MODERATE": "MODERATE",
+                        "PARTICIPATE": "PARTICIPATE",
+                        "READ": "READ",
+                        "READ_PRIVATE_SUBMISSION": "READ_PRIVATE_SUBMISSION",
+                        "SEND_MESSAGE": "SEND_MESSAGE",
+                        "SUBMIT": "SUBMIT",
+                        "TEAM_MEMBERSHIP_UPDATE": "TEAM_MEMBERSHIP_UPDATE",
+                        "UPDATE": "UPDATE",
+                        "UPDATE_SUBMISSION": "UPDATE_SUBMISSION",
+                        "UPLOAD": "UPLOAD"
+                    },
+                },
+                'openapi_types': {
+                    'access_type':
+                        (str,),
+                    'active_only':
+                        (bool,),
+                    'evaluation_ids':
+                        (str,),
+                    'limit':
+                        (int,),
+                    'offset':
+                        (int,),
+                },
+                'attribute_map': {
+                    'access_type': 'accessType',
+                    'active_only': 'activeOnly',
+                    'evaluation_ids': 'evaluationIds',
+                    'limit': 'limit',
+                    'offset': 'offset',
+                },
+                'location_map': {
+                    'access_type': 'query',
+                    'active_only': 'query',
+                    'evaluation_ids': 'query',
+                    'limit': 'query',
+                    'offset': 'query',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_evaluations_paginated
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_evaluations_paginated" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+        def __get_my_submission_bundles(
+            self,
+            eval_id,
+            **kwargs
+        ):
+            """Gets the requesting users bundled Submissions and SubmissionStatuses to a specified Evaluation.'   # noqa: E501
 
-        if self.api_client.client_side_validation and 'limit' in local_var_params and local_var_params['limit'] > 100:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `limit` when calling `get_evaluations_paginated`, must be a value less than or equal to `100`")  # noqa: E501
-        if self.api_client.client_side_validation and 'limit' in local_var_params and local_var_params['limit'] < 10:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `limit` when calling `get_evaluations_paginated`, must be a value greater than or equal to `10`")  # noqa: E501
-        if self.api_client.client_side_validation and 'offset' in local_var_params and local_var_params['offset'] < 0:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `offset` when calling `get_evaluations_paginated`, must be a value greater than or equal to `0`")  # noqa: E501
-        collection_formats = {}
+            Gets the requesting user's bundled Submissions and SubmissionStatuses to a specified Evaluation.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
+            >>> thread = api.get_my_submission_bundles(eval_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
-        if 'access_type' in local_var_params and local_var_params['access_type'] is not None:  # noqa: E501
-            query_params.append(('accessType', local_var_params['access_type']))  # noqa: E501
-        if 'active_only' in local_var_params and local_var_params['active_only'] is not None:  # noqa: E501
-            query_params.append(('activeOnly', local_var_params['active_only']))  # noqa: E501
-        if 'evaluation_ids' in local_var_params and local_var_params['evaluation_ids'] is not None:  # noqa: E501
-            query_params.append(('evaluationIds', local_var_params['evaluation_ids']))  # noqa: E501
-        if 'limit' in local_var_params and local_var_params['limit'] is not None:  # noqa: E501
-            query_params.append(('limit', local_var_params['limit']))  # noqa: E501
-        if 'offset' in local_var_params and local_var_params['offset'] is not None:  # noqa: E501
-            query_params.append(('offset', local_var_params['offset']))  # noqa: E501
+            Args:
+                eval_id (str): The ID of the specified Evaluation.
 
-        header_params = {}
+            Keyword Args:
+                limit (int): Limits the number of entities that will be fetched for this page. When null it will default to 10.' . [optional] if omitted the server will use the default value of 10
+                offset (int): The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0. . [optional] if omitted the server will use the default value of 0
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                PaginatedResultsOfSubmissionBundle
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['eval_id'] = \
+                eval_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+        self.get_my_submission_bundles = Endpoint(
+            settings={
+                'response_type': (PaginatedResultsOfSubmissionBundle,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/evaluation/{evalId}/submission/bundle',
+                'operation_id': 'get_my_submission_bundles',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'eval_id',
+                    'limit',
+                    'offset',
+                ],
+                'required': [
+                    'eval_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                    'limit',
+                ]
+            },
+            root_map={
+                'validations': {
+                    ('limit',): {
 
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/evaluation', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='PaginatedResultsOfEvaluation',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def get_my_submission_bundles(self, eval_id, **kwargs):  # noqa: E501
-        """Gets the requesting users bundled Submissions and SubmissionStatuses to a specified Evaluation.'   # noqa: E501
-
-        Gets the requesting user's bundled Submissions and SubmissionStatuses to a specified Evaluation.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_my_submission_bundles(eval_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param int limit: Limits the number of entities that will be fetched for this page. When null it will default to 10.' 
-        :param int offset: The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0. 
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: PaginatedResultsOfSubmissionBundle
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_my_submission_bundles_with_http_info(eval_id, **kwargs)  # noqa: E501
-
-    def get_my_submission_bundles_with_http_info(self, eval_id, **kwargs):  # noqa: E501
-        """Gets the requesting users bundled Submissions and SubmissionStatuses to a specified Evaluation.'   # noqa: E501
-
-        Gets the requesting user's bundled Submissions and SubmissionStatuses to a specified Evaluation.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_my_submission_bundles_with_http_info(eval_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param int limit: Limits the number of entities that will be fetched for this page. When null it will default to 10.' 
-        :param int offset: The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0. 
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(PaginatedResultsOfSubmissionBundle, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'eval_id',
-            'limit',
-            'offset'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+                        'inclusive_maximum': 100,
+                        'inclusive_minimum': 10,
+                    },
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'eval_id':
+                        (str,),
+                    'limit':
+                        (int,),
+                    'offset':
+                        (int,),
+                },
+                'attribute_map': {
+                    'eval_id': 'evalId',
+                    'limit': 'limit',
+                    'offset': 'offset',
+                },
+                'location_map': {
+                    'eval_id': 'path',
+                    'limit': 'query',
+                    'offset': 'query',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_my_submission_bundles
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_my_submission_bundles" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'eval_id' is set
-        if self.api_client.client_side_validation and ('eval_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['eval_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `eval_id` when calling `get_my_submission_bundles`")  # noqa: E501
+        def __get_my_submissions(
+            self,
+            eval_id,
+            **kwargs
+        ):
+            """Gets the requesting user's Submissions to a specified Evaluation.  # noqa: E501
 
-        if self.api_client.client_side_validation and 'limit' in local_var_params and local_var_params['limit'] > 100:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `limit` when calling `get_my_submission_bundles`, must be a value less than or equal to `100`")  # noqa: E501
-        if self.api_client.client_side_validation and 'limit' in local_var_params and local_var_params['limit'] < 10:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `limit` when calling `get_my_submission_bundles`, must be a value greater than or equal to `10`")  # noqa: E501
-        collection_formats = {}
+            Gets the requesting user's Submissions to a specified Evaluation.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'eval_id' in local_var_params:
-            path_params['evalId'] = local_var_params['eval_id']  # noqa: E501
+            >>> thread = api.get_my_submissions(eval_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
-        if 'limit' in local_var_params and local_var_params['limit'] is not None:  # noqa: E501
-            query_params.append(('limit', local_var_params['limit']))  # noqa: E501
-        if 'offset' in local_var_params and local_var_params['offset'] is not None:  # noqa: E501
-            query_params.append(('offset', local_var_params['offset']))  # noqa: E501
+            Args:
+                eval_id (str): The ID of the specified Evaluation.
 
-        header_params = {}
+            Keyword Args:
+                limit (int): Limits the number of entities that will be fetched for this page. When null it will default to 10.. [optional] if omitted the server will use the default value of 10
+                offset (int): The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.' . [optional] if omitted the server will use the default value of 0
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                PaginatedResultsOfSubmission
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['eval_id'] = \
+                eval_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+        self.get_my_submissions = Endpoint(
+            settings={
+                'response_type': (PaginatedResultsOfSubmission,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/evaluation/{evalId}/submission',
+                'operation_id': 'get_my_submissions',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'eval_id',
+                    'limit',
+                    'offset',
+                ],
+                'required': [
+                    'eval_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                    'limit',
+                    'offset',
+                ]
+            },
+            root_map={
+                'validations': {
+                    ('limit',): {
 
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+                        'inclusive_maximum': 100,
+                        'inclusive_minimum': 10,
+                    },
+                    ('offset',): {
 
-        return self.api_client.call_api(
-            '/evaluation/{evalId}/submission/bundle', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='PaginatedResultsOfSubmissionBundle',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def get_my_submissions(self, eval_id, **kwargs):  # noqa: E501
-        """Gets the requesting user's Submissions to a specified Evaluation.  # noqa: E501
-
-        Gets the requesting user's Submissions to a specified Evaluation.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_my_submissions(eval_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param int limit: Limits the number of entities that will be fetched for this page. When null it will default to 10.
-        :param int offset: The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.' 
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: PaginatedResultsOfSubmission
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_my_submissions_with_http_info(eval_id, **kwargs)  # noqa: E501
-
-    def get_my_submissions_with_http_info(self, eval_id, **kwargs):  # noqa: E501
-        """Gets the requesting user's Submissions to a specified Evaluation.  # noqa: E501
-
-        Gets the requesting user's Submissions to a specified Evaluation.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_my_submissions_with_http_info(eval_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param int limit: Limits the number of entities that will be fetched for this page. When null it will default to 10.
-        :param int offset: The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.' 
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(PaginatedResultsOfSubmission, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'eval_id',
-            'limit',
-            'offset'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+                        'inclusive_minimum': 0,
+                    },
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'eval_id':
+                        (str,),
+                    'limit':
+                        (int,),
+                    'offset':
+                        (int,),
+                },
+                'attribute_map': {
+                    'eval_id': 'evalId',
+                    'limit': 'limit',
+                    'offset': 'offset',
+                },
+                'location_map': {
+                    'eval_id': 'path',
+                    'limit': 'query',
+                    'offset': 'query',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_my_submissions
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_my_submissions" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'eval_id' is set
-        if self.api_client.client_side_validation and ('eval_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['eval_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `eval_id` when calling `get_my_submissions`")  # noqa: E501
+        def __get_submission(
+            self,
+            sub_id,
+            **kwargs
+        ):
+            """Gets a Submission.  # noqa: E501
 
-        if self.api_client.client_side_validation and 'limit' in local_var_params and local_var_params['limit'] > 100:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `limit` when calling `get_my_submissions`, must be a value less than or equal to `100`")  # noqa: E501
-        if self.api_client.client_side_validation and 'limit' in local_var_params and local_var_params['limit'] < 10:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `limit` when calling `get_my_submissions`, must be a value greater than or equal to `10`")  # noqa: E501
-        if self.api_client.client_side_validation and 'offset' in local_var_params and local_var_params['offset'] < 0:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `offset` when calling `get_my_submissions`, must be a value greater than or equal to `0`")  # noqa: E501
-        collection_formats = {}
+            Gets a Submission.  <p>  <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ_PRIVATE_SUBMISSION</a> on the specified Evaluation.  </p>   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'eval_id' in local_var_params:
-            path_params['evalId'] = local_var_params['eval_id']  # noqa: E501
+            >>> thread = api.get_submission(sub_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
-        if 'limit' in local_var_params and local_var_params['limit'] is not None:  # noqa: E501
-            query_params.append(('limit', local_var_params['limit']))  # noqa: E501
-        if 'offset' in local_var_params and local_var_params['offset'] is not None:  # noqa: E501
-            query_params.append(('offset', local_var_params['offset']))  # noqa: E501
+            Args:
+                sub_id (str): The ID of the Submission
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                SubmissionModel
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['sub_id'] = \
+                sub_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/evaluation/{evalId}/submission', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='PaginatedResultsOfSubmission',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def get_submission(self, sub_id, **kwargs):  # noqa: E501
-        """Gets a Submission.  # noqa: E501
-
-        Gets a Submission.  <p>  <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ_PRIVATE_SUBMISSION</a> on the specified Evaluation.  </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_submission(sub_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str sub_id: The ID of the Submission (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: SubmissionModel
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_submission_with_http_info(sub_id, **kwargs)  # noqa: E501
-
-    def get_submission_with_http_info(self, sub_id, **kwargs):  # noqa: E501
-        """Gets a Submission.  # noqa: E501
-
-        Gets a Submission.  <p>  <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ_PRIVATE_SUBMISSION</a> on the specified Evaluation.  </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_submission_with_http_info(sub_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str sub_id: The ID of the Submission (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(SubmissionModel, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'sub_id'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.get_submission = Endpoint(
+            settings={
+                'response_type': (SubmissionModel,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/evaluation/submission/{subId}',
+                'operation_id': 'get_submission',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'sub_id',
+                ],
+                'required': [
+                    'sub_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'sub_id':
+                        (str,),
+                },
+                'attribute_map': {
+                    'sub_id': 'subId',
+                },
+                'location_map': {
+                    'sub_id': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_submission
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_submission" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'sub_id' is set
-        if self.api_client.client_side_validation and ('sub_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['sub_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `sub_id` when calling `get_submission`")  # noqa: E501
+        def __get_submission_count(
+            self,
+            eval_id,
+            **kwargs
+        ):
+            """Gets the number of Submissions to a specified Evaluation.  # noqa: E501
 
-        collection_formats = {}
+            Gets the number of Submissions to a specified Evaluation. <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ_PRIVATE_SUBMISSION</a> on the specified Evaluation. </p>   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'sub_id' in local_var_params:
-            path_params['subId'] = local_var_params['sub_id']  # noqa: E501
+            >>> thread = api.get_submission_count(eval_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                eval_id (str): The ID of the specified Evaluation.
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                int
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['eval_id'] = \
+                eval_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/evaluation/submission/{subId}', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='SubmissionModel',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def get_submission_count(self, eval_id, **kwargs):  # noqa: E501
-        """Gets the number of Submissions to a specified Evaluation.  # noqa: E501
-
-        Gets the number of Submissions to a specified Evaluation. <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ_PRIVATE_SUBMISSION</a> on the specified Evaluation. </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_submission_count(eval_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: int
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_submission_count_with_http_info(eval_id, **kwargs)  # noqa: E501
-
-    def get_submission_count_with_http_info(self, eval_id, **kwargs):  # noqa: E501
-        """Gets the number of Submissions to a specified Evaluation.  # noqa: E501
-
-        Gets the number of Submissions to a specified Evaluation. <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ_PRIVATE_SUBMISSION</a> on the specified Evaluation. </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_submission_count_with_http_info(eval_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(int, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'eval_id'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.get_submission_count = Endpoint(
+            settings={
+                'response_type': (int,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/evaluation/{evalId}/submission/count',
+                'operation_id': 'get_submission_count',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'eval_id',
+                ],
+                'required': [
+                    'eval_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'eval_id':
+                        (str,),
+                },
+                'attribute_map': {
+                    'eval_id': 'evalId',
+                },
+                'location_map': {
+                    'eval_id': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_submission_count
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_submission_count" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'eval_id' is set
-        if self.api_client.client_side_validation and ('eval_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['eval_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `eval_id` when calling `get_submission_count`")  # noqa: E501
+        def __get_submission_status(
+            self,
+            sub_id,
+            **kwargs
+        ):
+            """Gets the SubmissionStatus object associated with a specified Submission.  # noqa: E501
 
-        collection_formats = {}
+            Gets the SubmissionStatus object associated with a specified Submission. <p> <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a> on the specified Evaluation. Furthermore, the caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ_PRIVATE_SUBMISSION</a> to see all data marked as \"private\" in the SubmissionStatus.   <b>Service Limits</b>  <table border=\"1\">  <tr>  <th>resource</th>  <th>limit</th>  </tr>  <tr>  <td>The maximum frequency this method can be called</td>  <td>1 calls per second</td>  </tr>  </table>  </p>   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'eval_id' in local_var_params:
-            path_params['evalId'] = local_var_params['eval_id']  # noqa: E501
+            >>> thread = api.get_submission_status(sub_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                sub_id (str): The ID of the Submission
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                SubmissionStatusModel
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['sub_id'] = \
+                sub_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/evaluation/{evalId}/submission/count', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='int',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def get_submission_status(self, sub_id, **kwargs):  # noqa: E501
-        """Gets the SubmissionStatus object associated with a specified Submission.  # noqa: E501
-
-        Gets the SubmissionStatus object associated with a specified Submission. <p> <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a> on the specified Evaluation. Furthermore, the caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ_PRIVATE_SUBMISSION</a> to see all data marked as \"private\" in the SubmissionStatus.   <b>Service Limits</b>  <table border=\"1\">  <tr>  <th>resource</th>  <th>limit</th>  </tr>  <tr>  <td>The maximum frequency this method can be called</td>  <td>1 calls per second</td>  </tr>  </table>  </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_submission_status(sub_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str sub_id: The ID of the Submission (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: SubmissionStatusModel
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_submission_status_with_http_info(sub_id, **kwargs)  # noqa: E501
-
-    def get_submission_status_with_http_info(self, sub_id, **kwargs):  # noqa: E501
-        """Gets the SubmissionStatus object associated with a specified Submission.  # noqa: E501
-
-        Gets the SubmissionStatus object associated with a specified Submission. <p> <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a> on the specified Evaluation. Furthermore, the caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ_PRIVATE_SUBMISSION</a> to see all data marked as \"private\" in the SubmissionStatus.   <b>Service Limits</b>  <table border=\"1\">  <tr>  <th>resource</th>  <th>limit</th>  </tr>  <tr>  <td>The maximum frequency this method can be called</td>  <td>1 calls per second</td>  </tr>  </table>  </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_submission_status_with_http_info(sub_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str sub_id: The ID of the Submission (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(SubmissionStatusModel, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'sub_id'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.get_submission_status = Endpoint(
+            settings={
+                'response_type': (SubmissionStatusModel,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/evaluation/submission/{subId}/status',
+                'operation_id': 'get_submission_status',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'sub_id',
+                ],
+                'required': [
+                    'sub_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'sub_id':
+                        (str,),
+                },
+                'attribute_map': {
+                    'sub_id': 'subId',
+                },
+                'location_map': {
+                    'sub_id': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_submission_status
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_submission_status" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'sub_id' is set
-        if self.api_client.client_side_validation and ('sub_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['sub_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `sub_id` when calling `get_submission_status`")  # noqa: E501
+        def __get_team_submission_eligibility(
+            self,
+            eval_id,
+            id,
+            **kwargs
+        ):
+            """Find out whether a Team and its members are eligible to submit to a given Evaluation queue (at the current time).'   # noqa: E501
 
-        collection_formats = {}
+            Find out whether a Team and its members are eligible to submit to a given Evaluation queue (at the current time).  The request must include an Evaluation ID and a Team ID.   The 'eligibilityStateHash' field of the returned object is a required parameter of the subsequent Team Submission request made for the given Evaluation and Team. (See: <a href=\"${POST.evaluation.submission}\">POST/evaluation/submission</a>)'   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'sub_id' in local_var_params:
-            path_params['subId'] = local_var_params['sub_id']  # noqa: E501
+            >>> thread = api.get_team_submission_eligibility(eval_id, id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                eval_id (str): The ID of the specified Evaluation.
+                id (str): The ID of a Team.
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                TeamSubmissionEligibility
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['eval_id'] = \
+                eval_id
+            kwargs['id'] = \
+                id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/evaluation/submission/{subId}/status', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='SubmissionStatusModel',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def get_team_submission_eligibility(self, eval_id, id, **kwargs):  # noqa: E501
-        """Find out whether a Team and its members are eligible to submit to a given Evaluation queue (at the current time).'   # noqa: E501
-
-        Find out whether a Team and its members are eligible to submit to a given Evaluation queue (at the current time).  The request must include an Evaluation ID and a Team ID.   The 'eligibilityStateHash' field of the returned object is a required parameter of the subsequent Team Submission request made for the given Evaluation and Team. (See: <a href=\"${POST.evaluation.submission}\">POST/evaluation/submission</a>)'   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_team_submission_eligibility(eval_id, id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param str id: The ID of a Team. (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: TeamSubmissionEligibility
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_team_submission_eligibility_with_http_info(eval_id, id, **kwargs)  # noqa: E501
-
-    def get_team_submission_eligibility_with_http_info(self, eval_id, id, **kwargs):  # noqa: E501
-        """Find out whether a Team and its members are eligible to submit to a given Evaluation queue (at the current time).'   # noqa: E501
-
-        Find out whether a Team and its members are eligible to submit to a given Evaluation queue (at the current time).  The request must include an Evaluation ID and a Team ID.   The 'eligibilityStateHash' field of the returned object is a required parameter of the subsequent Team Submission request made for the given Evaluation and Team. (See: <a href=\"${POST.evaluation.submission}\">POST/evaluation/submission</a>)'   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_team_submission_eligibility_with_http_info(eval_id, id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param str id: The ID of a Team. (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(TeamSubmissionEligibility, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'eval_id',
-            'id'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.get_team_submission_eligibility = Endpoint(
+            settings={
+                'response_type': (TeamSubmissionEligibility,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/evaluation/{evalId}/team/{id}/SubmissionEligibility',
+                'operation_id': 'get_team_submission_eligibility',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'eval_id',
+                    'id',
+                ],
+                'required': [
+                    'eval_id',
+                    'id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'eval_id':
+                        (str,),
+                    'id':
+                        (str,),
+                },
+                'attribute_map': {
+                    'eval_id': 'evalId',
+                    'id': 'id',
+                },
+                'location_map': {
+                    'eval_id': 'path',
+                    'id': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_team_submission_eligibility
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_team_submission_eligibility" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'eval_id' is set
-        if self.api_client.client_side_validation and ('eval_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['eval_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `eval_id` when calling `get_team_submission_eligibility`")  # noqa: E501
-        # verify the required parameter 'id' is set
-        if self.api_client.client_side_validation and ('id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `id` when calling `get_team_submission_eligibility`")  # noqa: E501
+        def __has_access2(
+            self,
+            eval_id,
+            access_type,
+            **kwargs
+        ):
+            """Determines whether a specified Synapse user has a certain access type on evaluation.  # noqa: E501
 
-        collection_formats = {}
+            Determines whether the logged in user has a certain <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE</a> on the specified Evaluation.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'eval_id' in local_var_params:
-            path_params['evalId'] = local_var_params['eval_id']  # noqa: E501
-        if 'id' in local_var_params:
-            path_params['id'] = local_var_params['id']  # noqa: E501
+            >>> thread = api.has_access2(eval_id, access_type, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                eval_id (str): The ID of the specified Evaluation.
+                access_type (str): Synapse access type
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                BooleanResult
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['eval_id'] = \
+                eval_id
+            kwargs['access_type'] = \
+                access_type
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/evaluation/{evalId}/team/{id}/SubmissionEligibility', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='TeamSubmissionEligibility',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def has_access2(self, eval_id, access_type, **kwargs):  # noqa: E501
-        """Determines whether a specified Synapse user has a certain access type on evaluation.  # noqa: E501
-
-        Determines whether the logged in user has a certain <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE</a> on the specified Evaluation.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.has_access2(eval_id, access_type, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param str access_type: Synapse access type (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: BooleanResult
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.has_access2_with_http_info(eval_id, access_type, **kwargs)  # noqa: E501
-
-    def has_access2_with_http_info(self, eval_id, access_type, **kwargs):  # noqa: E501
-        """Determines whether a specified Synapse user has a certain access type on evaluation.  # noqa: E501
-
-        Determines whether the logged in user has a certain <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE</a> on the specified Evaluation.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.has_access2_with_http_info(eval_id, access_type, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param str access_type: Synapse access type (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(BooleanResult, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'eval_id',
-            'access_type'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.has_access2 = Endpoint(
+            settings={
+                'response_type': (BooleanResult,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/evaluation/{evalId}/access',
+                'operation_id': 'has_access2',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'eval_id',
+                    'access_type',
+                ],
+                'required': [
+                    'eval_id',
+                    'access_type',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'eval_id':
+                        (str,),
+                    'access_type':
+                        (str,),
+                },
+                'attribute_map': {
+                    'eval_id': 'evalId',
+                    'access_type': 'accessType',
+                },
+                'location_map': {
+                    'eval_id': 'path',
+                    'access_type': 'query',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__has_access2
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method has_access2" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'eval_id' is set
-        if self.api_client.client_side_validation and ('eval_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['eval_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `eval_id` when calling `has_access2`")  # noqa: E501
-        # verify the required parameter 'access_type' is set
-        if self.api_client.client_side_validation and ('access_type' not in local_var_params or  # noqa: E501
-                                                        local_var_params['access_type'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `access_type` when calling `has_access2`")  # noqa: E501
+        def __redirect_url_for_file_handle(
+            self,
+            file_handle_id,
+            sub_id,
+            **kwargs
+        ):
+            """Gets a pre-signed URL to access a requested File contained within a specified Submission.   # noqa: E501
 
-        collection_formats = {}
+            Gets a pre-signed URL to access a requested File contained within a specified Submission. <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ_PRIVATE_SUBMISSION</a> on the specified Evaluation. </p>   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'eval_id' in local_var_params:
-            path_params['evalId'] = local_var_params['eval_id']  # noqa: E501
+            >>> thread = api.redirect_url_for_file_handle(file_handle_id, sub_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
-        if 'access_type' in local_var_params and local_var_params['access_type'] is not None:  # noqa: E501
-            query_params.append(('accessType', local_var_params['access_type']))  # noqa: E501
+            Args:
+                file_handle_id (str): the ID of the requested FileHandle contained in the Submission.
+                sub_id (str): The ID of the Submission
 
-        header_params = {}
+            Keyword Args:
+                redirect (bool): To redirect. [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                str
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['file_handle_id'] = \
+                file_handle_id
+            kwargs['sub_id'] = \
+                sub_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/evaluation/{evalId}/access', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='BooleanResult',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def redirect_url_for_file_handle(self, file_handle_id, sub_id, **kwargs):  # noqa: E501
-        """Gets a pre-signed URL to access a requested File contained within a specified Submission.   # noqa: E501
-
-        Gets a pre-signed URL to access a requested File contained within a specified Submission. <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ_PRIVATE_SUBMISSION</a> on the specified Evaluation. </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.redirect_url_for_file_handle(file_handle_id, sub_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str file_handle_id: the ID of the requested FileHandle contained in the Submission. (required)
-        :param str sub_id: The ID of the Submission (required)
-        :param bool redirect: To redirect
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: str
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.redirect_url_for_file_handle_with_http_info(file_handle_id, sub_id, **kwargs)  # noqa: E501
-
-    def redirect_url_for_file_handle_with_http_info(self, file_handle_id, sub_id, **kwargs):  # noqa: E501
-        """Gets a pre-signed URL to access a requested File contained within a specified Submission.   # noqa: E501
-
-        Gets a pre-signed URL to access a requested File contained within a specified Submission. <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ_PRIVATE_SUBMISSION</a> on the specified Evaluation. </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.redirect_url_for_file_handle_with_http_info(file_handle_id, sub_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str file_handle_id: the ID of the requested FileHandle contained in the Submission. (required)
-        :param str sub_id: The ID of the Submission (required)
-        :param bool redirect: To redirect
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(str, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'file_handle_id',
-            'sub_id',
-            'redirect'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.redirect_url_for_file_handle = Endpoint(
+            settings={
+                'response_type': (str,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/evaluation/submission/{subId}/file/{fileHandleId}',
+                'operation_id': 'redirect_url_for_file_handle',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'file_handle_id',
+                    'sub_id',
+                    'redirect',
+                ],
+                'required': [
+                    'file_handle_id',
+                    'sub_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'file_handle_id':
+                        (str,),
+                    'sub_id':
+                        (str,),
+                    'redirect':
+                        (bool,),
+                },
+                'attribute_map': {
+                    'file_handle_id': 'fileHandleId',
+                    'sub_id': 'subId',
+                    'redirect': 'redirect',
+                },
+                'location_map': {
+                    'file_handle_id': 'path',
+                    'sub_id': 'path',
+                    'redirect': 'query',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__redirect_url_for_file_handle
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method redirect_url_for_file_handle" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'file_handle_id' is set
-        if self.api_client.client_side_validation and ('file_handle_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['file_handle_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `file_handle_id` when calling `redirect_url_for_file_handle`")  # noqa: E501
-        # verify the required parameter 'sub_id' is set
-        if self.api_client.client_side_validation and ('sub_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['sub_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `sub_id` when calling `redirect_url_for_file_handle`")  # noqa: E501
+        def __request_to_cancel_submission(
+            self,
+            sub_id,
+            **kwargs
+        ):
+            """User requests to cancel their submission.  # noqa: E501
 
-        collection_formats = {}
+            User requests to cancel their submission. Only the user who submitted a submission can make this request.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'file_handle_id' in local_var_params:
-            path_params['fileHandleId'] = local_var_params['file_handle_id']  # noqa: E501
-        if 'sub_id' in local_var_params:
-            path_params['subId'] = local_var_params['sub_id']  # noqa: E501
+            >>> thread = api.request_to_cancel_submission(sub_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
-        if 'redirect' in local_var_params and local_var_params['redirect'] is not None:  # noqa: E501
-            query_params.append(('redirect', local_var_params['redirect']))  # noqa: E501
+            Args:
+                sub_id (str): The ID of the Submission
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                None
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['sub_id'] = \
+                sub_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/evaluation/submission/{subId}/file/{fileHandleId}', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='str',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def request_to_cancel_submission(self, sub_id, **kwargs):  # noqa: E501
-        """User requests to cancel their submission.  # noqa: E501
-
-        User requests to cancel their submission. Only the user who submitted a submission can make this request.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.request_to_cancel_submission(sub_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str sub_id: The ID of the Submission (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.request_to_cancel_submission_with_http_info(sub_id, **kwargs)  # noqa: E501
-
-    def request_to_cancel_submission_with_http_info(self, sub_id, **kwargs):  # noqa: E501
-        """User requests to cancel their submission.  # noqa: E501
-
-        User requests to cancel their submission. Only the user who submitted a submission can make this request.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.request_to_cancel_submission_with_http_info(sub_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str sub_id: The ID of the Submission (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'sub_id'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.request_to_cancel_submission = Endpoint(
+            settings={
+                'response_type': None,
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/evaluation/submission/{subId}/cancellation',
+                'operation_id': 'request_to_cancel_submission',
+                'http_method': 'PUT',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'sub_id',
+                ],
+                'required': [
+                    'sub_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'sub_id':
+                        (str,),
+                },
+                'attribute_map': {
+                    'sub_id': 'subId',
+                },
+                'location_map': {
+                    'sub_id': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__request_to_cancel_submission
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method request_to_cancel_submission" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'sub_id' is set
-        if self.api_client.client_side_validation and ('sub_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['sub_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `sub_id` when calling `request_to_cancel_submission`")  # noqa: E501
+        def __update_acl(
+            self,
+            **kwargs
+        ):
+            """Updates the supplied access control list (ACL) for an evaluation.  # noqa: E501
 
-        collection_formats = {}
+            Updates the supplied access control list (ACL) for an evaluation. The <a href=\"${org.sagebionetworks.repo.model.AccessControlList}\">ACL</a> to be updated should have the ID of the evaluation. The user should have the proper <a href=\"${org.sagebionetworks.evaluation.model.UserEvaluationPermissions}\">permissions</a> in order to update the ACL.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'sub_id' in local_var_params:
-            path_params['subId'] = local_var_params['sub_id']  # noqa: E501
+            >>> thread = api.update_acl(async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
 
-        header_params = {}
+            Keyword Args:
+                access_control_list (AccessControlList): The ACL being updated.. [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                AccessControlList
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/evaluation/submission/{subId}/cancellation', 'PUT',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type=None,  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def update_acl(self, **kwargs):  # noqa: E501
-        """Updates the supplied access control list (ACL) for an evaluation.  # noqa: E501
-
-        Updates the supplied access control list (ACL) for an evaluation. The <a href=\"${org.sagebionetworks.repo.model.AccessControlList}\">ACL</a> to be updated should have the ID of the evaluation. The user should have the proper <a href=\"${org.sagebionetworks.evaluation.model.UserEvaluationPermissions}\">permissions</a> in order to update the ACL.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.update_acl(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param AccessControlList access_control_list: The ACL being updated.
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: AccessControlList
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.update_acl_with_http_info(**kwargs)  # noqa: E501
-
-    def update_acl_with_http_info(self, **kwargs):  # noqa: E501
-        """Updates the supplied access control list (ACL) for an evaluation.  # noqa: E501
-
-        Updates the supplied access control list (ACL) for an evaluation. The <a href=\"${org.sagebionetworks.repo.model.AccessControlList}\">ACL</a> to be updated should have the ID of the evaluation. The user should have the proper <a href=\"${org.sagebionetworks.evaluation.model.UserEvaluationPermissions}\">permissions</a> in order to update the ACL.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.update_acl_with_http_info(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param AccessControlList access_control_list: The ACL being updated.
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(AccessControlList, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'access_control_list'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.update_acl = Endpoint(
+            settings={
+                'response_type': (AccessControlList,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/evaluation/acl',
+                'operation_id': 'update_acl',
+                'http_method': 'PUT',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'access_control_list',
+                ],
+                'required': [],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'access_control_list':
+                        (AccessControlList,),
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                    'access_control_list': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__update_acl
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method update_acl" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+        def __update_evaluation(
+            self,
+            eval_id,
+            **kwargs
+        ):
+            """Updates an Evaluation.  # noqa: E501
 
-        collection_formats = {}
+            'Updates an Evaluation.   <p>  Synapse employs an Optimistic Concurrency Control (OCC) scheme to handle  concurrent updates. Each time an Evaluation is updated a new etag will be  issued to the Evaluation. When an update is requested, Synapse will compare the  etag of the passed Evaluation with the current etag of the Evaluation. If the  etags do not match, then the update will be rejected with a  PRECONDITION_FAILED (412) response. When this occurs, the caller should  fetch the latest copy of the Evaluation and re-apply any changes, then re-attempt  the Evaluation update.  </p>   <p>  <b>Note:</b> The caller must be granted the <a  href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\"  >ACCESS_TYPE.UPDATE</a> on the specified Evaluation.  </p>   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
+            >>> thread = api.update_evaluation(eval_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                eval_id (str): The ID of the specified Evaluation.
 
-        header_params = {}
+            Keyword Args:
+                evaluation (Evaluation): [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                Evaluation
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['eval_id'] = \
+                eval_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        if 'access_control_list' in local_var_params:
-            body_params = local_var_params['access_control_list']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/evaluation/acl', 'PUT',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='AccessControlList',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def update_evaluation(self, eval_id, **kwargs):  # noqa: E501
-        """Updates an Evaluation.  # noqa: E501
-
-        'Updates an Evaluation.   <p>  Synapse employs an Optimistic Concurrency Control (OCC) scheme to handle  concurrent updates. Each time an Evaluation is updated a new etag will be  issued to the Evaluation. When an update is requested, Synapse will compare the  etag of the passed Evaluation with the current etag of the Evaluation. If the  etags do not match, then the update will be rejected with a  PRECONDITION_FAILED (412) response. When this occurs, the caller should  fetch the latest copy of the Evaluation and re-apply any changes, then re-attempt  the Evaluation update.  </p>   <p>  <b>Note:</b> The caller must be granted the <a  href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\"  >ACCESS_TYPE.UPDATE</a> on the specified Evaluation.  </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.update_evaluation(eval_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param Evaluation evaluation:
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: Evaluation
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.update_evaluation_with_http_info(eval_id, **kwargs)  # noqa: E501
-
-    def update_evaluation_with_http_info(self, eval_id, **kwargs):  # noqa: E501
-        """Updates an Evaluation.  # noqa: E501
-
-        'Updates an Evaluation.   <p>  Synapse employs an Optimistic Concurrency Control (OCC) scheme to handle  concurrent updates. Each time an Evaluation is updated a new etag will be  issued to the Evaluation. When an update is requested, Synapse will compare the  etag of the passed Evaluation with the current etag of the Evaluation. If the  etags do not match, then the update will be rejected with a  PRECONDITION_FAILED (412) response. When this occurs, the caller should  fetch the latest copy of the Evaluation and re-apply any changes, then re-attempt  the Evaluation update.  </p>   <p>  <b>Note:</b> The caller must be granted the <a  href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\"  >ACCESS_TYPE.UPDATE</a> on the specified Evaluation.  </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.update_evaluation_with_http_info(eval_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param Evaluation evaluation:
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(Evaluation, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'eval_id',
-            'evaluation'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.update_evaluation = Endpoint(
+            settings={
+                'response_type': (Evaluation,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/evaluation/{evalId}',
+                'operation_id': 'update_evaluation',
+                'http_method': 'PUT',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'eval_id',
+                    'evaluation',
+                ],
+                'required': [
+                    'eval_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'eval_id':
+                        (str,),
+                    'evaluation':
+                        (Evaluation,),
+                },
+                'attribute_map': {
+                    'eval_id': 'evalId',
+                },
+                'location_map': {
+                    'eval_id': 'path',
+                    'evaluation': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__update_evaluation
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method update_evaluation" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'eval_id' is set
-        if self.api_client.client_side_validation and ('eval_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['eval_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `eval_id` when calling `update_evaluation`")  # noqa: E501
+        def __update_evaluation_round(
+            self,
+            eval_id,
+            round_id,
+            **kwargs
+        ):
+            """Update Evaluation Round  # noqa: E501
 
-        collection_formats = {}
+            Update Evaluation Round  # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'eval_id' in local_var_params:
-            path_params['evalId'] = local_var_params['eval_id']  # noqa: E501
+            >>> thread = api.update_evaluation_round(eval_id, round_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                eval_id (str): The ID of the specified Evaluation.
+                round_id (str): The ID of the evaluation round
 
-        header_params = {}
+            Keyword Args:
+                evaluation_round (EvaluationRound): [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                EvaluationRound
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['eval_id'] = \
+                eval_id
+            kwargs['round_id'] = \
+                round_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        if 'evaluation' in local_var_params:
-            body_params = local_var_params['evaluation']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/evaluation/{evalId}', 'PUT',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='Evaluation',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def update_evaluation_round(self, eval_id, round_id, **kwargs):  # noqa: E501
-        """Update Evaluation Round  # noqa: E501
-
-        Update Evaluation Round  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.update_evaluation_round(eval_id, round_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param str round_id: The ID of the evaluation round (required)
-        :param EvaluationRound evaluation_round:
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: EvaluationRound
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.update_evaluation_round_with_http_info(eval_id, round_id, **kwargs)  # noqa: E501
-
-    def update_evaluation_round_with_http_info(self, eval_id, round_id, **kwargs):  # noqa: E501
-        """Update Evaluation Round  # noqa: E501
-
-        Update Evaluation Round  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.update_evaluation_round_with_http_info(eval_id, round_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param str round_id: The ID of the evaluation round (required)
-        :param EvaluationRound evaluation_round:
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(EvaluationRound, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'eval_id',
-            'round_id',
-            'evaluation_round'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.update_evaluation_round = Endpoint(
+            settings={
+                'response_type': (EvaluationRound,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/evaluation/{evalId}/round/{roundId}',
+                'operation_id': 'update_evaluation_round',
+                'http_method': 'PUT',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'eval_id',
+                    'round_id',
+                    'evaluation_round',
+                ],
+                'required': [
+                    'eval_id',
+                    'round_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'eval_id':
+                        (str,),
+                    'round_id':
+                        (str,),
+                    'evaluation_round':
+                        (EvaluationRound,),
+                },
+                'attribute_map': {
+                    'eval_id': 'evalId',
+                    'round_id': 'roundId',
+                },
+                'location_map': {
+                    'eval_id': 'path',
+                    'round_id': 'path',
+                    'evaluation_round': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__update_evaluation_round
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method update_evaluation_round" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'eval_id' is set
-        if self.api_client.client_side_validation and ('eval_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['eval_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `eval_id` when calling `update_evaluation_round`")  # noqa: E501
-        # verify the required parameter 'round_id' is set
-        if self.api_client.client_side_validation and ('round_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['round_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `round_id` when calling `update_evaluation_round`")  # noqa: E501
+        def __update_submission_status(
+            self,
+            sub_id,
+            **kwargs
+        ):
+            """Updates a SubmissionStatus object.  # noqa: E501
 
-        collection_formats = {}
+            Updates a SubmissionStatus object.   <p>  Synapse employs an Optimistic Concurrency Control (OCC) scheme to handle concurrent updates. Each time an SubmissionStatus is updated a new etag will be issued to the SubmissionStatus. When an update is requested, Synapse will compare the etag of the passed SubmissionStatus with the current etag of the SubmissionStatus. If the etags do not match, then the update will be rejected with a PRECONDITION_FAILED (412) response. When this occurs, the caller should fetch the latest copy of the SubmissionStatus and re-apply any changes, then re-attempt the SubmissionStatus update.  </p>  <p>  <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.UPDATE_SUBMISSION</a> on the specified Evaluation.  </p>  </p>  <p>  <b>Service Limits</b>  <table border=\"1\">  <tr>  <th>resource</th>  <th>limit</th>  </tr>  <tr>  <td>The maximum frequency this method can be called</td>  <td>1 calls per second</td>  </tr>  </table>  </p>   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'eval_id' in local_var_params:
-            path_params['evalId'] = local_var_params['eval_id']  # noqa: E501
-        if 'round_id' in local_var_params:
-            path_params['roundId'] = local_var_params['round_id']  # noqa: E501
+            >>> thread = api.update_submission_status(sub_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                sub_id (str): The ID of the Submission
 
-        header_params = {}
+            Keyword Args:
+                submission_status_model (SubmissionStatusModel): [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                SubmissionStatusModel
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['sub_id'] = \
+                sub_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        if 'evaluation_round' in local_var_params:
-            body_params = local_var_params['evaluation_round']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/evaluation/{evalId}/round/{roundId}', 'PUT',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='EvaluationRound',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def update_submission_status(self, sub_id, **kwargs):  # noqa: E501
-        """Updates a SubmissionStatus object.  # noqa: E501
-
-        Updates a SubmissionStatus object.   <p>  Synapse employs an Optimistic Concurrency Control (OCC) scheme to handle concurrent updates. Each time an SubmissionStatus is updated a new etag will be issued to the SubmissionStatus. When an update is requested, Synapse will compare the etag of the passed SubmissionStatus with the current etag of the SubmissionStatus. If the etags do not match, then the update will be rejected with a PRECONDITION_FAILED (412) response. When this occurs, the caller should fetch the latest copy of the SubmissionStatus and re-apply any changes, then re-attempt the SubmissionStatus update.  </p>  <p>  <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.UPDATE_SUBMISSION</a> on the specified Evaluation.  </p>  </p>  <p>  <b>Service Limits</b>  <table border=\"1\">  <tr>  <th>resource</th>  <th>limit</th>  </tr>  <tr>  <td>The maximum frequency this method can be called</td>  <td>1 calls per second</td>  </tr>  </table>  </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.update_submission_status(sub_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str sub_id: The ID of the Submission (required)
-        :param SubmissionStatusModel submission_status_model:
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: SubmissionStatusModel
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.update_submission_status_with_http_info(sub_id, **kwargs)  # noqa: E501
-
-    def update_submission_status_with_http_info(self, sub_id, **kwargs):  # noqa: E501
-        """Updates a SubmissionStatus object.  # noqa: E501
-
-        Updates a SubmissionStatus object.   <p>  Synapse employs an Optimistic Concurrency Control (OCC) scheme to handle concurrent updates. Each time an SubmissionStatus is updated a new etag will be issued to the SubmissionStatus. When an update is requested, Synapse will compare the etag of the passed SubmissionStatus with the current etag of the SubmissionStatus. If the etags do not match, then the update will be rejected with a PRECONDITION_FAILED (412) response. When this occurs, the caller should fetch the latest copy of the SubmissionStatus and re-apply any changes, then re-attempt the SubmissionStatus update.  </p>  <p>  <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.UPDATE_SUBMISSION</a> on the specified Evaluation.  </p>  </p>  <p>  <b>Service Limits</b>  <table border=\"1\">  <tr>  <th>resource</th>  <th>limit</th>  </tr>  <tr>  <td>The maximum frequency this method can be called</td>  <td>1 calls per second</td>  </tr>  </table>  </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.update_submission_status_with_http_info(sub_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str sub_id: The ID of the Submission (required)
-        :param SubmissionStatusModel submission_status_model:
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(SubmissionStatusModel, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'sub_id',
-            'submission_status_model'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.update_submission_status = Endpoint(
+            settings={
+                'response_type': (SubmissionStatusModel,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/evaluation/submission/{subId}/status',
+                'operation_id': 'update_submission_status',
+                'http_method': 'PUT',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'sub_id',
+                    'submission_status_model',
+                ],
+                'required': [
+                    'sub_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'sub_id':
+                        (str,),
+                    'submission_status_model':
+                        (SubmissionStatusModel,),
+                },
+                'attribute_map': {
+                    'sub_id': 'subId',
+                },
+                'location_map': {
+                    'sub_id': 'path',
+                    'submission_status_model': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__update_submission_status
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method update_submission_status" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'sub_id' is set
-        if self.api_client.client_side_validation and ('sub_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['sub_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `sub_id` when calling `update_submission_status`")  # noqa: E501
+        def __update_submission_status_batch(
+            self,
+            eval_id,
+            **kwargs
+        ):
+            """Update multiple SubmissionStatuses.  # noqa: E501
 
-        collection_formats = {}
+            Update multiple SubmissionStatuses. The maximum batch size is 500.  To allow upload of more than this maximum, the system supports uploading of a <i>series</i> of batches. Synapse employs optimistic concurrency on the series in the form of a batch token. Each request (except the first) must include the ''batch token'' returned in the response to the previous batch. If another client begins batch upload simultaneously, a PRECONDITION_FAILED (412) response will be generated and upload must restart from the first batch.  After the final batch is uploaded, the data for the Evaluation queue will be mirrored to the tables which support querying.  Therefore uploaded data will not appear in Evaluation queries until after the final batch is successfully uploaded.  It is the client''s responsibility to note in each batch request (1) whether it is the first batch in the series and (2) whether it is the last batch.  (For a single batch both are set to ''true''.)  Failure to use the flags correctly risks corrupted data (due to simultaneous, conflicting uploads by multiple clients) or data not appearing in query results.   <p>  <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.UPDATE_SUBMISSION</a> on the specified Evaluation.  </p>   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'sub_id' in local_var_params:
-            path_params['subId'] = local_var_params['sub_id']  # noqa: E501
+            >>> thread = api.update_submission_status_batch(eval_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                eval_id (str): The ID of the specified Evaluation.
 
-        header_params = {}
+            Keyword Args:
+                submission_status_batch (SubmissionStatusBatch): [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                BatchUploadResponse
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['eval_id'] = \
+                eval_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        if 'submission_status_model' in local_var_params:
-            body_params = local_var_params['submission_status_model']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/evaluation/submission/{subId}/status', 'PUT',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='SubmissionStatusModel',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def update_submission_status_batch(self, eval_id, **kwargs):  # noqa: E501
-        """Update multiple SubmissionStatuses.  # noqa: E501
-
-        Update multiple SubmissionStatuses. The maximum batch size is 500.  To allow upload of more than this maximum, the system supports uploading of a <i>series</i> of batches. Synapse employs optimistic concurrency on the series in the form of a batch token. Each request (except the first) must include the ''batch token'' returned in the response to the previous batch. If another client begins batch upload simultaneously, a PRECONDITION_FAILED (412) response will be generated and upload must restart from the first batch.  After the final batch is uploaded, the data for the Evaluation queue will be mirrored to the tables which support querying.  Therefore uploaded data will not appear in Evaluation queries until after the final batch is successfully uploaded.  It is the client''s responsibility to note in each batch request (1) whether it is the first batch in the series and (2) whether it is the last batch.  (For a single batch both are set to ''true''.)  Failure to use the flags correctly risks corrupted data (due to simultaneous, conflicting uploads by multiple clients) or data not appearing in query results.   <p>  <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.UPDATE_SUBMISSION</a> on the specified Evaluation.  </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.update_submission_status_batch(eval_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param SubmissionStatusBatch submission_status_batch:
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: BatchUploadResponse
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.update_submission_status_batch_with_http_info(eval_id, **kwargs)  # noqa: E501
-
-    def update_submission_status_batch_with_http_info(self, eval_id, **kwargs):  # noqa: E501
-        """Update multiple SubmissionStatuses.  # noqa: E501
-
-        Update multiple SubmissionStatuses. The maximum batch size is 500.  To allow upload of more than this maximum, the system supports uploading of a <i>series</i> of batches. Synapse employs optimistic concurrency on the series in the form of a batch token. Each request (except the first) must include the ''batch token'' returned in the response to the previous batch. If another client begins batch upload simultaneously, a PRECONDITION_FAILED (412) response will be generated and upload must restart from the first batch.  After the final batch is uploaded, the data for the Evaluation queue will be mirrored to the tables which support querying.  Therefore uploaded data will not appear in Evaluation queries until after the final batch is successfully uploaded.  It is the client''s responsibility to note in each batch request (1) whether it is the first batch in the series and (2) whether it is the last batch.  (For a single batch both are set to ''true''.)  Failure to use the flags correctly risks corrupted data (due to simultaneous, conflicting uploads by multiple clients) or data not appearing in query results.   <p>  <b>Note:</b> The caller must be granted the <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.UPDATE_SUBMISSION</a> on the specified Evaluation.  </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.update_submission_status_batch_with_http_info(eval_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str eval_id: The ID of the specified Evaluation. (required)
-        :param SubmissionStatusBatch submission_status_batch:
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(BatchUploadResponse, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'eval_id',
-            'submission_status_batch'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.update_submission_status_batch = Endpoint(
+            settings={
+                'response_type': (BatchUploadResponse,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/evaluation/{evalId}/statusBatch',
+                'operation_id': 'update_submission_status_batch',
+                'http_method': 'PUT',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'eval_id',
+                    'submission_status_batch',
+                ],
+                'required': [
+                    'eval_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'eval_id':
+                        (str,),
+                    'submission_status_batch':
+                        (SubmissionStatusBatch,),
+                },
+                'attribute_map': {
+                    'eval_id': 'evalId',
+                },
+                'location_map': {
+                    'eval_id': 'path',
+                    'submission_status_batch': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__update_submission_status_batch
         )
-
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method update_submission_status_batch" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'eval_id' is set
-        if self.api_client.client_side_validation and ('eval_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['eval_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `eval_id` when calling `update_submission_status_batch`")  # noqa: E501
-
-        collection_formats = {}
-
-        path_params = {}
-        if 'eval_id' in local_var_params:
-            path_params['evalId'] = local_var_params['eval_id']  # noqa: E501
-
-        query_params = []
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        if 'submission_status_batch' in local_var_params:
-            body_params = local_var_params['submission_status_batch']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/evaluation/{evalId}/statusBatch', 'PUT',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='BatchUploadResponse',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)

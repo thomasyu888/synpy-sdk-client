@@ -19,10 +19,10 @@ Retrieve the Passing Record on the User Certification test for the given user.
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import certified_user_services_api
+from synclient.model.passing_record import PassingRecord
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -43,14 +43,15 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.CertifiedUserServicesApi(api_client)
-    id = 'id_example' # str | The ID of the Synapse user.
+    api_instance = certified_user_services_api.CertifiedUserServicesApi(api_client)
+    id = "id_example" # str | The ID of the Synapse user.
 
+    # example passing only required values which don't have defaults set
     try:
         # Retrieve the Passing Record on the User Certification test for the given user. 
         api_response = api_instance.get_passing_record(id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling CertifiedUserServicesApi->get_passing_record: %s\n" % e)
 ```
 
@@ -58,7 +59,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of the Synapse user. | 
+ **id** | **str**| The ID of the Synapse user. |
 
 ### Return type
 
@@ -91,10 +92,9 @@ Setting certification status.
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import certified_user_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -115,13 +115,14 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.CertifiedUserServicesApi(api_client)
-    id = 'id_example' # str | The ID of the Synapse user.
+    api_instance = certified_user_services_api.CertifiedUserServicesApi(api_client)
+    id = "id_example" # str | The ID of the Synapse user.
 
+    # example passing only required values which don't have defaults set
     try:
         # Set certification status
         api_instance.set_user_certification_status(id)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling CertifiedUserServicesApi->set_user_certification_status: %s\n" % e)
 ```
 
@@ -129,7 +130,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of the Synapse user. | 
+ **id** | **str**| The ID of the Synapse user. |
 
 ### Return type
 

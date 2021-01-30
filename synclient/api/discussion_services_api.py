@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     Platform Repository Service
 
@@ -11,18 +9,29 @@
 """
 
 
-from __future__ import absolute_import
-
 import re  # noqa: F401
+import sys  # noqa: F401
 
-# python 2 and python 3 compatibility library
-import six
-
-from synclient.api_client import ApiClient
-from synclient.exceptions import (  # noqa: F401
-    ApiTypeError,
-    ApiValueError
+from synclient.api_client import ApiClient, Endpoint
+from synclient.model_utils import (  # noqa: F401
+    check_allowed_values,
+    check_validations,
+    date,
+    datetime,
+    file_type,
+    none_type,
+    validate_and_convert_types
 )
+from synclient.model.create_discussion_thread import CreateDiscussionThread
+from synclient.model.discussion_thread_bundle import DiscussionThreadBundle
+from synclient.model.entity_id_list import EntityIdList
+from synclient.model.entity_thread_counts import EntityThreadCounts
+from synclient.model.message_url import MessageURL
+from synclient.model.paginated_results_of_discussion_reply_bundle import PaginatedResultsOfDiscussionReplyBundle
+from synclient.model.paginated_results_of_discussion_thread_bundle import PaginatedResultsOfDiscussionThreadBundle
+from synclient.model.reply_count import ReplyCount
+from synclient.model.update_thread_message import UpdateThreadMessage
+from synclient.model.update_thread_title import UpdateThreadTitle
 
 
 class DiscussionServicesApi(object):
@@ -37,1560 +46,1664 @@ class DiscussionServicesApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def create_thread(self, **kwargs):  # noqa: E501
-        """Create a new thread in a forum.  # noqa: E501
+        def __create_thread(
+            self,
+            **kwargs
+        ):
+            """Create a new thread in a forum.  # noqa: E501
 
-        This API is used to create a new thread in a forum.  Target users: anyone who has READ permission to the project.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.create_thread(async_req=True)
-        >>> result = thread.get()
+            This API is used to create a new thread in a forum.  Target users: anyone who has READ permission to the project.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        :param async_req bool: execute request asynchronously
-        :param CreateDiscussionThread create_discussion_thread:
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: DiscussionThreadBundle
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.create_thread_with_http_info(**kwargs)  # noqa: E501
+            >>> thread = api.create_thread(async_req=True)
+            >>> result = thread.get()
 
-    def create_thread_with_http_info(self, **kwargs):  # noqa: E501
-        """Create a new thread in a forum.  # noqa: E501
 
-        This API is used to create a new thread in a forum.  Target users: anyone who has READ permission to the project.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.create_thread_with_http_info(async_req=True)
-        >>> result = thread.get()
+            Keyword Args:
+                create_discussion_thread (CreateDiscussionThread): [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        :param async_req bool: execute request asynchronously
-        :param CreateDiscussionThread create_discussion_thread:
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(DiscussionThreadBundle, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
+            Returns:
+                DiscussionThreadBundle
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            return self.call_with_http_info(**kwargs)
 
-        local_var_params = locals()
-
-        all_params = [
-            'create_discussion_thread'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.create_thread = Endpoint(
+            settings={
+                'response_type': (DiscussionThreadBundle,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/thread',
+                'operation_id': 'create_thread',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'create_discussion_thread',
+                ],
+                'required': [],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'create_discussion_thread':
+                        (CreateDiscussionThread,),
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                    'create_discussion_thread': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__create_thread
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method create_thread" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+        def __delete_thread(
+            self,
+            thread_id,
+            **kwargs
+        ):
+            """Delete a Thread.  # noqa: E501
 
-        collection_formats = {}
+            This API is used to mark a thread as deleted.  Target users: only forum's moderator can mark a thread as deleted.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
+            >>> thread = api.delete_thread(thread_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                thread_id (str): The ID of a thread.
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                None
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['thread_id'] = \
+                thread_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        if 'create_discussion_thread' in local_var_params:
-            body_params = local_var_params['create_discussion_thread']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/thread', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='DiscussionThreadBundle',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def delete_thread(self, thread_id, **kwargs):  # noqa: E501
-        """Delete a Thread.  # noqa: E501
-
-        This API is used to mark a thread as deleted.  Target users: only forum's moderator can mark a thread as deleted.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.delete_thread(thread_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str thread_id: The ID of a thread. (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.delete_thread_with_http_info(thread_id, **kwargs)  # noqa: E501
-
-    def delete_thread_with_http_info(self, thread_id, **kwargs):  # noqa: E501
-        """Delete a Thread.  # noqa: E501
-
-        This API is used to mark a thread as deleted.  Target users: only forum's moderator can mark a thread as deleted.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.delete_thread_with_http_info(thread_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str thread_id: The ID of a thread. (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'thread_id'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.delete_thread = Endpoint(
+            settings={
+                'response_type': None,
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/thread/{threadId}',
+                'operation_id': 'delete_thread',
+                'http_method': 'DELETE',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'thread_id',
+                ],
+                'required': [
+                    'thread_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'thread_id':
+                        (str,),
+                },
+                'attribute_map': {
+                    'thread_id': 'threadId',
+                },
+                'location_map': {
+                    'thread_id': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__delete_thread
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method delete_thread" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'thread_id' is set
-        if self.api_client.client_side_validation and ('thread_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['thread_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `thread_id` when calling `delete_thread`")  # noqa: E501
+        def __get_replies_for_thread(
+            self,
+            thread_id,
+            filter,
+            **kwargs
+        ):
+            """Get N number of replies for a given thread ID.  # noqa: E501
 
-        collection_formats = {}
+            This API is used to get N number of replies for a given thread ID.  Target users: anyone who has READ permission to the project.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'thread_id' in local_var_params:
-            path_params['threadId'] = local_var_params['thread_id']  # noqa: E501
+            >>> thread = api.get_replies_for_thread(thread_id, filter, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                thread_id (str): The ID of a thread.
+                filter (str): Filter deleted not deleted replies.
 
-        header_params = {}
+            Keyword Args:
+                ascending (bool): The direction of sort: true for ascending, and false for descending. [optional]
+                limit (int): Limits the size of the page returned. For example, a page size of 10 require limit = 10. . [optional] if omitted the server will use the default value of 10
+                offset (int): The index of the pagination offset. For a page size of 10, the first page would be at offset = 0, and the second page would be at offset = 10.' . [optional] if omitted the server will use the default value of 0
+                sort (str): The field to sort the resulting replies on. . [optional] if omitted the server will use the default value of "CREATED_ON"
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                PaginatedResultsOfDiscussionReplyBundle
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['thread_id'] = \
+                thread_id
+            kwargs['filter'] = \
+                filter
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+        self.get_replies_for_thread = Endpoint(
+            settings={
+                'response_type': (PaginatedResultsOfDiscussionReplyBundle,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/thread/{threadId}/replies',
+                'operation_id': 'get_replies_for_thread',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'thread_id',
+                    'filter',
+                    'ascending',
+                    'limit',
+                    'offset',
+                    'sort',
+                ],
+                'required': [
+                    'thread_id',
+                    'filter',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                    'filter',
+                    'sort',
+                ],
+                'validation': [
+                    'limit',
+                    'offset',
+                ]
+            },
+            root_map={
+                'validations': {
+                    ('limit',): {
 
-        return self.api_client.call_api(
-            '/thread/{threadId}', 'DELETE',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type=None,  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+                        'inclusive_maximum': 100,
+                        'inclusive_minimum': 0,
+                    },
+                    ('offset',): {
 
-    def get_replies_for_thread(self, thread_id, filter, **kwargs):  # noqa: E501
-        """Get N number of replies for a given thread ID.  # noqa: E501
+                        'inclusive_minimum': 0,
+                    },
+                },
+                'allowed_values': {
+                    ('filter',): {
 
-        This API is used to get N number of replies for a given thread ID.  Target users: anyone who has READ permission to the project.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_replies_for_thread(thread_id, filter, async_req=True)
-        >>> result = thread.get()
+                        "DELETED_ONLY": "DELETED_ONLY",
+                        "EXCLUDE_DELETED": "EXCLUDE_DELETED",
+                        "NO_FILTER": "NO_FILTER"
+                    },
+                    ('sort',): {
 
-        :param async_req bool: execute request asynchronously
-        :param str thread_id: The ID of a thread. (required)
-        :param str filter: Filter deleted not deleted replies. (required)
-        :param bool ascending: The direction of sort: true for ascending, and false for descending
-        :param int limit: Limits the size of the page returned. For example, a page size of 10 require limit = 10. 
-        :param int offset: The index of the pagination offset. For a page size of 10, the first page would be at offset = 0, and the second page would be at offset = 10.' 
-        :param str sort: The field to sort the resulting replies on. 
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: PaginatedResultsOfDiscussionReplyBundle
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_replies_for_thread_with_http_info(thread_id, filter, **kwargs)  # noqa: E501
-
-    def get_replies_for_thread_with_http_info(self, thread_id, filter, **kwargs):  # noqa: E501
-        """Get N number of replies for a given thread ID.  # noqa: E501
-
-        This API is used to get N number of replies for a given thread ID.  Target users: anyone who has READ permission to the project.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_replies_for_thread_with_http_info(thread_id, filter, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str thread_id: The ID of a thread. (required)
-        :param str filter: Filter deleted not deleted replies. (required)
-        :param bool ascending: The direction of sort: true for ascending, and false for descending
-        :param int limit: Limits the size of the page returned. For example, a page size of 10 require limit = 10. 
-        :param int offset: The index of the pagination offset. For a page size of 10, the first page would be at offset = 0, and the second page would be at offset = 10.' 
-        :param str sort: The field to sort the resulting replies on. 
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(PaginatedResultsOfDiscussionReplyBundle, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'thread_id',
-            'filter',
-            'ascending',
-            'limit',
-            'offset',
-            'sort'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+                        "CREATED_ON": "CREATED_ON"
+                    },
+                },
+                'openapi_types': {
+                    'thread_id':
+                        (str,),
+                    'filter':
+                        (str,),
+                    'ascending':
+                        (bool,),
+                    'limit':
+                        (int,),
+                    'offset':
+                        (int,),
+                    'sort':
+                        (str,),
+                },
+                'attribute_map': {
+                    'thread_id': 'threadId',
+                    'filter': 'filter',
+                    'ascending': 'ascending',
+                    'limit': 'limit',
+                    'offset': 'offset',
+                    'sort': 'sort',
+                },
+                'location_map': {
+                    'thread_id': 'path',
+                    'filter': 'query',
+                    'ascending': 'query',
+                    'limit': 'query',
+                    'offset': 'query',
+                    'sort': 'query',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_replies_for_thread
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_replies_for_thread" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'thread_id' is set
-        if self.api_client.client_side_validation and ('thread_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['thread_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `thread_id` when calling `get_replies_for_thread`")  # noqa: E501
-        # verify the required parameter 'filter' is set
-        if self.api_client.client_side_validation and ('filter' not in local_var_params or  # noqa: E501
-                                                        local_var_params['filter'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `filter` when calling `get_replies_for_thread`")  # noqa: E501
+        def __get_reply_count_for_thread(
+            self,
+            thread_id,
+            filter,
+            **kwargs
+        ):
+            """Get the total number of replies for a given Thread.   # noqa: E501
 
-        if self.api_client.client_side_validation and 'limit' in local_var_params and local_var_params['limit'] > 100:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `limit` when calling `get_replies_for_thread`, must be a value less than or equal to `100`")  # noqa: E501
-        if self.api_client.client_side_validation and 'limit' in local_var_params and local_var_params['limit'] < 0:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `limit` when calling `get_replies_for_thread`, must be a value greater than or equal to `0`")  # noqa: E501
-        if self.api_client.client_side_validation and 'offset' in local_var_params and local_var_params['offset'] < 0:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `offset` when calling `get_replies_for_thread`, must be a value greater than or equal to `0`")  # noqa: E501
-        collection_formats = {}
+            This API is used to get the total number of replies for a given thread ID.  Target users: anyone who has READ permission to the project.'   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'thread_id' in local_var_params:
-            path_params['threadId'] = local_var_params['thread_id']  # noqa: E501
+            >>> thread = api.get_reply_count_for_thread(thread_id, filter, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
-        if 'ascending' in local_var_params and local_var_params['ascending'] is not None:  # noqa: E501
-            query_params.append(('ascending', local_var_params['ascending']))  # noqa: E501
-        if 'filter' in local_var_params and local_var_params['filter'] is not None:  # noqa: E501
-            query_params.append(('filter', local_var_params['filter']))  # noqa: E501
-        if 'limit' in local_var_params and local_var_params['limit'] is not None:  # noqa: E501
-            query_params.append(('limit', local_var_params['limit']))  # noqa: E501
-        if 'offset' in local_var_params and local_var_params['offset'] is not None:  # noqa: E501
-            query_params.append(('offset', local_var_params['offset']))  # noqa: E501
-        if 'sort' in local_var_params and local_var_params['sort'] is not None:  # noqa: E501
-            query_params.append(('sort', local_var_params['sort']))  # noqa: E501
+            Args:
+                thread_id (str): The ID of a thread.
+                filter (str): Filter deleted not deleted replies.
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                ReplyCount
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['thread_id'] = \
+                thread_id
+            kwargs['filter'] = \
+                filter
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+        self.get_reply_count_for_thread = Endpoint(
+            settings={
+                'response_type': (ReplyCount,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/thread/{threadId}/replycount',
+                'operation_id': 'get_reply_count_for_thread',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'thread_id',
+                    'filter',
+                ],
+                'required': [
+                    'thread_id',
+                    'filter',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                    'filter',
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                    ('filter',): {
 
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/thread/{threadId}/replies', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='PaginatedResultsOfDiscussionReplyBundle',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def get_reply_count_for_thread(self, thread_id, filter, **kwargs):  # noqa: E501
-        """Get the total number of replies for a given Thread.   # noqa: E501
-
-        This API is used to get the total number of replies for a given thread ID.  Target users: anyone who has READ permission to the project.'   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_reply_count_for_thread(thread_id, filter, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str thread_id: The ID of a thread. (required)
-        :param str filter: Filter deleted not deleted replies. (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: ReplyCount
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_reply_count_for_thread_with_http_info(thread_id, filter, **kwargs)  # noqa: E501
-
-    def get_reply_count_for_thread_with_http_info(self, thread_id, filter, **kwargs):  # noqa: E501
-        """Get the total number of replies for a given Thread.   # noqa: E501
-
-        This API is used to get the total number of replies for a given thread ID.  Target users: anyone who has READ permission to the project.'   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_reply_count_for_thread_with_http_info(thread_id, filter, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str thread_id: The ID of a thread. (required)
-        :param str filter: Filter deleted not deleted replies. (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(ReplyCount, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'thread_id',
-            'filter'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+                        "DELETED_ONLY": "DELETED_ONLY",
+                        "EXCLUDE_DELETED": "EXCLUDE_DELETED",
+                        "NO_FILTER": "NO_FILTER"
+                    },
+                },
+                'openapi_types': {
+                    'thread_id':
+                        (str,),
+                    'filter':
+                        (str,),
+                },
+                'attribute_map': {
+                    'thread_id': 'threadId',
+                    'filter': 'filter',
+                },
+                'location_map': {
+                    'thread_id': 'path',
+                    'filter': 'query',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_reply_count_for_thread
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_reply_count_for_thread" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'thread_id' is set
-        if self.api_client.client_side_validation and ('thread_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['thread_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `thread_id` when calling `get_reply_count_for_thread`")  # noqa: E501
-        # verify the required parameter 'filter' is set
-        if self.api_client.client_side_validation and ('filter' not in local_var_params or  # noqa: E501
-                                                        local_var_params['filter'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `filter` when calling `get_reply_count_for_thread`")  # noqa: E501
+        def __get_thread(
+            self,
+            thread_id,
+            **kwargs
+        ):
+            """Get a thread.  # noqa: E501
 
-        collection_formats = {}
+            This API is used to get a thread and its statistic given its ID.  Target users: anyone who has READ permission to the project.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'thread_id' in local_var_params:
-            path_params['threadId'] = local_var_params['thread_id']  # noqa: E501
+            >>> thread = api.get_thread(thread_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
-        if 'filter' in local_var_params and local_var_params['filter'] is not None:  # noqa: E501
-            query_params.append(('filter', local_var_params['filter']))  # noqa: E501
+            Args:
+                thread_id (str): The ID of a thread.
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                DiscussionThreadBundle
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['thread_id'] = \
+                thread_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/thread/{threadId}/replycount', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='ReplyCount',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def get_thread(self, thread_id, **kwargs):  # noqa: E501
-        """Get a thread.  # noqa: E501
-
-        This API is used to get a thread and its statistic given its ID.  Target users: anyone who has READ permission to the project.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_thread(thread_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str thread_id: The ID of a thread. (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: DiscussionThreadBundle
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_thread_with_http_info(thread_id, **kwargs)  # noqa: E501
-
-    def get_thread_with_http_info(self, thread_id, **kwargs):  # noqa: E501
-        """Get a thread.  # noqa: E501
-
-        This API is used to get a thread and its statistic given its ID.  Target users: anyone who has READ permission to the project.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_thread_with_http_info(thread_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str thread_id: The ID of a thread. (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(DiscussionThreadBundle, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'thread_id'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.get_thread = Endpoint(
+            settings={
+                'response_type': (DiscussionThreadBundle,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/thread/{threadId}',
+                'operation_id': 'get_thread',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'thread_id',
+                ],
+                'required': [
+                    'thread_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'thread_id':
+                        (str,),
+                },
+                'attribute_map': {
+                    'thread_id': 'threadId',
+                },
+                'location_map': {
+                    'thread_id': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_thread
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_thread" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'thread_id' is set
-        if self.api_client.client_side_validation and ('thread_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['thread_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `thread_id` when calling `get_thread`")  # noqa: E501
+        def __get_thread_counts(
+            self,
+            **kwargs
+        ):
+            """Get number of threads that belong to projects user can view and references the given entity.   # noqa: E501
 
-        collection_formats = {}
+            This API is used to get list of entity and count pairs, with count is the number of threads that belong to projects user can view and references the given entity.  Target users: anyone who has READ permission to the project.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'thread_id' in local_var_params:
-            path_params['threadId'] = local_var_params['thread_id']  # noqa: E501
+            >>> thread = api.get_thread_counts(async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
 
-        header_params = {}
+            Keyword Args:
+                entity_id_list (EntityIdList): The requested list. Limit size 20.. [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                EntityThreadCounts
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/thread/{threadId}', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='DiscussionThreadBundle',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def get_thread_counts(self, **kwargs):  # noqa: E501
-        """Get number of threads that belong to projects user can view and references the given entity.   # noqa: E501
-
-        This API is used to get list of entity and count pairs, with count is the number of threads that belong to projects user can view and references the given entity.  Target users: anyone who has READ permission to the project.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_thread_counts(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param EntityIdList entity_id_list: The requested list. Limit size 20.
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: EntityThreadCounts
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_thread_counts_with_http_info(**kwargs)  # noqa: E501
-
-    def get_thread_counts_with_http_info(self, **kwargs):  # noqa: E501
-        """Get number of threads that belong to projects user can view and references the given entity.   # noqa: E501
-
-        This API is used to get list of entity and count pairs, with count is the number of threads that belong to projects user can view and references the given entity.  Target users: anyone who has READ permission to the project.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_thread_counts_with_http_info(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param EntityIdList entity_id_list: The requested list. Limit size 20.
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(EntityThreadCounts, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'entity_id_list'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.get_thread_counts = Endpoint(
+            settings={
+                'response_type': (EntityThreadCounts,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/entity/threadcounts',
+                'operation_id': 'get_thread_counts',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'entity_id_list',
+                ],
+                'required': [],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'entity_id_list':
+                        (EntityIdList,),
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                    'entity_id_list': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__get_thread_counts
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_thread_counts" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+        def __get_thread_url(
+            self,
+            message_key,
+            **kwargs
+        ):
+            """Get the message URL of a thread.  # noqa: E501
 
-        collection_formats = {}
+            This API is used to get the message URL of a thread. The message URL is the URL to download the file which contains the thread message.  Target users: anyone who has READ permission to the project.  The resulting URL will be signed with Content-Type =\"text/plain; charset=utf-8\"; therefore, this header must be included with the GET on the URL.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
+            >>> thread = api.get_thread_url(message_key, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                message_key (str): Message Key
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                MessageURL
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['message_key'] = \
+                message_key
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        if 'entity_id_list' in local_var_params:
-            body_params = local_var_params['entity_id_list']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/entity/threadcounts', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='EntityThreadCounts',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def get_thread_url(self, message_key, **kwargs):  # noqa: E501
-        """Get the message URL of a thread.  # noqa: E501
-
-        This API is used to get the message URL of a thread. The message URL is the URL to download the file which contains the thread message.  Target users: anyone who has READ permission to the project.  The resulting URL will be signed with Content-Type =\"text/plain; charset=utf-8\"; therefore, this header must be included with the GET on the URL.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_thread_url(message_key, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str message_key: Message Key (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: MessageURL
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_thread_url_with_http_info(message_key, **kwargs)  # noqa: E501
-
-    def get_thread_url_with_http_info(self, message_key, **kwargs):  # noqa: E501
-        """Get the message URL of a thread.  # noqa: E501
-
-        This API is used to get the message URL of a thread. The message URL is the URL to download the file which contains the thread message.  Target users: anyone who has READ permission to the project.  The resulting URL will be signed with Content-Type =\"text/plain; charset=utf-8\"; therefore, this header must be included with the GET on the URL.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_thread_url_with_http_info(message_key, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str message_key: Message Key (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(MessageURL, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'message_key'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.get_thread_url = Endpoint(
+            settings={
+                'response_type': (MessageURL,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/thread/messageUrl',
+                'operation_id': 'get_thread_url',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'message_key',
+                ],
+                'required': [
+                    'message_key',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'message_key':
+                        (str,),
+                },
+                'attribute_map': {
+                    'message_key': 'messageKey',
+                },
+                'location_map': {
+                    'message_key': 'query',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_thread_url
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_thread_url" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'message_key' is set
-        if self.api_client.client_side_validation and ('message_key' not in local_var_params or  # noqa: E501
-                                                        local_var_params['message_key'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `message_key` when calling `get_thread_url`")  # noqa: E501
+        def __get_threads_for_entity(
+            self,
+            id,
+            **kwargs
+        ):
+            """This API is used to get N number of threads that belongs to projects user can view and references the given entity.   # noqa: E501
 
-        collection_formats = {}
+            This API is used to get N number of threads that belongs to projects user can view and references the given entity.  Target users: anyone who has READ permission to the entity.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
+            >>> thread = api.get_threads_for_entity(id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
-        if 'message_key' in local_var_params and local_var_params['message_key'] is not None:  # noqa: E501
-            query_params.append(('messageKey', local_var_params['message_key']))  # noqa: E501
+            Args:
+                id (str): The ID of an Entity.
 
-        header_params = {}
+            Keyword Args:
+                ascending (bool): The direction of sort: true for ascending, and false for descending. [optional]
+                limit (float): Limits the size of the page returned. For example, a page size of 10 require limit = 10. The maximum Limit for this call is 20.' . [optional] if omitted the server will use the default value of 10
+                offset (float): The index of the pagination offset. For a page size of 10, the first page would be at offset = 0, and the second page would be at offset = 10.' . [optional] if omitted the server will use the default value of 0
+                sort (str): The field to sort the resulting threads on. Available options DiscussionThreadOrder . [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                PaginatedResultsOfDiscussionThreadBundle
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['id'] = \
+                id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+        self.get_threads_for_entity = Endpoint(
+            settings={
+                'response_type': (PaginatedResultsOfDiscussionThreadBundle,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/entity/{id}/threads',
+                'operation_id': 'get_threads_for_entity',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'id',
+                    'ascending',
+                    'limit',
+                    'offset',
+                    'sort',
+                ],
+                'required': [
+                    'id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                    'sort',
+                ],
+                'validation': [
+                    'limit',
+                    'offset',
+                ]
+            },
+            root_map={
+                'validations': {
+                    ('limit',): {
 
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
+                        'inclusive_maximum': 20,
+                        'inclusive_minimum': 10,
+                    },
+                    ('offset',): {
 
-        return self.api_client.call_api(
-            '/thread/messageUrl', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='MessageURL',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+                        'inclusive_minimum': 0,
+                    },
+                },
+                'allowed_values': {
+                    ('sort',): {
 
-    def get_threads_for_entity(self, id, **kwargs):  # noqa: E501
-        """This API is used to get N number of threads that belongs to projects user can view and references the given entity.   # noqa: E501
-
-        This API is used to get N number of threads that belongs to projects user can view and references the given entity.  Target users: anyone who has READ permission to the entity.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_threads_for_entity(id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str id: The ID of an Entity. (required)
-        :param bool ascending: The direction of sort: true for ascending, and false for descending
-        :param float limit: Limits the size of the page returned. For example, a page size of 10 require limit = 10. The maximum Limit for this call is 20.' 
-        :param float offset: The index of the pagination offset. For a page size of 10, the first page would be at offset = 0, and the second page would be at offset = 10.' 
-        :param str sort: The field to sort the resulting threads on. Available options DiscussionThreadOrder 
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: PaginatedResultsOfDiscussionThreadBundle
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_threads_for_entity_with_http_info(id, **kwargs)  # noqa: E501
-
-    def get_threads_for_entity_with_http_info(self, id, **kwargs):  # noqa: E501
-        """This API is used to get N number of threads that belongs to projects user can view and references the given entity.   # noqa: E501
-
-        This API is used to get N number of threads that belongs to projects user can view and references the given entity.  Target users: anyone who has READ permission to the entity.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_threads_for_entity_with_http_info(id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str id: The ID of an Entity. (required)
-        :param bool ascending: The direction of sort: true for ascending, and false for descending
-        :param float limit: Limits the size of the page returned. For example, a page size of 10 require limit = 10. The maximum Limit for this call is 20.' 
-        :param float offset: The index of the pagination offset. For a page size of 10, the first page would be at offset = 0, and the second page would be at offset = 10.' 
-        :param str sort: The field to sort the resulting threads on. Available options DiscussionThreadOrder 
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(PaginatedResultsOfDiscussionThreadBundle, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'id',
-            'ascending',
-            'limit',
-            'offset',
-            'sort'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+                        "NUMBER_OF_REPLIES": "NUMBER_OF_REPLIES",
+                        "NUMBER_OF_VIEWS": "NUMBER_OF_VIEWS",
+                        "PINNED_AND_LAST_ACTIVITY": "PINNED_AND_LAST_ACTIVITY",
+                        "THREAD_TITLE": "THREAD_TITLE"
+                    },
+                },
+                'openapi_types': {
+                    'id':
+                        (str,),
+                    'ascending':
+                        (bool,),
+                    'limit':
+                        (float,),
+                    'offset':
+                        (float,),
+                    'sort':
+                        (str,),
+                },
+                'attribute_map': {
+                    'id': 'id',
+                    'ascending': 'ascending',
+                    'limit': 'limit',
+                    'offset': 'offset',
+                    'sort': 'sort',
+                },
+                'location_map': {
+                    'id': 'path',
+                    'ascending': 'query',
+                    'limit': 'query',
+                    'offset': 'query',
+                    'sort': 'query',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_threads_for_entity
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_threads_for_entity" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'id' is set
-        if self.api_client.client_side_validation and ('id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `id` when calling `get_threads_for_entity`")  # noqa: E501
+        def __pin_thread(
+            self,
+            thread_id,
+            **kwargs
+        ):
+            """Pin a Thread.  # noqa: E501
 
-        if self.api_client.client_side_validation and 'limit' in local_var_params and local_var_params['limit'] > 20:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `limit` when calling `get_threads_for_entity`, must be a value less than or equal to `20`")  # noqa: E501
-        if self.api_client.client_side_validation and 'limit' in local_var_params and local_var_params['limit'] < 10:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `limit` when calling `get_threads_for_entity`, must be a value greater than or equal to `10`")  # noqa: E501
-        if self.api_client.client_side_validation and 'offset' in local_var_params and local_var_params['offset'] < 0:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `offset` when calling `get_threads_for_entity`, must be a value greater than or equal to `0`")  # noqa: E501
-        collection_formats = {}
+            This API is used to mark a thread as pinned.  Target users: only forum's moderator can mark a thread as pinned.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'id' in local_var_params:
-            path_params['id'] = local_var_params['id']  # noqa: E501
+            >>> thread = api.pin_thread(thread_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
-        if 'ascending' in local_var_params and local_var_params['ascending'] is not None:  # noqa: E501
-            query_params.append(('ascending', local_var_params['ascending']))  # noqa: E501
-        if 'limit' in local_var_params and local_var_params['limit'] is not None:  # noqa: E501
-            query_params.append(('limit', local_var_params['limit']))  # noqa: E501
-        if 'offset' in local_var_params and local_var_params['offset'] is not None:  # noqa: E501
-            query_params.append(('offset', local_var_params['offset']))  # noqa: E501
-        if 'sort' in local_var_params and local_var_params['sort'] is not None:  # noqa: E501
-            query_params.append(('sort', local_var_params['sort']))  # noqa: E501
+            Args:
+                thread_id (str): The ID of a thread.
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                None
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['thread_id'] = \
+                thread_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/entity/{id}/threads', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='PaginatedResultsOfDiscussionThreadBundle',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def pin_thread(self, thread_id, **kwargs):  # noqa: E501
-        """Pin a Thread.  # noqa: E501
-
-        This API is used to mark a thread as pinned.  Target users: only forum's moderator can mark a thread as pinned.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.pin_thread(thread_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str thread_id: The ID of a thread. (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.pin_thread_with_http_info(thread_id, **kwargs)  # noqa: E501
-
-    def pin_thread_with_http_info(self, thread_id, **kwargs):  # noqa: E501
-        """Pin a Thread.  # noqa: E501
-
-        This API is used to mark a thread as pinned.  Target users: only forum's moderator can mark a thread as pinned.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.pin_thread_with_http_info(thread_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str thread_id: The ID of a thread. (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'thread_id'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.pin_thread = Endpoint(
+            settings={
+                'response_type': None,
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/thread/{threadId}/pin',
+                'operation_id': 'pin_thread',
+                'http_method': 'PUT',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'thread_id',
+                ],
+                'required': [
+                    'thread_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'thread_id':
+                        (str,),
+                },
+                'attribute_map': {
+                    'thread_id': 'threadId',
+                },
+                'location_map': {
+                    'thread_id': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__pin_thread
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method pin_thread" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'thread_id' is set
-        if self.api_client.client_side_validation and ('thread_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['thread_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `thread_id` when calling `pin_thread`")  # noqa: E501
+        def __restore_deleted_thread(
+            self,
+            thread_id,
+            **kwargs
+        ):
+            """Restore a deleted thread.  # noqa: E501
 
-        collection_formats = {}
+            This API is used to restore a deleted thread.  Target users: only forum's moderator can restore a deleted thread.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'thread_id' in local_var_params:
-            path_params['threadId'] = local_var_params['thread_id']  # noqa: E501
+            >>> thread = api.restore_deleted_thread(thread_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                thread_id (str): The ID of a thread.
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                str
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['thread_id'] = \
+                thread_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/thread/{threadId}/pin', 'PUT',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type=None,  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def restore_deleted_thread(self, thread_id, **kwargs):  # noqa: E501
-        """Restore a deleted thread.  # noqa: E501
-
-        This API is used to restore a deleted thread.  Target users: only forum's moderator can restore a deleted thread.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.restore_deleted_thread(thread_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str thread_id: The ID of a thread. (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: str
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.restore_deleted_thread_with_http_info(thread_id, **kwargs)  # noqa: E501
-
-    def restore_deleted_thread_with_http_info(self, thread_id, **kwargs):  # noqa: E501
-        """Restore a deleted thread.  # noqa: E501
-
-        This API is used to restore a deleted thread.  Target users: only forum's moderator can restore a deleted thread.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.restore_deleted_thread_with_http_info(thread_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str thread_id: The ID of a thread. (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(str, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'thread_id'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.restore_deleted_thread = Endpoint(
+            settings={
+                'response_type': (str,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/thread/{threadId}/restore',
+                'operation_id': 'restore_deleted_thread',
+                'http_method': 'PUT',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'thread_id',
+                ],
+                'required': [
+                    'thread_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'thread_id':
+                        (str,),
+                },
+                'attribute_map': {
+                    'thread_id': 'threadId',
+                },
+                'location_map': {
+                    'thread_id': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__restore_deleted_thread
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method restore_deleted_thread" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'thread_id' is set
-        if self.api_client.client_side_validation and ('thread_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['thread_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `thread_id` when calling `restore_deleted_thread`")  # noqa: E501
+        def __unpin_thread(
+            self,
+            thread_id,
+            **kwargs
+        ):
+            """Unpin a thread.  # noqa: E501
 
-        collection_formats = {}
+            This API is used to unpin a thread.  Target users: only forum's moderator can unpin a thread.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'thread_id' in local_var_params:
-            path_params['threadId'] = local_var_params['thread_id']  # noqa: E501
+            >>> thread = api.unpin_thread(thread_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                thread_id (str): The ID of a thread.
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                None
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['thread_id'] = \
+                thread_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/thread/{threadId}/restore', 'PUT',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='str',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def unpin_thread(self, thread_id, **kwargs):  # noqa: E501
-        """Unpin a thread.  # noqa: E501
-
-        This API is used to unpin a thread.  Target users: only forum's moderator can unpin a thread.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.unpin_thread(thread_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str thread_id: The ID of a thread. (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.unpin_thread_with_http_info(thread_id, **kwargs)  # noqa: E501
-
-    def unpin_thread_with_http_info(self, thread_id, **kwargs):  # noqa: E501
-        """Unpin a thread.  # noqa: E501
-
-        This API is used to unpin a thread.  Target users: only forum's moderator can unpin a thread.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.unpin_thread_with_http_info(thread_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str thread_id: The ID of a thread. (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'thread_id'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.unpin_thread = Endpoint(
+            settings={
+                'response_type': None,
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/thread/{threadId}/unpin',
+                'operation_id': 'unpin_thread',
+                'http_method': 'PUT',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'thread_id',
+                ],
+                'required': [
+                    'thread_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'thread_id':
+                        (str,),
+                },
+                'attribute_map': {
+                    'thread_id': 'threadId',
+                },
+                'location_map': {
+                    'thread_id': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__unpin_thread
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method unpin_thread" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'thread_id' is set
-        if self.api_client.client_side_validation and ('thread_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['thread_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `thread_id` when calling `unpin_thread`")  # noqa: E501
+        def __update_thread_message(
+            self,
+            thread_id,
+            **kwargs
+        ):
+            """Update the message of a thread.  # noqa: E501
 
-        collection_formats = {}
+            This API is used to update the message of a thread.  Target users: only the author of the thread can update its message.'   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'thread_id' in local_var_params:
-            path_params['threadId'] = local_var_params['thread_id']  # noqa: E501
+            >>> thread = api.update_thread_message(thread_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                thread_id (str): The ID of a thread.
 
-        header_params = {}
+            Keyword Args:
+                update_thread_message (UpdateThreadMessage): [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                DiscussionThreadBundle
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['thread_id'] = \
+                thread_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/thread/{threadId}/unpin', 'PUT',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type=None,  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def update_thread_message(self, thread_id, **kwargs):  # noqa: E501
-        """Update the message of a thread.  # noqa: E501
-
-        This API is used to update the message of a thread.  Target users: only the author of the thread can update its message.'   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.update_thread_message(thread_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str thread_id: The ID of a thread. (required)
-        :param UpdateThreadMessage update_thread_message:
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: DiscussionThreadBundle
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.update_thread_message_with_http_info(thread_id, **kwargs)  # noqa: E501
-
-    def update_thread_message_with_http_info(self, thread_id, **kwargs):  # noqa: E501
-        """Update the message of a thread.  # noqa: E501
-
-        This API is used to update the message of a thread.  Target users: only the author of the thread can update its message.'   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.update_thread_message_with_http_info(thread_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str thread_id: The ID of a thread. (required)
-        :param UpdateThreadMessage update_thread_message:
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(DiscussionThreadBundle, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'thread_id',
-            'update_thread_message'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.update_thread_message = Endpoint(
+            settings={
+                'response_type': (DiscussionThreadBundle,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/thread/{threadId}/message',
+                'operation_id': 'update_thread_message',
+                'http_method': 'PUT',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'thread_id',
+                    'update_thread_message',
+                ],
+                'required': [
+                    'thread_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'thread_id':
+                        (str,),
+                    'update_thread_message':
+                        (UpdateThreadMessage,),
+                },
+                'attribute_map': {
+                    'thread_id': 'threadId',
+                },
+                'location_map': {
+                    'thread_id': 'path',
+                    'update_thread_message': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__update_thread_message
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method update_thread_message" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'thread_id' is set
-        if self.api_client.client_side_validation and ('thread_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['thread_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `thread_id` when calling `update_thread_message`")  # noqa: E501
+        def __update_thread_title(
+            self,
+            thread_id,
+            **kwargs
+        ):
+            """Update the title of a Thread.  # noqa: E501
 
-        collection_formats = {}
+            This API is used to update the title of a thread.  Target users: only the author of the thread can update its title.'   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'thread_id' in local_var_params:
-            path_params['threadId'] = local_var_params['thread_id']  # noqa: E501
+            >>> thread = api.update_thread_title(thread_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                thread_id (str): The ID of a thread.
 
-        header_params = {}
+            Keyword Args:
+                update_thread_title (UpdateThreadTitle): [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                DiscussionThreadBundle
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['thread_id'] = \
+                thread_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        if 'update_thread_message' in local_var_params:
-            body_params = local_var_params['update_thread_message']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/thread/{threadId}/message', 'PUT',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='DiscussionThreadBundle',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def update_thread_title(self, thread_id, **kwargs):  # noqa: E501
-        """Update the title of a Thread.  # noqa: E501
-
-        This API is used to update the title of a thread.  Target users: only the author of the thread can update its title.'   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.update_thread_title(thread_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str thread_id: The ID of a thread. (required)
-        :param UpdateThreadTitle update_thread_title:
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: DiscussionThreadBundle
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.update_thread_title_with_http_info(thread_id, **kwargs)  # noqa: E501
-
-    def update_thread_title_with_http_info(self, thread_id, **kwargs):  # noqa: E501
-        """Update the title of a Thread.  # noqa: E501
-
-        This API is used to update the title of a thread.  Target users: only the author of the thread can update its title.'   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.update_thread_title_with_http_info(thread_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str thread_id: The ID of a thread. (required)
-        :param UpdateThreadTitle update_thread_title:
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(DiscussionThreadBundle, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'thread_id',
-            'update_thread_title'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.update_thread_title = Endpoint(
+            settings={
+                'response_type': (DiscussionThreadBundle,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/thread/{threadId}/title',
+                'operation_id': 'update_thread_title',
+                'http_method': 'PUT',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'thread_id',
+                    'update_thread_title',
+                ],
+                'required': [
+                    'thread_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'thread_id':
+                        (str,),
+                    'update_thread_title':
+                        (UpdateThreadTitle,),
+                },
+                'attribute_map': {
+                    'thread_id': 'threadId',
+                },
+                'location_map': {
+                    'thread_id': 'path',
+                    'update_thread_title': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__update_thread_title
         )
-
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method update_thread_title" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'thread_id' is set
-        if self.api_client.client_side_validation and ('thread_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['thread_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `thread_id` when calling `update_thread_title`")  # noqa: E501
-
-        collection_formats = {}
-
-        path_params = {}
-        if 'thread_id' in local_var_params:
-            path_params['threadId'] = local_var_params['thread_id']  # noqa: E501
-
-        query_params = []
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        if 'update_thread_title' in local_var_params:
-            body_params = local_var_params['update_thread_title']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/thread/{threadId}/title', 'PUT',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='DiscussionThreadBundle',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)

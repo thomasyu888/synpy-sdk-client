@@ -28,7 +28,7 @@ Method | HTTP request | Description
 
 
 # **add_team_member**
-> add_team_member(id, principal_id, notification_unsubscribe_endpoint=notification_unsubscribe_endpoint, team_endpoint=team_endpoint)
+> add_team_member(id, principal_id)
 
 Add a member to the Team.
 
@@ -38,10 +38,9 @@ Add a member to the Team.  If the one making the request is the user to be added
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import team_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -62,16 +61,25 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id = 'id_example' # str | the ID of the Team.
-principal_id = 'principal_id_example' # str | the member's principal ID
-notification_unsubscribe_endpoint = 'notification_unsubscribe_endpoint_example' # str | the portal prefix for one-click email unsubscription. A signed, serialized token is appended to create the complete URL: <ahref=\"${org.sagebionetworks.repo.model.message.NotificationSettingsSignedToken}\">NotificationSettingsSignedToken</a>'  (optional)
-team_endpoint = 'team_endpoint_example' # str | the portal prefix for the Team URL. The team ID is appended to create the complete URL.  (optional)
+    api_instance = team_services_api.TeamServicesApi(api_client)
+    id = "id_example" # str | the ID of the Team.
+    principal_id = "principalId_example" # str | the member's principal ID
+    notification_unsubscribe_endpoint = "notificationUnsubscribeEndpoint_example" # str | the portal prefix for one-click email unsubscription. A signed, serialized token is appended to create the complete URL: <ahref=\"${org.sagebionetworks.repo.model.message.NotificationSettingsSignedToken}\">NotificationSettingsSignedToken</a>'  (optional)
+    team_endpoint = "teamEndpoint_example" # str | the portal prefix for the Team URL. The team ID is appended to create the complete URL.  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Add a member to the Team.
+        api_instance.add_team_member(id, principal_id)
+    except synclient.ApiException as e:
+        print("Exception when calling TeamServicesApi->add_team_member: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Add a member to the Team.
         api_instance.add_team_member(id, principal_id, notification_unsubscribe_endpoint=notification_unsubscribe_endpoint, team_endpoint=team_endpoint)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TeamServicesApi->add_team_member: %s\n" % e)
 ```
 
@@ -79,10 +87,10 @@ team_endpoint = 'team_endpoint_example' # str | the portal prefix for the Team U
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| the ID of the Team. | 
- **principal_id** | **str**| the member&#39;s principal ID | 
- **notification_unsubscribe_endpoint** | **str**| the portal prefix for one-click email unsubscription. A signed, serialized token is appended to create the complete URL: &lt;ahref&#x3D;\&quot;${org.sagebionetworks.repo.model.message.NotificationSettingsSignedToken}\&quot;&gt;NotificationSettingsSignedToken&lt;/a&gt;&#39;  | [optional] 
- **team_endpoint** | **str**| the portal prefix for the Team URL. The team ID is appended to create the complete URL.  | [optional] 
+ **id** | **str**| the ID of the Team. |
+ **principal_id** | **str**| the member&#39;s principal ID |
+ **notification_unsubscribe_endpoint** | **str**| the portal prefix for one-click email unsubscription. A signed, serialized token is appended to create the complete URL: &lt;ahref&#x3D;\&quot;${org.sagebionetworks.repo.model.message.NotificationSettingsSignedToken}\&quot;&gt;NotificationSettingsSignedToken&lt;/a&gt;&#39;  | [optional]
+ **team_endpoint** | **str**| the portal prefix for the Team URL. The team ID is appended to create the complete URL.  | [optional]
 
 ### Return type
 
@@ -105,7 +113,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **add_team_member_via_signed_token**
-> ResponseMessage add_team_member_via_signed_token(notification_unsubscribe_endpoint=notification_unsubscribe_endpoint, team_endpoint=team_endpoint, join_team_signed_token=join_team_signed_token)
+> ResponseMessage add_team_member_via_signed_token()
 
 Add a member to the Team.
 
@@ -115,10 +123,11 @@ Add a member to the Team.  Note: The request is authenticated by a hash message 
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import team_services_api
+from synclient.model.join_team_signed_token import JoinTeamSignedToken
+from synclient.model.response_message import ResponseMessage
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -139,16 +148,27 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    notification_unsubscribe_endpoint = 'notification_unsubscribe_endpoint_example' # str | notification unsubscribe endpoint (optional)
-team_endpoint = 'team_endpoint_example' # str | Team end point (optional)
-join_team_signed_token = synclient.JoinTeamSignedToken() # JoinTeamSignedToken |  (optional)
+    api_instance = team_services_api.TeamServicesApi(api_client)
+    notification_unsubscribe_endpoint = "notificationUnsubscribeEndpoint_example" # str | notification unsubscribe endpoint (optional)
+    team_endpoint = "teamEndpoint_example" # str | Team end point (optional)
+    join_team_signed_token = JoinTeamSignedToken(
+        concrete_type="concrete_type_example",
+        created_on="created_on_example",
+        expires_on="expires_on_example",
+        hmac="hmac_example",
+        member_id="member_id_example",
+        team_id="team_id_example",
+        user_id="user_id_example",
+        version=1,
+    ) # JoinTeamSignedToken |  (optional)
 
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Add a member to the Team.
         api_response = api_instance.add_team_member_via_signed_token(notification_unsubscribe_endpoint=notification_unsubscribe_endpoint, team_endpoint=team_endpoint, join_team_signed_token=join_team_signed_token)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TeamServicesApi->add_team_member_via_signed_token: %s\n" % e)
 ```
 
@@ -156,9 +176,9 @@ join_team_signed_token = synclient.JoinTeamSignedToken() # JoinTeamSignedToken |
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **notification_unsubscribe_endpoint** | **str**| notification unsubscribe endpoint | [optional] 
- **team_endpoint** | **str**| Team end point | [optional] 
- **join_team_signed_token** | [**JoinTeamSignedToken**](JoinTeamSignedToken.md)|  | [optional] 
+ **notification_unsubscribe_endpoint** | **str**| notification unsubscribe endpoint | [optional]
+ **team_endpoint** | **str**| Team end point | [optional]
+ **join_team_signed_token** | [**JoinTeamSignedToken**](JoinTeamSignedToken.md)|  | [optional]
 
 ### Return type
 
@@ -181,7 +201,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_team**
-> Team create_team(team=team)
+> Team create_team()
 
 Create a new Team.
 
@@ -191,10 +211,10 @@ Create a new Team. The passed request body may contain the following fields:  <u
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import team_services_api
+from synclient.model.team import Team
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -215,14 +235,27 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    team = synclient.Team() # Team |  (optional)
+    api_instance = team_services_api.TeamServicesApi(api_client)
+    team = Team(
+        can_public_join=True,
+        created_by="created_by_example",
+        created_on="created_on_example",
+        description="description_example",
+        etag="etag_example",
+        icon="icon_example",
+        id="id_example",
+        modified_by="modified_by_example",
+        modified_on="modified_on_example",
+        name="name_example",
+    ) # Team |  (optional)
 
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Create a new Team.
         api_response = api_instance.create_team(team=team)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TeamServicesApi->create_team: %s\n" % e)
 ```
 
@@ -230,7 +263,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **team** | [**Team**](Team.md)|  | [optional] 
+ **team** | [**Team**](Team.md)|  | [optional]
 
 ### Return type
 
@@ -263,10 +296,9 @@ Delete the Team. Note: The client must be a Team administrator to make this requ
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import team_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -287,13 +319,14 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id = 'id_example' # str | the ID of the Team.
+    api_instance = team_services_api.TeamServicesApi(api_client)
+    id = "id_example" # str | the ID of the Team.
 
+    # example passing only required values which don't have defaults set
     try:
         # Delete the Team.
         api_instance.delete_team(id)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TeamServicesApi->delete_team: %s\n" % e)
 ```
 
@@ -301,7 +334,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| the ID of the Team. | 
+ **id** | **str**| the ID of the Team. |
 
 ### Return type
 
@@ -324,7 +357,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **file_preview_redirect_url_for_team_icon**
-> str file_preview_redirect_url_for_team_icon(id, redirect=redirect)
+> str file_preview_redirect_url_for_team_icon(id)
 
 Retrieve the download URL for the Team icon preview, or receive a redirect response to said URL. 
 
@@ -334,10 +367,9 @@ Retrieve the download URL for the Team icon preview, or receive a redirect respo
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import team_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -358,15 +390,25 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id = 'id_example' # str | the ID of the Team.
-redirect = True # bool | if true or omitted, then redirect to the URL.  If false then simply return the URL.  (optional)
+    api_instance = team_services_api.TeamServicesApi(api_client)
+    id = "id_example" # str | the ID of the Team.
+    redirect = True # bool | if true or omitted, then redirect to the URL.  If false then simply return the URL.  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Retrieve the download URL for the Team icon preview, or receive a redirect response to said URL. 
+        api_response = api_instance.file_preview_redirect_url_for_team_icon(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling TeamServicesApi->file_preview_redirect_url_for_team_icon: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Retrieve the download URL for the Team icon preview, or receive a redirect response to said URL. 
         api_response = api_instance.file_preview_redirect_url_for_team_icon(id, redirect=redirect)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TeamServicesApi->file_preview_redirect_url_for_team_icon: %s\n" % e)
 ```
 
@@ -374,8 +416,8 @@ redirect = True # bool | if true or omitted, then redirect to the URL.  If false
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| the ID of the Team. | 
- **redirect** | **bool**| if true or omitted, then redirect to the URL.  If false then simply return the URL.  | [optional] 
+ **id** | **str**| the ID of the Team. |
+ **redirect** | **bool**| if true or omitted, then redirect to the URL.  If false then simply return the URL.  | [optional]
 
 ### Return type
 
@@ -398,7 +440,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **file_redirect_url_for_team_icon**
-> str file_redirect_url_for_team_icon(id, redirect=redirect)
+> str file_redirect_url_for_team_icon(id)
 
 Retrieve the download URL for the Team icon, or receive a redirect response to said URL 
 
@@ -408,10 +450,9 @@ Retrieve the download URL for the Team icon, or receive a redirect response to s
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import team_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -432,15 +473,25 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id = 'id_example' # str | the ID of the Team.
-redirect = True # bool | if true or omitted, then redirect to the URL.  If false then simply return the URL.  (optional)
+    api_instance = team_services_api.TeamServicesApi(api_client)
+    id = "id_example" # str | the ID of the Team.
+    redirect = True # bool | if true or omitted, then redirect to the URL.  If false then simply return the URL.  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Retrieve the download URL for the Team icon, or receive a redirect response to said URL 
+        api_response = api_instance.file_redirect_url_for_team_icon(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling TeamServicesApi->file_redirect_url_for_team_icon: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Retrieve the download URL for the Team icon, or receive a redirect response to said URL 
         api_response = api_instance.file_redirect_url_for_team_icon(id, redirect=redirect)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TeamServicesApi->file_redirect_url_for_team_icon: %s\n" % e)
 ```
 
@@ -448,8 +499,8 @@ redirect = True # bool | if true or omitted, then redirect to the URL.  If false
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| the ID of the Team. | 
- **redirect** | **bool**| if true or omitted, then redirect to the URL.  If false then simply return the URL.  | [optional] 
+ **id** | **str**| the ID of the Team. |
+ **redirect** | **bool**| if true or omitted, then redirect to the URL.  If false then simply return the URL.  | [optional]
 
 ### Return type
 
@@ -482,10 +533,10 @@ Retrieve the metadata for a specified Team.  <p>  <b>Service Limits</b>  <table 
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import team_services_api
+from synclient.model.team import Team
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -506,14 +557,15 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id = 'id_example' # str | the ID of the Team.
+    api_instance = team_services_api.TeamServicesApi(api_client)
+    id = "id_example" # str | the ID of the Team.
 
+    # example passing only required values which don't have defaults set
     try:
         # Retrieve the metadata for a specified Team.
         api_response = api_instance.get_team(id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TeamServicesApi->get_team: %s\n" % e)
 ```
 
@@ -521,7 +573,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| the ID of the Team. | 
+ **id** | **str**| the ID of the Team. |
 
 ### Return type
 
@@ -554,10 +606,10 @@ Retrieve the AccessControlList for a specified Team.
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import team_services_api
+from synclient.model.access_control_list import AccessControlList
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -578,14 +630,15 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id = 'id_example' # str | the ID of the Team.
+    api_instance = team_services_api.TeamServicesApi(api_client)
+    id = "id_example" # str | the ID of the Team.
 
+    # example passing only required values which don't have defaults set
     try:
         # Retrieve the AccessControlList for a specified Team.
         api_response = api_instance.get_team_acl(id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TeamServicesApi->get_team_acl: %s\n" % e)
 ```
 
@@ -593,7 +646,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| the ID of the Team. | 
+ **id** | **str**| the ID of the Team. |
 
 ### Return type
 
@@ -616,7 +669,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_team_ids_by_member**
-> PaginatedTeamIds get_team_ids_by_member(id, ascending=ascending, next_page_token=next_page_token, sort=sort)
+> PaginatedTeamIds get_team_ids_by_member(id)
 
 Retrieve a paginated list of IDs of Teams to which the given user belongs.
 
@@ -626,10 +679,10 @@ Retrieve a paginated list of IDs of Teams to which the given user belongs. If so
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import team_services_api
+from synclient.model.paginated_team_ids import PaginatedTeamIds
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -650,17 +703,27 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id = 'id_example' # str | The ID of the Synapse user.
-ascending = True # bool | the direction of sort: true for ascending, and false for descending (optional)
-next_page_token = 'next_page_token_example' # str | controls pagination (optional)
-sort = 'sort_example' # str | the field to sort the team IDs on. Available options <a href=\"${org.sagebionetworks.repo.model.TeamSortOrder}\">TeamSortOrder</a>  (optional)
+    api_instance = team_services_api.TeamServicesApi(api_client)
+    id = "id_example" # str | The ID of the Synapse user.
+    ascending = True # bool | the direction of sort: true for ascending, and false for descending (optional)
+    next_page_token = "nextPageToken_example" # str | controls pagination (optional)
+    sort = "TEAM_NAME" # str | the field to sort the team IDs on. Available options <a href=\"${org.sagebionetworks.repo.model.TeamSortOrder}\">TeamSortOrder</a>  (optional) if omitted the server will use the default value of "TEAM_NAME"
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Retrieve a paginated list of IDs of Teams to which the given user belongs.
+        api_response = api_instance.get_team_ids_by_member(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling TeamServicesApi->get_team_ids_by_member: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Retrieve a paginated list of IDs of Teams to which the given user belongs.
         api_response = api_instance.get_team_ids_by_member(id, ascending=ascending, next_page_token=next_page_token, sort=sort)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TeamServicesApi->get_team_ids_by_member: %s\n" % e)
 ```
 
@@ -668,10 +731,10 @@ sort = 'sort_example' # str | the field to sort the team IDs on. Available optio
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of the Synapse user. | 
- **ascending** | **bool**| the direction of sort: true for ascending, and false for descending | [optional] 
- **next_page_token** | **str**| controls pagination | [optional] 
- **sort** | **str**| the field to sort the team IDs on. Available options &lt;a href&#x3D;\&quot;${org.sagebionetworks.repo.model.TeamSortOrder}\&quot;&gt;TeamSortOrder&lt;/a&gt;  | [optional] 
+ **id** | **str**| The ID of the Synapse user. |
+ **ascending** | **bool**| the direction of sort: true for ascending, and false for descending | [optional]
+ **next_page_token** | **str**| controls pagination | [optional]
+ **sort** | **str**| the field to sort the team IDs on. Available options &lt;a href&#x3D;\&quot;${org.sagebionetworks.repo.model.TeamSortOrder}\&quot;&gt;TeamSortOrder&lt;/a&gt;  | [optional] if omitted the server will use the default value of "TEAM_NAME"
 
 ### Return type
 
@@ -704,10 +767,10 @@ Name | Type | Description  | Notes
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import team_services_api
+from synclient.model.team_member import TeamMember
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -728,15 +791,16 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id = 'id_example' # str | the ID of the Team.
-principal_id = 'principal_id_example' # str | the member's principal ID
+    api_instance = team_services_api.TeamServicesApi(api_client)
+    id = "id_example" # str | the ID of the Team.
+    principal_id = "principalId_example" # str | the member's principal ID
 
+    # example passing only required values which don't have defaults set
     try:
         # .
         api_response = api_instance.get_team_member(id, principal_id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TeamServicesApi->get_team_member: %s\n" % e)
 ```
 
@@ -744,8 +808,8 @@ principal_id = 'principal_id_example' # str | the member's principal ID
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| the ID of the Team. | 
- **principal_id** | **str**| the member&#39;s principal ID | 
+ **id** | **str**| the ID of the Team. |
+ **principal_id** | **str**| the member&#39;s principal ID |
 
 ### Return type
 
@@ -768,7 +832,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_team_member_count**
-> Count get_team_member_count(id, fragment=fragment)
+> Count get_team_member_count(id)
 
 Retrieve the number of Team members matching the supplied name prefix.
 
@@ -778,10 +842,10 @@ Retrieve the number of Team members matching the supplied name prefix.  If the p
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import team_services_api
+from synclient.model.count import Count
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -802,15 +866,25 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id = 'id_example' # str | the ID of the Team.
-fragment = 'fragment_example' # str | a prefix of the user's first or last name or email address  (optional)
+    api_instance = team_services_api.TeamServicesApi(api_client)
+    id = "id_example" # str | the ID of the Team.
+    fragment = "fragment_example" # str | a prefix of the user's first or last name or email address  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Retrieve the number of Team members matching the supplied name prefix.
+        api_response = api_instance.get_team_member_count(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling TeamServicesApi->get_team_member_count: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Retrieve the number of Team members matching the supplied name prefix.
         api_response = api_instance.get_team_member_count(id, fragment=fragment)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TeamServicesApi->get_team_member_count: %s\n" % e)
 ```
 
@@ -818,8 +892,8 @@ fragment = 'fragment_example' # str | a prefix of the user's first or last name 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| the ID of the Team. | 
- **fragment** | **str**| a prefix of the user&#39;s first or last name or email address  | [optional] 
+ **id** | **str**| the ID of the Team. |
+ **fragment** | **str**| a prefix of the user&#39;s first or last name or email address  | [optional]
 
 ### Return type
 
@@ -842,7 +916,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_team_members**
-> PaginatedResultsOfTeamMember get_team_members(id, fragment=fragment, limit=limit, member_type=member_type, offset=offset)
+> PaginatedResultsOfTeamMember get_team_members(id)
 
 Retrieve a paginated list of Team members matching the supplied name prefix.
 
@@ -852,10 +926,10 @@ Retrieve a paginated list of Team members matching the supplied name prefix.  If
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import team_services_api
+from synclient.model.paginated_results_of_team_member import PaginatedResultsOfTeamMember
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -876,18 +950,28 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id = 'id_example' # str | the ID of the Team.
-fragment = 'fragment_example' # str | a prefix of the user's first or last name or email address (optional)
-limit = 10 # int | the maximum number of members to return. (optional) (default to 10)
-member_type = 'ALL' # str | the type of team user to retrieve (optional) (default to 'ALL')
-offset = 0 # int | the starting index of the returned results (optional) (default to 0)
+    api_instance = team_services_api.TeamServicesApi(api_client)
+    id = "id_example" # str | the ID of the Team.
+    fragment = "fragment_example" # str | a prefix of the user's first or last name or email address (optional)
+    limit = 10 # int | the maximum number of members to return. (optional) if omitted the server will use the default value of 10
+    member_type = "ALL" # str | the type of team user to retrieve (optional) if omitted the server will use the default value of "ALL"
+    offset = 0 # int | the starting index of the returned results (optional) if omitted the server will use the default value of 0
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Retrieve a paginated list of Team members matching the supplied name prefix.
+        api_response = api_instance.get_team_members(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling TeamServicesApi->get_team_members: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Retrieve a paginated list of Team members matching the supplied name prefix.
         api_response = api_instance.get_team_members(id, fragment=fragment, limit=limit, member_type=member_type, offset=offset)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TeamServicesApi->get_team_members: %s\n" % e)
 ```
 
@@ -895,11 +979,11 @@ offset = 0 # int | the starting index of the returned results (optional) (defaul
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| the ID of the Team. | 
- **fragment** | **str**| a prefix of the user&#39;s first or last name or email address | [optional] 
- **limit** | **int**| the maximum number of members to return. | [optional] [default to 10]
- **member_type** | **str**| the type of team user to retrieve | [optional] [default to &#39;ALL&#39;]
- **offset** | **int**| the starting index of the returned results | [optional] [default to 0]
+ **id** | **str**| the ID of the Team. |
+ **fragment** | **str**| a prefix of the user&#39;s first or last name or email address | [optional]
+ **limit** | **int**| the maximum number of members to return. | [optional] if omitted the server will use the default value of 10
+ **member_type** | **str**| the type of team user to retrieve | [optional] if omitted the server will use the default value of "ALL"
+ **offset** | **int**| the starting index of the returned results | [optional] if omitted the server will use the default value of 0
 
 ### Return type
 
@@ -932,10 +1016,10 @@ Retrieve the Team Membership Status bundle for a team and user.  This says wheth
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import team_services_api
+from synclient.model.team_membership_status import TeamMembershipStatus
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -956,15 +1040,16 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id = 'id_example' # str | the ID of the Team.
-principal_id = 'principal_id_example' # str | the member's principal ID
+    api_instance = team_services_api.TeamServicesApi(api_client)
+    id = "id_example" # str | the ID of the Team.
+    principal_id = "principalId_example" # str | the member's principal ID
 
+    # example passing only required values which don't have defaults set
     try:
         # Retrieve the Team Membership Status bundle for a team and user.
         api_response = api_instance.get_team_membership_status(id, principal_id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TeamServicesApi->get_team_membership_status: %s\n" % e)
 ```
 
@@ -972,8 +1057,8 @@ principal_id = 'principal_id_example' # str | the member's principal ID
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| the ID of the Team. | 
- **principal_id** | **str**| the member&#39;s principal ID | 
+ **id** | **str**| the ID of the Team. |
+ **principal_id** | **str**| the member&#39;s principal ID |
 
 ### Return type
 
@@ -996,7 +1081,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_teams_by_member**
-> PaginatedResultsOfTeam get_teams_by_member(id, limit=limit, offset=offset)
+> PaginatedResultsOfTeam get_teams_by_member(id)
 
 Retrieve a paginated list of Teams to which the given user belongs.
 
@@ -1006,10 +1091,10 @@ Retrieve a paginated list of Teams to which the given user belongs.
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import team_services_api
+from synclient.model.paginated_results_of_team import PaginatedResultsOfTeam
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1030,16 +1115,26 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id = 'id_example' # str | The ID of the Synapse user.
-limit = 10 # int | the maximum number of Teams to return (default 10) (optional) (default to 10)
-offset = 0 # int | the starting index of the returned results (default 0) (optional) (default to 0)
+    api_instance = team_services_api.TeamServicesApi(api_client)
+    id = "id_example" # str | The ID of the Synapse user.
+    limit = 10 # int | the maximum number of Teams to return (default 10) (optional) if omitted the server will use the default value of 10
+    offset = 0 # int | the starting index of the returned results (default 0) (optional) if omitted the server will use the default value of 0
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Retrieve a paginated list of Teams to which the given user belongs.
+        api_response = api_instance.get_teams_by_member(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling TeamServicesApi->get_teams_by_member: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Retrieve a paginated list of Teams to which the given user belongs.
         api_response = api_instance.get_teams_by_member(id, limit=limit, offset=offset)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TeamServicesApi->get_teams_by_member: %s\n" % e)
 ```
 
@@ -1047,9 +1142,9 @@ offset = 0 # int | the starting index of the returned results (default 0) (optio
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of the Synapse user. | 
- **limit** | **int**| the maximum number of Teams to return (default 10) | [optional] [default to 10]
- **offset** | **int**| the starting index of the returned results (default 0) | [optional] [default to 0]
+ **id** | **str**| The ID of the Synapse user. |
+ **limit** | **int**| the maximum number of Teams to return (default 10) | [optional] if omitted the server will use the default value of 10
+ **offset** | **int**| the starting index of the returned results (default 0) | [optional] if omitted the server will use the default value of 0
 
 ### Return type
 
@@ -1072,7 +1167,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_teams_by_name_fragment**
-> PaginatedResultsOfTeam get_teams_by_name_fragment(fragment=fragment, limit=limit, offset=offset)
+> PaginatedResultsOfTeam get_teams_by_name_fragment()
 
 Retrieve a paginated list of Teams in alphabetical order by Team name.
 
@@ -1082,10 +1177,10 @@ Retrieve a paginated list of Teams matching the supplied name fragment (optional
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import team_services_api
+from synclient.model.paginated_results_of_team import PaginatedResultsOfTeam
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1106,16 +1201,18 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    fragment = 'fragment_example' # str | a prefix of the Team name, or a prefix of any sub-string in the name preceded by a space. If omitted, all Teams are returned.  (optional)
-limit = 10 # int | the maximum number of Teams to return. (optional) (default to 10)
-offset = 0 # int | the starting index of the returned results (default 0) (optional) (default to 0)
+    api_instance = team_services_api.TeamServicesApi(api_client)
+    fragment = "fragment_example" # str | a prefix of the Team name, or a prefix of any sub-string in the name preceded by a space. If omitted, all Teams are returned.  (optional)
+    limit = 10 # int | the maximum number of Teams to return. (optional) if omitted the server will use the default value of 10
+    offset = 0 # int | the starting index of the returned results (default 0) (optional) if omitted the server will use the default value of 0
 
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Retrieve a paginated list of Teams in alphabetical order by Team name.
         api_response = api_instance.get_teams_by_name_fragment(fragment=fragment, limit=limit, offset=offset)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TeamServicesApi->get_teams_by_name_fragment: %s\n" % e)
 ```
 
@@ -1123,9 +1220,9 @@ offset = 0 # int | the starting index of the returned results (default 0) (optio
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **fragment** | **str**| a prefix of the Team name, or a prefix of any sub-string in the name preceded by a space. If omitted, all Teams are returned.  | [optional] 
- **limit** | **int**| the maximum number of Teams to return. | [optional] [default to 10]
- **offset** | **int**| the starting index of the returned results (default 0) | [optional] [default to 0]
+ **fragment** | **str**| a prefix of the Team name, or a prefix of any sub-string in the name preceded by a space. If omitted, all Teams are returned.  | [optional]
+ **limit** | **int**| the maximum number of Teams to return. | [optional] if omitted the server will use the default value of 10
+ **offset** | **int**| the starting index of the returned results (default 0) | [optional] if omitted the server will use the default value of 0
 
 ### Return type
 
@@ -1148,7 +1245,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_team_members_given_teamand_user_list**
-> ListWrapperOfTeamMember list_team_members_given_teamand_user_list(id, id_list=id_list)
+> ListWrapperOfTeamMember list_team_members_given_teamand_user_list(id)
 
 Returns the TeamMember info for a team and a given list of members' principal IDs. 
 
@@ -1158,10 +1255,11 @@ Returns the TeamMember info for a team and a given list of members' principal ID
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import team_services_api
+from synclient.model.id_list import IdList
+from synclient.model.list_wrapper_of_team_member import ListWrapperOfTeamMember
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1182,15 +1280,29 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id = 'id_example' # str | the ID of the Team.
-id_list = synclient.IdList() # IdList |  (optional)
+    api_instance = team_services_api.TeamServicesApi(api_client)
+    id = "id_example" # str | the ID of the Team.
+    id_list = IdList(
+        list=[
+            1,
+        ],
+    ) # IdList |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Returns the TeamMember info for a team and a given list of members' principal IDs. 
+        api_response = api_instance.list_team_members_given_teamand_user_list(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling TeamServicesApi->list_team_members_given_teamand_user_list: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Returns the TeamMember info for a team and a given list of members' principal IDs. 
         api_response = api_instance.list_team_members_given_teamand_user_list(id, id_list=id_list)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TeamServicesApi->list_team_members_given_teamand_user_list: %s\n" % e)
 ```
 
@@ -1198,8 +1310,8 @@ id_list = synclient.IdList() # IdList |  (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| the ID of the Team. | 
- **id_list** | [**IdList**](IdList.md)|  | [optional] 
+ **id** | **str**| the ID of the Team. |
+ **id_list** | [**IdList**](IdList.md)|  | [optional]
 
 ### Return type
 
@@ -1222,7 +1334,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_team_members_given_userand_team_list**
-> ListWrapperOfTeamMember list_team_members_given_userand_team_list(id, id_list=id_list)
+> ListWrapperOfTeamMember list_team_members_given_userand_team_list(id)
 
 Returns the TeamMember info for a user and a given list of Team IDs.
 
@@ -1232,10 +1344,11 @@ Returns the TeamMember info for a user and a given list of Team IDs. Not Found s
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import team_services_api
+from synclient.model.id_list import IdList
+from synclient.model.list_wrapper_of_team_member import ListWrapperOfTeamMember
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1256,15 +1369,29 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id = 'id_example' # str | The ID of the Synapse user.
-id_list = synclient.IdList() # IdList | Team IDs (optional)
+    api_instance = team_services_api.TeamServicesApi(api_client)
+    id = "id_example" # str | The ID of the Synapse user.
+    id_list = IdList(
+        list=[
+            1,
+        ],
+    ) # IdList | Team IDs (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Returns the TeamMember info for a user and a given list of Team IDs.
+        api_response = api_instance.list_team_members_given_userand_team_list(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling TeamServicesApi->list_team_members_given_userand_team_list: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Returns the TeamMember info for a user and a given list of Team IDs.
         api_response = api_instance.list_team_members_given_userand_team_list(id, id_list=id_list)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TeamServicesApi->list_team_members_given_userand_team_list: %s\n" % e)
 ```
 
@@ -1272,8 +1399,8 @@ id_list = synclient.IdList() # IdList | Team IDs (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of the Synapse user. | 
- **id_list** | [**IdList**](IdList.md)| Team IDs | [optional] 
+ **id** | **str**| The ID of the Synapse user. |
+ **id_list** | [**IdList**](IdList.md)| Team IDs | [optional]
 
 ### Return type
 
@@ -1296,7 +1423,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_teams**
-> ListWrapperOfTeam list_teams(id_list=id_list)
+> ListWrapperOfTeam list_teams()
 
 Retrieve a list of Teams given their IDs.
 
@@ -1306,10 +1433,11 @@ Retrieve a list of Teams given their IDs. Invalid IDs in the list are ignored:  
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import team_services_api
+from synclient.model.id_list import IdList
+from synclient.model.list_wrapper_of_team import ListWrapperOfTeam
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1330,14 +1458,20 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id_list = synclient.IdList() # IdList |  (optional)
+    api_instance = team_services_api.TeamServicesApi(api_client)
+    id_list = IdList(
+        list=[
+            1,
+        ],
+    ) # IdList |  (optional)
 
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Retrieve a list of Teams given their IDs.
         api_response = api_instance.list_teams(id_list=id_list)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TeamServicesApi->list_teams: %s\n" % e)
 ```
 
@@ -1345,7 +1479,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id_list** | [**IdList**](IdList.md)|  | [optional] 
+ **id_list** | [**IdList**](IdList.md)|  | [optional]
 
 ### Return type
 
@@ -1378,10 +1512,9 @@ Remove the given member from the specified Team. Note:  The client must either b
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import team_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1402,14 +1535,15 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    id = 'id_example' # str | the ID of the Team.
-principal_id = 'principal_id_example' # str | the member's principal ID
+    api_instance = team_services_api.TeamServicesApi(api_client)
+    id = "id_example" # str | the ID of the Team.
+    principal_id = "principalId_example" # str | the member's principal ID
 
+    # example passing only required values which don't have defaults set
     try:
         # Remove the given member from the specified Team.
         api_instance.remove_team_member(id, principal_id)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TeamServicesApi->remove_team_member: %s\n" % e)
 ```
 
@@ -1417,8 +1551,8 @@ principal_id = 'principal_id_example' # str | the member's principal ID
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| the ID of the Team. | 
- **principal_id** | **str**| the member&#39;s principal ID | 
+ **id** | **str**| the ID of the Team. |
+ **principal_id** | **str**| the member&#39;s principal ID |
 
 ### Return type
 
@@ -1441,7 +1575,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_team**
-> Team update_team(team=team)
+> Team update_team()
 
 Update the Team metadata for the specified Team.
 
@@ -1451,10 +1585,10 @@ Update the Team metadata for the specified Team. Note: The client must be a Team
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import team_services_api
+from synclient.model.team import Team
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1475,14 +1609,27 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    team = synclient.Team() # Team | the new metadata for the Team (optional)
+    api_instance = team_services_api.TeamServicesApi(api_client)
+    team = Team(
+        can_public_join=True,
+        created_by="created_by_example",
+        created_on="created_on_example",
+        description="description_example",
+        etag="etag_example",
+        icon="icon_example",
+        id="id_example",
+        modified_by="modified_by_example",
+        modified_on="modified_on_example",
+        name="name_example",
+    ) # Team | the new metadata for the Team (optional)
 
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Update the Team metadata for the specified Team.
         api_response = api_instance.update_team(team=team)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TeamServicesApi->update_team: %s\n" % e)
 ```
 
@@ -1490,7 +1637,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **team** | [**Team**](Team.md)| the new metadata for the Team | [optional] 
+ **team** | [**Team**](Team.md)| the new metadata for the Team | [optional]
 
 ### Return type
 
@@ -1513,7 +1660,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_team_acl**
-> AccessControlList update_team_acl(access_control_list=access_control_list)
+> AccessControlList update_team_acl()
 
 Update the Access Control List for the specified Team.
 
@@ -1523,10 +1670,10 @@ Update the Access Control List for the specified Team.
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import team_services_api
+from synclient.model.access_control_list import AccessControlList
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1547,14 +1694,31 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TeamServicesApi(api_client)
-    access_control_list = synclient.AccessControlList() # AccessControlList | the updated Access Control List (optional)
+    api_instance = team_services_api.TeamServicesApi(api_client)
+    access_control_list = AccessControlList(
+        created_by="created_by_example",
+        creation_date="creation_date_example",
+        etag="etag_example",
+        id="id_example",
+        modified_by="modified_by_example",
+        modified_on="modified_on_example",
+        resource_access=[
+            ResourceAccess(
+                access_type=[
+                    ACCESSTYPE("CREATE"),
+                ],
+                principal_id=1,
+            ),
+        ],
+    ) # AccessControlList | the updated Access Control List (optional)
 
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Update the Access Control List for the specified Team.
         api_response = api_instance.update_team_acl(access_control_list=access_control_list)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TeamServicesApi->update_team_acl: %s\n" % e)
 ```
 
@@ -1562,7 +1726,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **access_control_list** | [**AccessControlList**](AccessControlList.md)| the updated Access Control List | [optional] 
+ **access_control_list** | [**AccessControlList**](AccessControlList.md)| the updated Access Control List | [optional]
 
 ### Return type
 

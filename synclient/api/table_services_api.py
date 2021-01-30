@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     Platform Repository Service
 
@@ -11,18 +9,31 @@
 """
 
 
-from __future__ import absolute_import
-
 import re  # noqa: F401
+import sys  # noqa: F401
 
-# python 2 and python 3 compatibility library
-import six
-
-from synclient.api_client import ApiClient
-from synclient.exceptions import (  # noqa: F401
-    ApiTypeError,
-    ApiValueError
+from synclient.api_client import ApiClient, Endpoint
+from synclient.model_utils import (  # noqa: F401
+    check_allowed_values,
+    check_validations,
+    date,
+    datetime,
+    file_type,
+    none_type,
+    validate_and_convert_types
 )
+from synclient.model.async_job_id import AsyncJobId
+from synclient.model.download_from_table_request import DownloadFromTableRequest
+from synclient.model.download_from_table_result import DownloadFromTableResult
+from synclient.model.paginated_column_models import PaginatedColumnModels
+from synclient.model.query_bundle_request import QueryBundleRequest
+from synclient.model.query_result_bundle import QueryResultBundle
+from synclient.model.row_reference_set import RowReferenceSet
+from synclient.model.snapshot_request import SnapshotRequest
+from synclient.model.snapshot_response import SnapshotResponse
+from synclient.model.table_file_handle_results import TableFileHandleResults
+from synclient.model.table_update_transaction_request import TableUpdateTransactionRequest
+from synclient.model.table_update_transaction_response import TableUpdateTransactionResponse
 
 
 class TableServicesApi(object):
@@ -37,1392 +48,1448 @@ class TableServicesApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def create_snapshot(self, id, **kwargs):  # noqa: E501
-        """Request to create a new snapshot of a table.  # noqa: E501
+        def __create_snapshot(
+            self,
+            id,
+            **kwargs
+        ):
+            """Request to create a new snapshot of a table.  # noqa: E501
 
-        Request to create a new snapshot of a table. The provided comment, label, and activity ID will be applied to the current version thereby creating a snapshot and locking the current version. After the snapshot is created a new version will be started with an 'in-progress' label.  NOTE: This service is for TableEntity only. Snapshots of EntityView require asynchronous processing and can be created via: POST /entity/{id}/table/transaction/async/start   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.create_snapshot(id, async_req=True)
-        >>> result = thread.get()
+            Request to create a new snapshot of a table. The provided comment, label, and activity ID will be applied to the current version thereby creating a snapshot and locking the current version. After the snapshot is created a new version will be started with an 'in-progress' label.  NOTE: This service is for TableEntity only. Snapshots of EntityView require asynchronous processing and can be created via: POST /entity/{id}/table/transaction/async/start   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        :param async_req bool: execute request asynchronously
-        :param str id: The ID of a Table Entity. (required)
-        :param SnapshotRequest snapshot_request:
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: SnapshotResponse
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.create_snapshot_with_http_info(id, **kwargs)  # noqa: E501
+            >>> thread = api.create_snapshot(id, async_req=True)
+            >>> result = thread.get()
 
-    def create_snapshot_with_http_info(self, id, **kwargs):  # noqa: E501
-        """Request to create a new snapshot of a table.  # noqa: E501
+            Args:
+                id (str): The ID of a Table Entity.
 
-        Request to create a new snapshot of a table. The provided comment, label, and activity ID will be applied to the current version thereby creating a snapshot and locking the current version. After the snapshot is created a new version will be started with an 'in-progress' label.  NOTE: This service is for TableEntity only. Snapshots of EntityView require asynchronous processing and can be created via: POST /entity/{id}/table/transaction/async/start   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.create_snapshot_with_http_info(id, async_req=True)
-        >>> result = thread.get()
+            Keyword Args:
+                snapshot_request (SnapshotRequest): [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        :param async_req bool: execute request asynchronously
-        :param str id: The ID of a Table Entity. (required)
-        :param SnapshotRequest snapshot_request:
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(SnapshotResponse, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
+            Returns:
+                SnapshotResponse
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['id'] = \
+                id
+            return self.call_with_http_info(**kwargs)
 
-        local_var_params = locals()
-
-        all_params = [
-            'id',
-            'snapshot_request'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.create_snapshot = Endpoint(
+            settings={
+                'response_type': (SnapshotResponse,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/entity/{id}/table/snapshot',
+                'operation_id': 'create_snapshot',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'id',
+                    'snapshot_request',
+                ],
+                'required': [
+                    'id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'id':
+                        (str,),
+                    'snapshot_request':
+                        (SnapshotRequest,),
+                },
+                'attribute_map': {
+                    'id': 'id',
+                },
+                'location_map': {
+                    'id': 'path',
+                    'snapshot_request': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__create_snapshot
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method create_snapshot" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'id' is set
-        if self.api_client.client_side_validation and ('id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `id` when calling `create_snapshot`")  # noqa: E501
+        def __csv_download_async_get(
+            self,
+            id,
+            async_token,
+            **kwargs
+        ):
+            """Asynchronously get the results of a csv download started with.  # noqa: E501
 
-        collection_formats = {}
+            Asynchronously get the results of a csv download started with POST  Note: When the result is not ready yet, this method will return a status code of 202 (ACCEPTED) and the response body will be a AsynchronousJobStatus   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'id' in local_var_params:
-            path_params['id'] = local_var_params['id']  # noqa: E501
+            >>> thread = api.csv_download_async_get(id, async_token, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                id (str): The ID of a TableEntity.
+                async_token (str): Async Token
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                DownloadFromTableResult
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['id'] = \
+                id
+            kwargs['async_token'] = \
+                async_token
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        if 'snapshot_request' in local_var_params:
-            body_params = local_var_params['snapshot_request']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/entity/{id}/table/snapshot', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='SnapshotResponse',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def csv_download_async_get(self, id, async_token, **kwargs):  # noqa: E501
-        """Asynchronously get the results of a csv download started with.  # noqa: E501
-
-        Asynchronously get the results of a csv download started with POST  Note: When the result is not ready yet, this method will return a status code of 202 (ACCEPTED) and the response body will be a AsynchronousJobStatus   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.csv_download_async_get(id, async_token, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str id: The ID of a TableEntity. (required)
-        :param str async_token: Async Token (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: DownloadFromTableResult
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.csv_download_async_get_with_http_info(id, async_token, **kwargs)  # noqa: E501
-
-    def csv_download_async_get_with_http_info(self, id, async_token, **kwargs):  # noqa: E501
-        """Asynchronously get the results of a csv download started with.  # noqa: E501
-
-        Asynchronously get the results of a csv download started with POST  Note: When the result is not ready yet, this method will return a status code of 202 (ACCEPTED) and the response body will be a AsynchronousJobStatus   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.csv_download_async_get_with_http_info(id, async_token, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str id: The ID of a TableEntity. (required)
-        :param str async_token: Async Token (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(DownloadFromTableResult, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'id',
-            'async_token'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.csv_download_async_get = Endpoint(
+            settings={
+                'response_type': (DownloadFromTableResult,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/entity/{id}/table/download/csv/async/get/{asyncToken}',
+                'operation_id': 'csv_download_async_get',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'id',
+                    'async_token',
+                ],
+                'required': [
+                    'id',
+                    'async_token',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'id':
+                        (str,),
+                    'async_token':
+                        (str,),
+                },
+                'attribute_map': {
+                    'id': 'id',
+                    'async_token': 'asyncToken',
+                },
+                'location_map': {
+                    'id': 'path',
+                    'async_token': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__csv_download_async_get
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method csv_download_async_get" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'id' is set
-        if self.api_client.client_side_validation and ('id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `id` when calling `csv_download_async_get`")  # noqa: E501
-        # verify the required parameter 'async_token' is set
-        if self.api_client.client_side_validation and ('async_token' not in local_var_params or  # noqa: E501
-                                                        local_var_params['async_token'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `async_token` when calling `csv_download_async_get`")  # noqa: E501
+        def __csv_download_async_start(
+            self,
+            id,
+            **kwargs
+        ):
+            """Asynchronously start a csv download.  # noqa: E501
 
-        collection_formats = {}
+            Asynchronously start a csv download. Use the returned job id and  /entity/{id}/table/download/csv/async/get to get the results of the query   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'id' in local_var_params:
-            path_params['id'] = local_var_params['id']  # noqa: E501
-        if 'async_token' in local_var_params:
-            path_params['asyncToken'] = local_var_params['async_token']  # noqa: E501
+            >>> thread = api.csv_download_async_start(id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                id (str): The ID of a TableEntity.
 
-        header_params = {}
+            Keyword Args:
+                download_from_table_request (DownloadFromTableRequest): [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                AsyncJobId
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['id'] = \
+                id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/entity/{id}/table/download/csv/async/get/{asyncToken}', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='DownloadFromTableResult',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def csv_download_async_start(self, id, **kwargs):  # noqa: E501
-        """Asynchronously start a csv download.  # noqa: E501
-
-        Asynchronously start a csv download. Use the returned job id and  /entity/{id}/table/download/csv/async/get to get the results of the query   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.csv_download_async_start(id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str id: The ID of a TableEntity. (required)
-        :param DownloadFromTableRequest download_from_table_request:
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: AsyncJobId
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.csv_download_async_start_with_http_info(id, **kwargs)  # noqa: E501
-
-    def csv_download_async_start_with_http_info(self, id, **kwargs):  # noqa: E501
-        """Asynchronously start a csv download.  # noqa: E501
-
-        Asynchronously start a csv download. Use the returned job id and  /entity/{id}/table/download/csv/async/get to get the results of the query   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.csv_download_async_start_with_http_info(id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str id: The ID of a TableEntity. (required)
-        :param DownloadFromTableRequest download_from_table_request:
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(AsyncJobId, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'id',
-            'download_from_table_request'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.csv_download_async_start = Endpoint(
+            settings={
+                'response_type': (AsyncJobId,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/entity/{id}/table/download/csv/async/start',
+                'operation_id': 'csv_download_async_start',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'id',
+                    'download_from_table_request',
+                ],
+                'required': [
+                    'id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'id':
+                        (str,),
+                    'download_from_table_request':
+                        (DownloadFromTableRequest,),
+                },
+                'attribute_map': {
+                    'id': 'id',
+                },
+                'location_map': {
+                    'id': 'path',
+                    'download_from_table_request': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__csv_download_async_start
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method csv_download_async_start" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'id' is set
-        if self.api_client.client_side_validation and ('id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `id` when calling `csv_download_async_start`")  # noqa: E501
+        def __file_preview_redirect_url_for_row(
+            self,
+            column_id,
+            id,
+            row_id,
+            version_number,
+            **kwargs
+        ):
+            """Get the preview URL of the file associated with a specific version of a row and file handle column.   # noqa: E501
 
-        collection_formats = {}
+            Get the preview URL of the file associated with a specific version of a row and file handle column.  Note: This call will result in a HTTP temporary redirect (307), to the actual file URL if the caller meets all of the download requirements.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'id' in local_var_params:
-            path_params['id'] = local_var_params['id']  # noqa: E501
+            >>> thread = api.file_preview_redirect_url_for_row(column_id, id, row_id, version_number, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                column_id (str): The ID of the Table column
+                id (str): The ID of the FileEntity to get.
+                row_id (float): The ID of the Table Row
+                version_number (float): The version of the Table Row
 
-        header_params = {}
+            Keyword Args:
+                redirect (bool): When set to false, the URL will be returned as text/plain instead of redirecting. . [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                str
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['column_id'] = \
+                column_id
+            kwargs['id'] = \
+                id
+            kwargs['row_id'] = \
+                row_id
+            kwargs['version_number'] = \
+                version_number
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        if 'download_from_table_request' in local_var_params:
-            body_params = local_var_params['download_from_table_request']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/entity/{id}/table/download/csv/async/start', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='AsyncJobId',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def file_preview_redirect_url_for_row(self, column_id, id, row_id, version_number, **kwargs):  # noqa: E501
-        """Get the preview URL of the file associated with a specific version of a row and file handle column.   # noqa: E501
-
-        Get the preview URL of the file associated with a specific version of a row and file handle column.  Note: This call will result in a HTTP temporary redirect (307), to the actual file URL if the caller meets all of the download requirements.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.file_preview_redirect_url_for_row(column_id, id, row_id, version_number, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str column_id: The ID of the Table column (required)
-        :param str id: The ID of the FileEntity to get. (required)
-        :param float row_id: The ID of the Table Row (required)
-        :param float version_number: The version of the Table Row (required)
-        :param bool redirect: When set to false, the URL will be returned as text/plain instead of redirecting. 
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: str
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.file_preview_redirect_url_for_row_with_http_info(column_id, id, row_id, version_number, **kwargs)  # noqa: E501
-
-    def file_preview_redirect_url_for_row_with_http_info(self, column_id, id, row_id, version_number, **kwargs):  # noqa: E501
-        """Get the preview URL of the file associated with a specific version of a row and file handle column.   # noqa: E501
-
-        Get the preview URL of the file associated with a specific version of a row and file handle column.  Note: This call will result in a HTTP temporary redirect (307), to the actual file URL if the caller meets all of the download requirements.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.file_preview_redirect_url_for_row_with_http_info(column_id, id, row_id, version_number, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str column_id: The ID of the Table column (required)
-        :param str id: The ID of the FileEntity to get. (required)
-        :param float row_id: The ID of the Table Row (required)
-        :param float version_number: The version of the Table Row (required)
-        :param bool redirect: When set to false, the URL will be returned as text/plain instead of redirecting. 
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(str, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'column_id',
-            'id',
-            'row_id',
-            'version_number',
-            'redirect'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.file_preview_redirect_url_for_row = Endpoint(
+            settings={
+                'response_type': (str,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/entity/{id}/table/column/{columnId}/row/{rowId}/version/{versionNumber}/filepreview',
+                'operation_id': 'file_preview_redirect_url_for_row',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'column_id',
+                    'id',
+                    'row_id',
+                    'version_number',
+                    'redirect',
+                ],
+                'required': [
+                    'column_id',
+                    'id',
+                    'row_id',
+                    'version_number',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'column_id':
+                        (str,),
+                    'id':
+                        (str,),
+                    'row_id':
+                        (float,),
+                    'version_number':
+                        (float,),
+                    'redirect':
+                        (bool,),
+                },
+                'attribute_map': {
+                    'column_id': 'columnId',
+                    'id': 'id',
+                    'row_id': 'rowId',
+                    'version_number': 'versionNumber',
+                    'redirect': 'redirect',
+                },
+                'location_map': {
+                    'column_id': 'path',
+                    'id': 'path',
+                    'row_id': 'path',
+                    'version_number': 'path',
+                    'redirect': 'query',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__file_preview_redirect_url_for_row
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method file_preview_redirect_url_for_row" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'column_id' is set
-        if self.api_client.client_side_validation and ('column_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['column_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `column_id` when calling `file_preview_redirect_url_for_row`")  # noqa: E501
-        # verify the required parameter 'id' is set
-        if self.api_client.client_side_validation and ('id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `id` when calling `file_preview_redirect_url_for_row`")  # noqa: E501
-        # verify the required parameter 'row_id' is set
-        if self.api_client.client_side_validation and ('row_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['row_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `row_id` when calling `file_preview_redirect_url_for_row`")  # noqa: E501
-        # verify the required parameter 'version_number' is set
-        if self.api_client.client_side_validation and ('version_number' not in local_var_params or  # noqa: E501
-                                                        local_var_params['version_number'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `version_number` when calling `file_preview_redirect_url_for_row`")  # noqa: E501
+        def __file_redirect_url_for_row(
+            self,
+            column_id,
+            id,
+            row_id,
+            version_number,
+            **kwargs
+        ):
+            """Get the actual URL of the file associated with a specific version of a row and file handle column.   # noqa: E501
 
-        collection_formats = {}
+            Get the actual URL of the file associated with a specific version of a row and file handle column.  Note: This call will result in a HTTP temporary redirect (307), to the actual file URL if the caller meets all of the download requirements.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'column_id' in local_var_params:
-            path_params['columnId'] = local_var_params['column_id']  # noqa: E501
-        if 'id' in local_var_params:
-            path_params['id'] = local_var_params['id']  # noqa: E501
-        if 'row_id' in local_var_params:
-            path_params['rowId'] = local_var_params['row_id']  # noqa: E501
-        if 'version_number' in local_var_params:
-            path_params['versionNumber'] = local_var_params['version_number']  # noqa: E501
+            >>> thread = api.file_redirect_url_for_row(column_id, id, row_id, version_number, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
-        if 'redirect' in local_var_params and local_var_params['redirect'] is not None:  # noqa: E501
-            query_params.append(('redirect', local_var_params['redirect']))  # noqa: E501
+            Args:
+                column_id (str): The ID of the Table column
+                id (str): The ID of the FileEntity to get.
+                row_id (float): The ID of the Table Row
+                version_number (float): The version of the Table Row
 
-        header_params = {}
+            Keyword Args:
+                redirect (bool): When set to false, the URL will be returned as text/plain instead of redirecting. . [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                str
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['column_id'] = \
+                column_id
+            kwargs['id'] = \
+                id
+            kwargs['row_id'] = \
+                row_id
+            kwargs['version_number'] = \
+                version_number
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/entity/{id}/table/column/{columnId}/row/{rowId}/version/{versionNumber}/filepreview', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='str',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def file_redirect_url_for_row(self, column_id, id, row_id, version_number, **kwargs):  # noqa: E501
-        """Get the actual URL of the file associated with a specific version of a row and file handle column.   # noqa: E501
-
-        Get the actual URL of the file associated with a specific version of a row and file handle column.  Note: This call will result in a HTTP temporary redirect (307), to the actual file URL if the caller meets all of the download requirements.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.file_redirect_url_for_row(column_id, id, row_id, version_number, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str column_id: The ID of the Table column (required)
-        :param str id: The ID of the FileEntity to get. (required)
-        :param float row_id: The ID of the Table Row (required)
-        :param float version_number: The version of the Table Row (required)
-        :param bool redirect: When set to false, the URL will be returned as text/plain instead of redirecting. 
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: str
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.file_redirect_url_for_row_with_http_info(column_id, id, row_id, version_number, **kwargs)  # noqa: E501
-
-    def file_redirect_url_for_row_with_http_info(self, column_id, id, row_id, version_number, **kwargs):  # noqa: E501
-        """Get the actual URL of the file associated with a specific version of a row and file handle column.   # noqa: E501
-
-        Get the actual URL of the file associated with a specific version of a row and file handle column.  Note: This call will result in a HTTP temporary redirect (307), to the actual file URL if the caller meets all of the download requirements.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.file_redirect_url_for_row_with_http_info(column_id, id, row_id, version_number, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str column_id: The ID of the Table column (required)
-        :param str id: The ID of the FileEntity to get. (required)
-        :param float row_id: The ID of the Table Row (required)
-        :param float version_number: The version of the Table Row (required)
-        :param bool redirect: When set to false, the URL will be returned as text/plain instead of redirecting. 
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(str, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'column_id',
-            'id',
-            'row_id',
-            'version_number',
-            'redirect'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.file_redirect_url_for_row = Endpoint(
+            settings={
+                'response_type': (str,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/entity/{id}/table/column/{columnId}/row/{rowId}/version/{versionNumber}/file',
+                'operation_id': 'file_redirect_url_for_row',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'column_id',
+                    'id',
+                    'row_id',
+                    'version_number',
+                    'redirect',
+                ],
+                'required': [
+                    'column_id',
+                    'id',
+                    'row_id',
+                    'version_number',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'column_id':
+                        (str,),
+                    'id':
+                        (str,),
+                    'row_id':
+                        (float,),
+                    'version_number':
+                        (float,),
+                    'redirect':
+                        (bool,),
+                },
+                'attribute_map': {
+                    'column_id': 'columnId',
+                    'id': 'id',
+                    'row_id': 'rowId',
+                    'version_number': 'versionNumber',
+                    'redirect': 'redirect',
+                },
+                'location_map': {
+                    'column_id': 'path',
+                    'id': 'path',
+                    'row_id': 'path',
+                    'version_number': 'path',
+                    'redirect': 'query',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__file_redirect_url_for_row
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method file_redirect_url_for_row" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'column_id' is set
-        if self.api_client.client_side_validation and ('column_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['column_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `column_id` when calling `file_redirect_url_for_row`")  # noqa: E501
-        # verify the required parameter 'id' is set
-        if self.api_client.client_side_validation and ('id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `id` when calling `file_redirect_url_for_row`")  # noqa: E501
-        # verify the required parameter 'row_id' is set
-        if self.api_client.client_side_validation and ('row_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['row_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `row_id` when calling `file_redirect_url_for_row`")  # noqa: E501
-        # verify the required parameter 'version_number' is set
-        if self.api_client.client_side_validation and ('version_number' not in local_var_params or  # noqa: E501
-                                                        local_var_params['version_number'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `version_number` when calling `file_redirect_url_for_row`")  # noqa: E501
+        def __get_column_for_table(
+            self,
+            id,
+            **kwargs
+        ):
+            """Given the ID of a.  # noqa: E501
 
-        collection_formats = {}
+            Given the ID of a <a href=\"${org.sagebionetworks.repo.model.table.TableEntity}\">TableEntity</a>, get its list of <ahref=\"${org.sagebionetworks.repo.model.table.ColumnModel}\">ColumnModels</a> that are currently assigned to the table.  <p>  <b>Service Limits</b>  <table border=\"1\">  <tr>  <th>resource</th>  <th>limit</th>  </tr>  <tr>  <td>The maximum frequency this method can be called</td>  <td>6 calls per minute</td>  </tr>  </table>  </p>   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'column_id' in local_var_params:
-            path_params['columnId'] = local_var_params['column_id']  # noqa: E501
-        if 'id' in local_var_params:
-            path_params['id'] = local_var_params['id']  # noqa: E501
-        if 'row_id' in local_var_params:
-            path_params['rowId'] = local_var_params['row_id']  # noqa: E501
-        if 'version_number' in local_var_params:
-            path_params['versionNumber'] = local_var_params['version_number']  # noqa: E501
+            >>> thread = api.get_column_for_table(id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
-        if 'redirect' in local_var_params and local_var_params['redirect'] is not None:  # noqa: E501
-            query_params.append(('redirect', local_var_params['redirect']))  # noqa: E501
+            Args:
+                id (str): The ID of a Table.
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                PaginatedColumnModels
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['id'] = \
+                id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/entity/{id}/table/column/{columnId}/row/{rowId}/version/{versionNumber}/file', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='str',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def get_column_for_table(self, id, **kwargs):  # noqa: E501
-        """Given the ID of a.  # noqa: E501
-
-        Given the ID of a <a href=\"${org.sagebionetworks.repo.model.table.TableEntity}\">TableEntity</a>, get its list of <ahref=\"${org.sagebionetworks.repo.model.table.ColumnModel}\">ColumnModels</a> that are currently assigned to the table.  <p>  <b>Service Limits</b>  <table border=\"1\">  <tr>  <th>resource</th>  <th>limit</th>  </tr>  <tr>  <td>The maximum frequency this method can be called</td>  <td>6 calls per minute</td>  </tr>  </table>  </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_column_for_table(id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str id: The ID of a Table. (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: PaginatedColumnModels
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_column_for_table_with_http_info(id, **kwargs)  # noqa: E501
-
-    def get_column_for_table_with_http_info(self, id, **kwargs):  # noqa: E501
-        """Given the ID of a.  # noqa: E501
-
-        Given the ID of a <a href=\"${org.sagebionetworks.repo.model.table.TableEntity}\">TableEntity</a>, get its list of <ahref=\"${org.sagebionetworks.repo.model.table.ColumnModel}\">ColumnModels</a> that are currently assigned to the table.  <p>  <b>Service Limits</b>  <table border=\"1\">  <tr>  <th>resource</th>  <th>limit</th>  </tr>  <tr>  <td>The maximum frequency this method can be called</td>  <td>6 calls per minute</td>  </tr>  </table>  </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_column_for_table_with_http_info(id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str id: The ID of a Table. (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(PaginatedColumnModels, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'id'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.get_column_for_table = Endpoint(
+            settings={
+                'response_type': (PaginatedColumnModels,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/entity/{id}/column',
+                'operation_id': 'get_column_for_table',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'id',
+                ],
+                'required': [
+                    'id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'id':
+                        (str,),
+                },
+                'attribute_map': {
+                    'id': 'id',
+                },
+                'location_map': {
+                    'id': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_column_for_table
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_column_for_table" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'id' is set
-        if self.api_client.client_side_validation and ('id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `id` when calling `get_column_for_table`")  # noqa: E501
+        def __get_file_handles(
+            self,
+            id,
+            **kwargs
+        ):
+            """.  # noqa: E501
 
-        collection_formats = {}
+            This method is used to get file handle information for rows in a TableEntity. The columns in the passed in RowReferenceSet need to be FILEHANDLEID columns and the rows in the passed in RowReferenceSet need to exists (a 400 will be returned if a row ID is provided that does not actually exist). The order of the returned rows of file handles is the same as the order of the rows requested, and the order of the file handles in each row is the same as the order of the columns requested.  Note: The caller must have the READ permission on the TableEntity to make this call.  <b>Service Limits</b>  <table border=\"1\">  <tr>  <th>resource</th>  <th>limit</th>  </tr>  <tr>  <td>The maximum frequency this method can be called</td>  <td>1 calls per second</td>  </tr>  </table>   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'id' in local_var_params:
-            path_params['id'] = local_var_params['id']  # noqa: E501
+            >>> thread = api.get_file_handles(id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                id (str): The ID of a TableEntity.
 
-        header_params = {}
+            Keyword Args:
+                row_reference_set (RowReferenceSet): [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                TableFileHandleResults
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['id'] = \
+                id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/entity/{id}/column', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='PaginatedColumnModels',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def get_file_handles(self, id, **kwargs):  # noqa: E501
-        """.  # noqa: E501
-
-        This method is used to get file handle information for rows in a TableEntity. The columns in the passed in RowReferenceSet need to be FILEHANDLEID columns and the rows in the passed in RowReferenceSet need to exists (a 400 will be returned if a row ID is provided that does not actually exist). The order of the returned rows of file handles is the same as the order of the rows requested, and the order of the file handles in each row is the same as the order of the columns requested.  Note: The caller must have the READ permission on the TableEntity to make this call.  <b>Service Limits</b>  <table border=\"1\">  <tr>  <th>resource</th>  <th>limit</th>  </tr>  <tr>  <td>The maximum frequency this method can be called</td>  <td>1 calls per second</td>  </tr>  </table>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_file_handles(id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str id: The ID of a TableEntity. (required)
-        :param RowReferenceSet row_reference_set:
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: TableFileHandleResults
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_file_handles_with_http_info(id, **kwargs)  # noqa: E501
-
-    def get_file_handles_with_http_info(self, id, **kwargs):  # noqa: E501
-        """.  # noqa: E501
-
-        This method is used to get file handle information for rows in a TableEntity. The columns in the passed in RowReferenceSet need to be FILEHANDLEID columns and the rows in the passed in RowReferenceSet need to exists (a 400 will be returned if a row ID is provided that does not actually exist). The order of the returned rows of file handles is the same as the order of the rows requested, and the order of the file handles in each row is the same as the order of the columns requested.  Note: The caller must have the READ permission on the TableEntity to make this call.  <b>Service Limits</b>  <table border=\"1\">  <tr>  <th>resource</th>  <th>limit</th>  </tr>  <tr>  <td>The maximum frequency this method can be called</td>  <td>1 calls per second</td>  </tr>  </table>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_file_handles_with_http_info(id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str id: The ID of a TableEntity. (required)
-        :param RowReferenceSet row_reference_set:
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(TableFileHandleResults, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'id',
-            'row_reference_set'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.get_file_handles = Endpoint(
+            settings={
+                'response_type': (TableFileHandleResults,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/entity/{id}/table/filehandles',
+                'operation_id': 'get_file_handles',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'id',
+                    'row_reference_set',
+                ],
+                'required': [
+                    'id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'id':
+                        (str,),
+                    'row_reference_set':
+                        (RowReferenceSet,),
+                },
+                'attribute_map': {
+                    'id': 'id',
+                },
+                'location_map': {
+                    'id': 'path',
+                    'row_reference_set': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__get_file_handles
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_file_handles" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'id' is set
-        if self.api_client.client_side_validation and ('id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `id` when calling `get_file_handles`")  # noqa: E501
+        def __get_table_transaction_result(
+            self,
+            async_token,
+            id,
+            **kwargs
+        ):
+            """Asynchronously get the results of a table update transaction started with.  # noqa: E501
 
-        collection_formats = {}
+            Asynchronously get the results of a table update transaction started with POST /entity/{id}/table/transaction/async/start</a>  Note: When the result is not ready yet, this method will return a status code of 202 (ACCEPTED) and the response body will be a AsynchronousJobStatus object.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'id' in local_var_params:
-            path_params['id'] = local_var_params['id']  # noqa: E501
+            >>> thread = api.get_table_transaction_result(async_token, id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                async_token (str): The token returned when the job was started.
+                id (str): The ID of a Table entity.
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                TableUpdateTransactionResponse
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['async_token'] = \
+                async_token
+            kwargs['id'] = \
+                id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        if 'row_reference_set' in local_var_params:
-            body_params = local_var_params['row_reference_set']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/entity/{id}/table/filehandles', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='TableFileHandleResults',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def get_table_transaction_result(self, async_token, id, **kwargs):  # noqa: E501
-        """Asynchronously get the results of a table update transaction started with.  # noqa: E501
-
-        Asynchronously get the results of a table update transaction started with POST /entity/{id}/table/transaction/async/start</a>  Note: When the result is not ready yet, this method will return a status code of 202 (ACCEPTED) and the response body will be a AsynchronousJobStatus object.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_table_transaction_result(async_token, id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str async_token: The token returned when the job was started. (required)
-        :param str id: The ID of a Table entity. (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: TableUpdateTransactionResponse
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_table_transaction_result_with_http_info(async_token, id, **kwargs)  # noqa: E501
-
-    def get_table_transaction_result_with_http_info(self, async_token, id, **kwargs):  # noqa: E501
-        """Asynchronously get the results of a table update transaction started with.  # noqa: E501
-
-        Asynchronously get the results of a table update transaction started with POST /entity/{id}/table/transaction/async/start</a>  Note: When the result is not ready yet, this method will return a status code of 202 (ACCEPTED) and the response body will be a AsynchronousJobStatus object.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_table_transaction_result_with_http_info(async_token, id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str async_token: The token returned when the job was started. (required)
-        :param str id: The ID of a Table entity. (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(TableUpdateTransactionResponse, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'async_token',
-            'id'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.get_table_transaction_result = Endpoint(
+            settings={
+                'response_type': (TableUpdateTransactionResponse,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/entity/{id}/table/transaction/async/get/{asyncToken}',
+                'operation_id': 'get_table_transaction_result',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'async_token',
+                    'id',
+                ],
+                'required': [
+                    'async_token',
+                    'id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'async_token':
+                        (str,),
+                    'id':
+                        (str,),
+                },
+                'attribute_map': {
+                    'async_token': 'asyncToken',
+                    'id': 'id',
+                },
+                'location_map': {
+                    'async_token': 'path',
+                    'id': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_table_transaction_result
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_table_transaction_result" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'async_token' is set
-        if self.api_client.client_side_validation and ('async_token' not in local_var_params or  # noqa: E501
-                                                        local_var_params['async_token'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `async_token` when calling `get_table_transaction_result`")  # noqa: E501
-        # verify the required parameter 'id' is set
-        if self.api_client.client_side_validation and ('id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `id` when calling `get_table_transaction_result`")  # noqa: E501
+        def __query_async_get(
+            self,
+            async_token,
+            id,
+            **kwargs
+        ):
+            """Asynchronously get the results of a query started with.  # noqa: E501
 
-        collection_formats = {}
+            Asynchronously get the results of a query started with POST /entity/{id}/table/query/async/start  Note: When the result is not ready yet, this method will return a status code of 202 (ACCEPTED) and the response body will be a AsynchronousJobStatus object.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'async_token' in local_var_params:
-            path_params['asyncToken'] = local_var_params['async_token']  # noqa: E501
-        if 'id' in local_var_params:
-            path_params['id'] = local_var_params['id']  # noqa: E501
+            >>> thread = api.query_async_get(async_token, id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                async_token (str): Async Token
+                id (str): The ID of the TableEntity.
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                QueryResultBundle
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['async_token'] = \
+                async_token
+            kwargs['id'] = \
+                id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/entity/{id}/table/transaction/async/get/{asyncToken}', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='TableUpdateTransactionResponse',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def query_async_get(self, async_token, id, **kwargs):  # noqa: E501
-        """Asynchronously get the results of a query started with.  # noqa: E501
-
-        Asynchronously get the results of a query started with POST /entity/{id}/table/query/async/start  Note: When the result is not ready yet, this method will return a status code of 202 (ACCEPTED) and the response body will be a AsynchronousJobStatus object.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.query_async_get(async_token, id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str async_token: Async Token (required)
-        :param str id: The ID of the TableEntity. (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: QueryResultBundle
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.query_async_get_with_http_info(async_token, id, **kwargs)  # noqa: E501
-
-    def query_async_get_with_http_info(self, async_token, id, **kwargs):  # noqa: E501
-        """Asynchronously get the results of a query started with.  # noqa: E501
-
-        Asynchronously get the results of a query started with POST /entity/{id}/table/query/async/start  Note: When the result is not ready yet, this method will return a status code of 202 (ACCEPTED) and the response body will be a AsynchronousJobStatus object.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.query_async_get_with_http_info(async_token, id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str async_token: Async Token (required)
-        :param str id: The ID of the TableEntity. (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(QueryResultBundle, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'async_token',
-            'id'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.query_async_get = Endpoint(
+            settings={
+                'response_type': (QueryResultBundle,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/entity/{id}/table/query/async/get/{asyncToken}',
+                'operation_id': 'query_async_get',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'async_token',
+                    'id',
+                ],
+                'required': [
+                    'async_token',
+                    'id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'async_token':
+                        (str,),
+                    'id':
+                        (str,),
+                },
+                'attribute_map': {
+                    'async_token': 'asyncToken',
+                    'id': 'id',
+                },
+                'location_map': {
+                    'async_token': 'path',
+                    'id': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__query_async_get
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method query_async_get" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'async_token' is set
-        if self.api_client.client_side_validation and ('async_token' not in local_var_params or  # noqa: E501
-                                                        local_var_params['async_token'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `async_token` when calling `query_async_get`")  # noqa: E501
-        # verify the required parameter 'id' is set
-        if self.api_client.client_side_validation and ('id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `id` when calling `query_async_get`")  # noqa: E501
+        def __query_async_start(
+            self,
+            id,
+            **kwargs
+        ):
+            """Asynchronously start a query.  # noqa: E501
 
-        collection_formats = {}
+            Asynchronously start a query. Use the returned job id and GET /entity/{id}/table/query/async/get</a> to get the results of the query  Using a 'SQL like' syntax, query the current version of the rows in a single table. The following pseudo-syntax is the basic supported format:   SELECT <br>  [ALL | DISTINCT] select_expr [, select_expr ...] <br>  FROM synapse_table_id <br>  [WHERE where_condition] <br>  [GROUP BY {col_name [, [col_name * ...] } <br>  [ORDER BY {col_name [ [ASC | DESC] [, col_name [ [ASC | DESC]]}<br>  [LIMIT row_count [ OFFSET offset ]]<br>   <p>  Note: Sub-queries and joining tables is not supported.  </p>  <p>  This services depends on an index that is created/update asynchronously from table creation and update events. This means there could be short window of time when the index is inconsistent with the true state of the table. When the index is out-of-synch, then a status code of 202 (ACCEPTED) will be returned and the response body will be a TableStatus object. The TableStatus will indicates the current status of the index including how much work is remaining until the index is consistent with the truth of the table.  The 'partsMask' is an integer \"mask\" that can be combined into to request any desired part. As of this writing, the mask is defined as follows QueryBundleRequest  <ul>  <li>Query Results <i>(queryResults)</i> = 0x1</li>  <li>Query Count <i>(queryCount)</i> = 0x2</li>  <li>Select Columns <i>(selectColumns)</i> = 0x4</li>  <li>Max Rows Per Page <i>(maxRowsPerPage)</i> = 0x8</li>  <li>The Table Columns <i>(columnModels)</i> = 0x10</li>  <li>Facet statistics for each faceted column <i>(facetStatistics)</i> = 0x20</li>  <li>The sum of the file sizes <i>(sumFileSizesBytes)</i> = 0x40</li>  </ul>  </p>  <p>  For example, to request all parts, the request mask value should be: <br> 0x1 OR 0x2 OR 0x4 OR 0x8 OR 0x10 OR 0x20 OR 0x40 = 0x7F.  </p>  <p>  Note: The caller must have the READ permission on the TableEntity to make this call.  </p>   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'async_token' in local_var_params:
-            path_params['asyncToken'] = local_var_params['async_token']  # noqa: E501
-        if 'id' in local_var_params:
-            path_params['id'] = local_var_params['id']  # noqa: E501
+            >>> thread = api.query_async_start(id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                id (str): The ID of a TableEntity.
 
-        header_params = {}
+            Keyword Args:
+                query_bundle_request (QueryBundleRequest): [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                AsyncJobId
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['id'] = \
+                id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/entity/{id}/table/query/async/get/{asyncToken}', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='QueryResultBundle',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def query_async_start(self, id, **kwargs):  # noqa: E501
-        """Asynchronously start a query.  # noqa: E501
-
-        Asynchronously start a query. Use the returned job id and GET /entity/{id}/table/query/async/get</a> to get the results of the query  Using a 'SQL like' syntax, query the current version of the rows in a single table. The following pseudo-syntax is the basic supported format:   SELECT <br>  [ALL | DISTINCT] select_expr [, select_expr ...] <br>  FROM synapse_table_id <br>  [WHERE where_condition] <br>  [GROUP BY {col_name [, [col_name * ...] } <br>  [ORDER BY {col_name [ [ASC | DESC] [, col_name [ [ASC | DESC]]}<br>  [LIMIT row_count [ OFFSET offset ]]<br>   <p>  Note: Sub-queries and joining tables is not supported.  </p>  <p>  This services depends on an index that is created/update asynchronously from table creation and update events. This means there could be short window of time when the index is inconsistent with the true state of the table. When the index is out-of-synch, then a status code of 202 (ACCEPTED) will be returned and the response body will be a TableStatus object. The TableStatus will indicates the current status of the index including how much work is remaining until the index is consistent with the truth of the table.  The 'partsMask' is an integer \"mask\" that can be combined into to request any desired part. As of this writing, the mask is defined as follows QueryBundleRequest  <ul>  <li>Query Results <i>(queryResults)</i> = 0x1</li>  <li>Query Count <i>(queryCount)</i> = 0x2</li>  <li>Select Columns <i>(selectColumns)</i> = 0x4</li>  <li>Max Rows Per Page <i>(maxRowsPerPage)</i> = 0x8</li>  <li>The Table Columns <i>(columnModels)</i> = 0x10</li>  <li>Facet statistics for each faceted column <i>(facetStatistics)</i> = 0x20</li>  <li>The sum of the file sizes <i>(sumFileSizesBytes)</i> = 0x40</li>  </ul>  </p>  <p>  For example, to request all parts, the request mask value should be: <br> 0x1 OR 0x2 OR 0x4 OR 0x8 OR 0x10 OR 0x20 OR 0x40 = 0x7F.  </p>  <p>  Note: The caller must have the READ permission on the TableEntity to make this call.  </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.query_async_start(id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str id: The ID of a TableEntity. (required)
-        :param QueryBundleRequest query_bundle_request:
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: AsyncJobId
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.query_async_start_with_http_info(id, **kwargs)  # noqa: E501
-
-    def query_async_start_with_http_info(self, id, **kwargs):  # noqa: E501
-        """Asynchronously start a query.  # noqa: E501
-
-        Asynchronously start a query. Use the returned job id and GET /entity/{id}/table/query/async/get</a> to get the results of the query  Using a 'SQL like' syntax, query the current version of the rows in a single table. The following pseudo-syntax is the basic supported format:   SELECT <br>  [ALL | DISTINCT] select_expr [, select_expr ...] <br>  FROM synapse_table_id <br>  [WHERE where_condition] <br>  [GROUP BY {col_name [, [col_name * ...] } <br>  [ORDER BY {col_name [ [ASC | DESC] [, col_name [ [ASC | DESC]]}<br>  [LIMIT row_count [ OFFSET offset ]]<br>   <p>  Note: Sub-queries and joining tables is not supported.  </p>  <p>  This services depends on an index that is created/update asynchronously from table creation and update events. This means there could be short window of time when the index is inconsistent with the true state of the table. When the index is out-of-synch, then a status code of 202 (ACCEPTED) will be returned and the response body will be a TableStatus object. The TableStatus will indicates the current status of the index including how much work is remaining until the index is consistent with the truth of the table.  The 'partsMask' is an integer \"mask\" that can be combined into to request any desired part. As of this writing, the mask is defined as follows QueryBundleRequest  <ul>  <li>Query Results <i>(queryResults)</i> = 0x1</li>  <li>Query Count <i>(queryCount)</i> = 0x2</li>  <li>Select Columns <i>(selectColumns)</i> = 0x4</li>  <li>Max Rows Per Page <i>(maxRowsPerPage)</i> = 0x8</li>  <li>The Table Columns <i>(columnModels)</i> = 0x10</li>  <li>Facet statistics for each faceted column <i>(facetStatistics)</i> = 0x20</li>  <li>The sum of the file sizes <i>(sumFileSizesBytes)</i> = 0x40</li>  </ul>  </p>  <p>  For example, to request all parts, the request mask value should be: <br> 0x1 OR 0x2 OR 0x4 OR 0x8 OR 0x10 OR 0x20 OR 0x40 = 0x7F.  </p>  <p>  Note: The caller must have the READ permission on the TableEntity to make this call.  </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.query_async_start_with_http_info(id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str id: The ID of a TableEntity. (required)
-        :param QueryBundleRequest query_bundle_request:
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(AsyncJobId, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'id',
-            'query_bundle_request'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.query_async_start = Endpoint(
+            settings={
+                'response_type': (AsyncJobId,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/entity/{id}/table/query/async/start',
+                'operation_id': 'query_async_start',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'id',
+                    'query_bundle_request',
+                ],
+                'required': [
+                    'id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'id':
+                        (str,),
+                    'query_bundle_request':
+                        (QueryBundleRequest,),
+                },
+                'attribute_map': {
+                    'id': 'id',
+                },
+                'location_map': {
+                    'id': 'path',
+                    'query_bundle_request': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__query_async_start
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method query_async_start" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'id' is set
-        if self.api_client.client_side_validation and ('id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `id` when calling `query_async_start`")  # noqa: E501
+        def __start_table_transaction_job(
+            self,
+            id,
+            **kwargs
+        ):
+            """Start a table update job that will attempt to make all of the requested changes in a single transaction.   # noqa: E501
 
-        collection_formats = {}
+            Start a table update job that will attempt to make all of the requested changes in a single transaction. All updates will either succeed or fail as a unit.  All update requests must be for the same table.  <p>  Note: The caller must have the UPDATE permission on the TableEntity to make this call.  </p>  <p>  <b>Service Limits</b>  <table border=\"1\">  <tr>  <th>resource</th>  <th>limit</th>  </tr>  <tr>  <td>The maximum size of a PartialRow change </td>  <td>2 MB</td>  </tr>  <tr>  <td>The maximum size of a CSV that can be appended to a table</td>  <td>1 GB</td>  </tr>  </table>  </p>   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'id' in local_var_params:
-            path_params['id'] = local_var_params['id']  # noqa: E501
+            >>> thread = api.start_table_transaction_job(id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                id (str): The ID of a Table Entity.
 
-        header_params = {}
+            Keyword Args:
+                table_update_transaction_request (TableUpdateTransactionRequest): [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                AsyncJobId
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['id'] = \
+                id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        if 'query_bundle_request' in local_var_params:
-            body_params = local_var_params['query_bundle_request']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/entity/{id}/table/query/async/start', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='AsyncJobId',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def start_table_transaction_job(self, id, **kwargs):  # noqa: E501
-        """Start a table update job that will attempt to make all of the requested changes in a single transaction.   # noqa: E501
-
-        Start a table update job that will attempt to make all of the requested changes in a single transaction. All updates will either succeed or fail as a unit.  All update requests must be for the same table.  <p>  Note: The caller must have the UPDATE permission on the TableEntity to make this call.  </p>  <p>  <b>Service Limits</b>  <table border=\"1\">  <tr>  <th>resource</th>  <th>limit</th>  </tr>  <tr>  <td>The maximum size of a PartialRow change </td>  <td>2 MB</td>  </tr>  <tr>  <td>The maximum size of a CSV that can be appended to a table</td>  <td>1 GB</td>  </tr>  </table>  </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.start_table_transaction_job(id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str id: The ID of a Table Entity. (required)
-        :param TableUpdateTransactionRequest table_update_transaction_request:
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: AsyncJobId
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.start_table_transaction_job_with_http_info(id, **kwargs)  # noqa: E501
-
-    def start_table_transaction_job_with_http_info(self, id, **kwargs):  # noqa: E501
-        """Start a table update job that will attempt to make all of the requested changes in a single transaction.   # noqa: E501
-
-        Start a table update job that will attempt to make all of the requested changes in a single transaction. All updates will either succeed or fail as a unit.  All update requests must be for the same table.  <p>  Note: The caller must have the UPDATE permission on the TableEntity to make this call.  </p>  <p>  <b>Service Limits</b>  <table border=\"1\">  <tr>  <th>resource</th>  <th>limit</th>  </tr>  <tr>  <td>The maximum size of a PartialRow change </td>  <td>2 MB</td>  </tr>  <tr>  <td>The maximum size of a CSV that can be appended to a table</td>  <td>1 GB</td>  </tr>  </table>  </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.start_table_transaction_job_with_http_info(id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str id: The ID of a Table Entity. (required)
-        :param TableUpdateTransactionRequest table_update_transaction_request:
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(AsyncJobId, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'id',
-            'table_update_transaction_request'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.start_table_transaction_job = Endpoint(
+            settings={
+                'response_type': (AsyncJobId,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/entity/{id}/table/transaction/async/start',
+                'operation_id': 'start_table_transaction_job',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'id',
+                    'table_update_transaction_request',
+                ],
+                'required': [
+                    'id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'id':
+                        (str,),
+                    'table_update_transaction_request':
+                        (TableUpdateTransactionRequest,),
+                },
+                'attribute_map': {
+                    'id': 'id',
+                },
+                'location_map': {
+                    'id': 'path',
+                    'table_update_transaction_request': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__start_table_transaction_job
         )
-
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method start_table_transaction_job" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'id' is set
-        if self.api_client.client_side_validation and ('id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `id` when calling `start_table_transaction_job`")  # noqa: E501
-
-        collection_formats = {}
-
-        path_params = {}
-        if 'id' in local_var_params:
-            path_params['id'] = local_var_params['id']  # noqa: E501
-
-        query_params = []
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        if 'table_update_transaction_request' in local_var_params:
-            body_params = local_var_params['table_update_transaction_request']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/entity/{id}/table/transaction/async/start', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='AsyncJobId',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)

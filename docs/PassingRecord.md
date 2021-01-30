@@ -4,7 +4,7 @@ A record of whether a given user passed a given test
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**corrections** | [**list[ResponseCorrectness]**](ResponseCorrectness.md) | For each response, whether it was correct | [optional] 
+**corrections** | [**[ResponseCorrectness]**](ResponseCorrectness.md) | For each response, whether it was correct | [optional] 
 **passed** | **bool** | Whether the user passed the given test | [optional] 
 **passed_on** | **str** | Date/time when the user passed the test (omitted if the user has not passed) | [optional] 
 **quiz_id** | **int** | The id of the quiz | [optional] 

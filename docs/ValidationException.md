@@ -4,7 +4,7 @@ A recursive ValidationException that describes all schema violations for an enti
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**causing_exceptions** | [**list[ValidationException]**](ValidationException.md) | An array of sub-exceptions. | [optional] 
+**causing_exceptions** | [**[ValidationException]**](ValidationException.md) | An array of sub-exceptions. | [optional] 
 **keyword** | **str** | The JSON schema keyword which was violated. | [optional] 
 **message** | **str** | The description of the validation failure. | [optional] 
 **pointer_to_violation** | **str** | A JSON Pointer denoting the path from the input document root to its fragment which caused the validation failure. | [optional] 

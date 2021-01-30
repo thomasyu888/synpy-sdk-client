@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **modified_by** | **str** | The user that last modified this object. | [optional] 
 **modified_on** | **str** | The date this object was last modified. | [optional] 
 **name** | **str** | A name for this Activity. | [optional] 
-**used** | [**list[Used]**](Used.md) | The entities used by this Activity. | [optional] 
+**used** | [**[Used]**](Used.md) | The entities used by this Activity. | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

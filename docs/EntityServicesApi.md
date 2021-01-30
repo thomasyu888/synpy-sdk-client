@@ -51,7 +51,7 @@ Method | HTTP request | Description
 
 
 # **bind_json_schema_to_entity**
-> JsonSchemaObjectBinding bind_json_schema_to_entity(id, bind_schema_to_entity_request=bind_schema_to_entity_request)
+> JsonSchemaObjectBinding bind_json_schema_to_entity(id)
 
 Bind a JSON schema to an Entity.
 
@@ -61,10 +61,11 @@ Bind a JSON schema to an Entity. The bound schema will be used to validate the E
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.bind_schema_to_entity_request import BindSchemaToEntityRequest
+from synclient.model.json_schema_object_binding import JsonSchemaObjectBinding
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -85,15 +86,28 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-bind_schema_to_entity_request = synclient.BindSchemaToEntityRequest() # BindSchemaToEntityRequest | The request identifies the JSON schema to bind. (optional)
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of an Entity.
+    bind_schema_to_entity_request = BindSchemaToEntityRequest(
+        entity_id="entity_id_example",
+        schemaid="schemaid_example",
+    ) # BindSchemaToEntityRequest | The request identifies the JSON schema to bind. (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Bind a JSON schema to an Entity.
+        api_response = api_instance.bind_json_schema_to_entity(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling EntityServicesApi->bind_json_schema_to_entity: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Bind a JSON schema to an Entity.
         api_response = api_instance.bind_json_schema_to_entity(id, bind_schema_to_entity_request=bind_schema_to_entity_request)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->bind_json_schema_to_entity: %s\n" % e)
 ```
 
@@ -101,8 +115,8 @@ bind_schema_to_entity_request = synclient.BindSchemaToEntityRequest() # BindSche
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of an Entity. | 
- **bind_schema_to_entity_request** | [**BindSchemaToEntityRequest**](BindSchemaToEntityRequest.md)| The request identifies the JSON schema to bind. | [optional] 
+ **id** | **str**| The ID of an Entity. |
+ **bind_schema_to_entity_request** | [**BindSchemaToEntityRequest**](BindSchemaToEntityRequest.md)| The request identifies the JSON schema to bind. | [optional]
 
 ### Return type
 
@@ -135,10 +149,10 @@ Change the <a href=\"${org.sagebionetworks.repo.model.DataType}\" >DataType</a> 
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.data_type_response import DataTypeResponse
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -159,15 +173,16 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-type = 'type_example' # str | Type of data
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of an Entity.
+    type = "OPEN_DATA" # str | Type of data
 
+    # example passing only required values which don't have defaults set
     try:
         # Change the.
         api_response = api_instance.change_entity_data_type(id, type)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->change_entity_data_type: %s\n" % e)
 ```
 
@@ -175,8 +190,8 @@ type = 'type_example' # str | Type of data
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of an Entity. | 
- **type** | **str**| Type of data | 
+ **id** | **str**| The ID of an Entity. |
+ **type** | **str**| Type of data |
 
 ### Return type
 
@@ -209,10 +224,9 @@ Clear the bound JSON schema from this Entity. The schema will no longer be used 
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -233,13 +247,14 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of an Entity.
 
+    # example passing only required values which don't have defaults set
     try:
         # Clear the bound JSON schema from this Entity.
         api_instance.clear_bound_schema(id)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->clear_bound_schema: %s\n" % e)
 ```
 
@@ -247,7 +262,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of an Entity. | 
+ **id** | **str**| The ID of an Entity. |
 
 ### Return type
 
@@ -270,7 +285,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_entity**
-> Entity create_entity(generated_by=generated_by, entity=entity)
+> Entity create_entity()
 
 Create a new Entity.
 
@@ -280,10 +295,10 @@ Create a new Entity. This method is used to create Projects, Folders, FileEntiti
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.entity import Entity
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -304,15 +319,28 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    generated_by = 'generated_by_example' # str | To track the Provenance of an Entity create, include the ID of the <a href=\"${org.sagebionetworks.repo.model.provenance.Activity}\">Activity</a> that was created to track the change. For more information see: <a href=\"${POST.activity}\">POST /activity</a>. You must be the creator of the <a href=\"${org.sagebionetworks.repo.model.provenance.Activity}\">Activity</a> used here.'  (optional)
-entity = synclient.Entity() # Entity |  (optional)
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    generated_by = "generatedBy_example" # str | To track the Provenance of an Entity create, include the ID of the <a href=\"${org.sagebionetworks.repo.model.provenance.Activity}\">Activity</a> that was created to track the change. For more information see: <a href=\"${POST.activity}\">POST /activity</a>. You must be the creator of the <a href=\"${org.sagebionetworks.repo.model.provenance.Activity}\">Activity</a> used here.'  (optional)
+    entity = Entity(
+        concrete_type="concrete_type_example",
+        created_by="created_by_example",
+        created_on="created_on_example",
+        description="description_example",
+        etag="etag_example",
+        id="id_example",
+        modified_by="modified_by_example",
+        modified_on="modified_on_example",
+        name="NNR(Mx.EO9uf3y+FjLWeL",
+        parent_id="parent_id_example",
+    ) # Entity |  (optional)
 
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Create a new Entity.
         api_response = api_instance.create_entity(generated_by=generated_by, entity=entity)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->create_entity: %s\n" % e)
 ```
 
@@ -320,8 +348,8 @@ entity = synclient.Entity() # Entity |  (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **generated_by** | **str**| To track the Provenance of an Entity create, include the ID of the &lt;a href&#x3D;\&quot;${org.sagebionetworks.repo.model.provenance.Activity}\&quot;&gt;Activity&lt;/a&gt; that was created to track the change. For more information see: &lt;a href&#x3D;\&quot;${POST.activity}\&quot;&gt;POST /activity&lt;/a&gt;. You must be the creator of the &lt;a href&#x3D;\&quot;${org.sagebionetworks.repo.model.provenance.Activity}\&quot;&gt;Activity&lt;/a&gt; used here.&#39;  | [optional] 
- **entity** | [**Entity**](Entity.md)|  | [optional] 
+ **generated_by** | **str**| To track the Provenance of an Entity create, include the ID of the &lt;a href&#x3D;\&quot;${org.sagebionetworks.repo.model.provenance.Activity}\&quot;&gt;Activity&lt;/a&gt; that was created to track the change. For more information see: &lt;a href&#x3D;\&quot;${POST.activity}\&quot;&gt;POST /activity&lt;/a&gt;. You must be the creator of the &lt;a href&#x3D;\&quot;${org.sagebionetworks.repo.model.provenance.Activity}\&quot;&gt;Activity&lt;/a&gt; used here.&#39;  | [optional]
+ **entity** | [**Entity**](Entity.md)|  | [optional]
 
 ### Return type
 
@@ -344,7 +372,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_entity_acl**
-> AccessControlList create_entity_acl(id, access_control_list=access_control_list)
+> AccessControlList create_entity_acl(id)
 
 Create a new Access Control List (ACL), overriding inheritance.
 
@@ -354,10 +382,10 @@ Create a new Access Control List (ACL), overriding inheritance.  <p> By default,
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.access_control_list import AccessControlList
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -378,15 +406,40 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-access_control_list = synclient.AccessControlList() # AccessControlList |  (optional)
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of an Entity.
+    access_control_list = AccessControlList(
+        created_by="created_by_example",
+        creation_date="creation_date_example",
+        etag="etag_example",
+        id="id_example",
+        modified_by="modified_by_example",
+        modified_on="modified_on_example",
+        resource_access=[
+            ResourceAccess(
+                access_type=[
+                    ACCESSTYPE("CREATE"),
+                ],
+                principal_id=1,
+            ),
+        ],
+    ) # AccessControlList |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Create a new Access Control List (ACL), overriding inheritance.
+        api_response = api_instance.create_entity_acl(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling EntityServicesApi->create_entity_acl: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Create a new Access Control List (ACL), overriding inheritance.
         api_response = api_instance.create_entity_acl(id, access_control_list=access_control_list)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->create_entity_acl: %s\n" % e)
 ```
 
@@ -394,8 +447,8 @@ access_control_list = synclient.AccessControlList() # AccessControlList |  (opti
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of an Entity. | 
- **access_control_list** | [**AccessControlList**](AccessControlList.md)|  | [optional] 
+ **id** | **str**| The ID of an Entity. |
+ **access_control_list** | [**AccessControlList**](AccessControlList.md)|  | [optional]
 
 ### Return type
 
@@ -418,7 +471,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_activity**
-> delete_activity(id, body=body)
+> delete_activity(id)
 
 Deletes the activity relationship for the current version of an Entity.
 
@@ -428,10 +481,9 @@ Deletes the activity relationship for the current version of an Entity.
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -452,14 +504,23 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-body = None # object |  (optional)
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of an Entity.
+    body = {} # {str: (bool, date, datetime, dict, float, int, list, str, none_type)} |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Deletes the activity relationship for the current version of an Entity.
+        api_instance.delete_activity(id)
+    except synclient.ApiException as e:
+        print("Exception when calling EntityServicesApi->delete_activity: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Deletes the activity relationship for the current version of an Entity.
         api_instance.delete_activity(id, body=body)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->delete_activity: %s\n" % e)
 ```
 
@@ -467,8 +528,8 @@ body = None # object |  (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of an Entity. | 
- **body** | **object**|  | [optional] 
+ **id** | **str**| The ID of an Entity. |
+ **body** | **{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**|  | [optional]
 
 ### Return type
 
@@ -491,7 +552,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_entity**
-> delete_entity(id, skip_trash_can=skip_trash_can, body=body)
+> delete_entity(id)
 
 Deletes an Entity
 
@@ -501,10 +562,9 @@ Moves an entity in the trash can, if the skipTrashCan is set to true will flag t
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -525,15 +585,24 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-skip_trash_can = True # bool | If true the entity will be flag for priority purge and deleted as soon as possible  (optional)
-body = None # object |  (optional)
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of an Entity.
+    skip_trash_can = True # bool | If true the entity will be flag for priority purge and deleted as soon as possible  (optional)
+    body = {} # {str: (bool, date, datetime, dict, float, int, list, str, none_type)} |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Deletes an Entity
+        api_instance.delete_entity(id)
+    except synclient.ApiException as e:
+        print("Exception when calling EntityServicesApi->delete_entity: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Deletes an Entity
         api_instance.delete_entity(id, skip_trash_can=skip_trash_can, body=body)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->delete_entity: %s\n" % e)
 ```
 
@@ -541,9 +610,9 @@ body = None # object |  (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of an Entity. | 
- **skip_trash_can** | **bool**| If true the entity will be flag for priority purge and deleted as soon as possible  | [optional] 
- **body** | **object**|  | [optional] 
+ **id** | **str**| The ID of an Entity. |
+ **skip_trash_can** | **bool**| If true the entity will be flag for priority purge and deleted as soon as possible  | [optional]
+ **body** | **{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**|  | [optional]
 
 ### Return type
 
@@ -566,7 +635,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_entity_acl**
-> delete_entity_acl(id, body=body)
+> delete_entity_acl(id)
 
 Delete the Access Control List (ACL) for a given Entity.
 
@@ -576,10 +645,9 @@ Delete the Access Control List (ACL) for a given Entity.  <p>  By default, Entit
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -600,14 +668,23 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-body = None # object |  (optional)
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of an Entity.
+    body = {} # {str: (bool, date, datetime, dict, float, int, list, str, none_type)} |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Delete the Access Control List (ACL) for a given Entity.
+        api_instance.delete_entity_acl(id)
+    except synclient.ApiException as e:
+        print("Exception when calling EntityServicesApi->delete_entity_acl: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Delete the Access Control List (ACL) for a given Entity.
         api_instance.delete_entity_acl(id, body=body)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->delete_entity_acl: %s\n" % e)
 ```
 
@@ -615,8 +692,8 @@ body = None # object |  (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of an Entity. | 
- **body** | **object**|  | [optional] 
+ **id** | **str**| The ID of an Entity. |
+ **body** | **{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**|  | [optional]
 
 ### Return type
 
@@ -639,7 +716,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_entity_version**
-> delete_entity_version(id, version_number, body=body)
+> delete_entity_version(id, version_number)
 
 Delete a specific version of a FileEntity.
 
@@ -649,10 +726,9 @@ Delete a specific version of a FileEntity.
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -673,15 +749,24 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of the Entity
-version_number = 56 # int | The version number of the Entity.
-body = None # object |  (optional)
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of the Entity
+    version_number = 1 # int | The version number of the Entity.
+    body = {} # {str: (bool, date, datetime, dict, float, int, list, str, none_type)} |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Delete a specific version of a FileEntity.
+        api_instance.delete_entity_version(id, version_number)
+    except synclient.ApiException as e:
+        print("Exception when calling EntityServicesApi->delete_entity_version: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Delete a specific version of a FileEntity.
         api_instance.delete_entity_version(id, version_number, body=body)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->delete_entity_version: %s\n" % e)
 ```
 
@@ -689,9 +774,9 @@ body = None # object |  (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of the Entity | 
- **version_number** | **int**| The version number of the Entity. | 
- **body** | **object**|  | [optional] 
+ **id** | **str**| The ID of the Entity |
+ **version_number** | **int**| The version number of the Entity. |
+ **body** | **{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**|  | [optional]
 
 ### Return type
 
@@ -714,7 +799,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **file_preview_redirect_url_for_version**
-> str file_preview_redirect_url_for_version(id, version_number, redirect=redirect)
+> str file_preview_redirect_url_for_version(id, version_number)
 
 Get the URL of the preview file associated with a specific version of a FileEntity. 
 
@@ -724,10 +809,9 @@ Get the URL of the preview file associated with a specific version of a FileEnti
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -748,16 +832,26 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of the Entity.
-version_number = 56 # int | The version number of the Entity.
-redirect = True # bool | When set to false, the URL will be returned as text/plain instead of redirecting.  (optional)
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of the Entity.
+    version_number = 1 # int | The version number of the Entity.
+    redirect = True # bool | When set to false, the URL will be returned as text/plain instead of redirecting.  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Get the URL of the preview file associated with a specific version of a FileEntity. 
+        api_response = api_instance.file_preview_redirect_url_for_version(id, version_number)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling EntityServicesApi->file_preview_redirect_url_for_version: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Get the URL of the preview file associated with a specific version of a FileEntity. 
         api_response = api_instance.file_preview_redirect_url_for_version(id, version_number, redirect=redirect)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->file_preview_redirect_url_for_version: %s\n" % e)
 ```
 
@@ -765,9 +859,9 @@ redirect = True # bool | When set to false, the URL will be returned as text/pla
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of the Entity. | 
- **version_number** | **int**| The version number of the Entity. | 
- **redirect** | **bool**| When set to false, the URL will be returned as text/plain instead of redirecting.  | [optional] 
+ **id** | **str**| The ID of the Entity. |
+ **version_number** | **int**| The version number of the Entity. |
+ **redirect** | **bool**| When set to false, the URL will be returned as text/plain instead of redirecting.  | [optional]
 
 ### Return type
 
@@ -790,7 +884,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_activity**
-> Activity get_activity(id, body=body)
+> Activity get_activity(id)
 
 Get an existing activity for the current version of an Entity.
 
@@ -800,10 +894,10 @@ Get an existing activity for the current version of an Entity.
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.activity import Activity
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -824,15 +918,25 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-body = None # object | Get an existing activity for the current version of an Entity. (optional)
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of an Entity.
+    body = {} # {str: (bool, date, datetime, dict, float, int, list, str, none_type)} | Get an existing activity for the current version of an Entity. (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Get an existing activity for the current version of an Entity.
+        api_response = api_instance.get_activity(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling EntityServicesApi->get_activity: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Get an existing activity for the current version of an Entity.
         api_response = api_instance.get_activity(id, body=body)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->get_activity: %s\n" % e)
 ```
 
@@ -840,8 +944,8 @@ body = None # object | Get an existing activity for the current version of an En
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of an Entity. | 
- **body** | **object**| Get an existing activity for the current version of an Entity. | [optional] 
+ **id** | **str**| The ID of an Entity. |
+ **body** | **{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**| Get an existing activity for the current version of an Entity. | [optional]
 
 ### Return type
 
@@ -864,7 +968,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_activity_for_entity_version**
-> Activity get_activity_for_entity_version(id, version_number, body=body)
+> Activity get_activity_for_entity_version(id, version_number)
 
 Get an existing activity for a specific version of an Entity.
 
@@ -874,10 +978,10 @@ Get an existing activity for a specific version of an Entity.
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.activity import Activity
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -898,16 +1002,26 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of the Entity.
-version_number = 56 # int | The version number of the Entity.
-body = None # object | Get an existing activity for a specific version of an Entity. (optional)
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of the Entity.
+    version_number = 1 # int | The version number of the Entity.
+    body = {} # {str: (bool, date, datetime, dict, float, int, list, str, none_type)} | Get an existing activity for a specific version of an Entity. (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Get an existing activity for a specific version of an Entity.
+        api_response = api_instance.get_activity_for_entity_version(id, version_number)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling EntityServicesApi->get_activity_for_entity_version: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Get an existing activity for a specific version of an Entity.
         api_response = api_instance.get_activity_for_entity_version(id, version_number, body=body)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->get_activity_for_entity_version: %s\n" % e)
 ```
 
@@ -915,9 +1029,9 @@ body = None # object | Get an existing activity for a specific version of an Ent
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of the Entity. | 
- **version_number** | **int**| The version number of the Entity. | 
- **body** | **object**| Get an existing activity for a specific version of an Entity. | [optional] 
+ **id** | **str**| The ID of the Entity. |
+ **version_number** | **int**| The version number of the Entity. |
+ **body** | **{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**| Get an existing activity for a specific version of an Entity. | [optional]
 
 ### Return type
 
@@ -940,7 +1054,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_all_versions_of_entity**
-> PaginatedResultsOfVersionInfo get_all_versions_of_entity(id, limit=limit, offset=offset)
+> PaginatedResultsOfVersionInfo get_all_versions_of_entity(id)
 
 Get all versions of an Entity one page at a time.
 
@@ -950,10 +1064,10 @@ Get all versions of an Entity one page at a time.
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.paginated_results_of_version_info import PaginatedResultsOfVersionInfo
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -974,16 +1088,26 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of the Entity.
-limit = 10 # int | Limits the number of entities that will be fetched for this page. When null it will default to 10.  (optional) (default to 10)
-offset = 0 # int | The offset index determines where this page will start from. When null it will default to 0.  (optional) (default to 0)
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of the Entity.
+    limit = 10 # int | Limits the number of entities that will be fetched for this page. When null it will default to 10.  (optional) if omitted the server will use the default value of 10
+    offset = 0 # int | The offset index determines where this page will start from. When null it will default to 0.  (optional) if omitted the server will use the default value of 0
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Get all versions of an Entity one page at a time.
+        api_response = api_instance.get_all_versions_of_entity(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling EntityServicesApi->get_all_versions_of_entity: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Get all versions of an Entity one page at a time.
         api_response = api_instance.get_all_versions_of_entity(id, limit=limit, offset=offset)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->get_all_versions_of_entity: %s\n" % e)
 ```
 
@@ -991,9 +1115,9 @@ offset = 0 # int | The offset index determines where this page will start from. 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of the Entity. | 
- **limit** | **int**| Limits the number of entities that will be fetched for this page. When null it will default to 10.  | [optional] [default to 10]
- **offset** | **int**| The offset index determines where this page will start from. When null it will default to 0.  | [optional] [default to 0]
+ **id** | **str**| The ID of the Entity. |
+ **limit** | **int**| Limits the number of entities that will be fetched for this page. When null it will default to 10.  | [optional] if omitted the server will use the default value of 10
+ **offset** | **int**| The offset index determines where this page will start from. When null it will default to 0.  | [optional] if omitted the server will use the default value of 0
 
 ### Return type
 
@@ -1026,10 +1150,10 @@ Get information about a JSON schema bound to an Entity. Note: Any child Entity t
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.json_schema_object_binding import JsonSchemaObjectBinding
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1050,14 +1174,15 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of an Entity.
 
+    # example passing only required values which don't have defaults set
     try:
         # Get information about a JSON schema bound to an Entity.
         api_response = api_instance.get_bound_json_schema(id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->get_bound_json_schema: %s\n" % e)
 ```
 
@@ -1065,7 +1190,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of an Entity. | 
+ **id** | **str**| The ID of an Entity. |
 
 ### Return type
 
@@ -1088,7 +1213,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_children**
-> EntityChildrenResponse get_children(entity_children_request=entity_children_request)
+> EntityChildrenResponse get_children()
 
 Get a page of children for a given parent ID.
 
@@ -1098,10 +1223,11 @@ Get a page of children for a given parent ID. This service can also be used to l
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.entity_children_response import EntityChildrenResponse
+from synclient.model.entity_children_request import EntityChildrenRequest
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1122,14 +1248,26 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    entity_children_request = synclient.EntityChildrenRequest() # EntityChildrenRequest |  (optional)
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    entity_children_request = EntityChildrenRequest(
+        include_sum_file_sizes=False,
+        include_total_child_count=False,
+        include_types=[
+            EntityType("project"),
+        ],
+        next_page_token="next_page_token_example",
+        parent_id="parent_id_example",
+        sort_by=SortBy("NAME"),
+        sort_direction=SortDirection("ASC"),
+    ) # EntityChildrenRequest |  (optional)
 
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Get a page of children for a given parent ID.
         api_response = api_instance.get_children(entity_children_request=entity_children_request)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->get_children: %s\n" % e)
 ```
 
@@ -1137,7 +1275,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **entity_children_request** | [**EntityChildrenRequest**](EntityChildrenRequest.md)|  | [optional] 
+ **entity_children_request** | [**EntityChildrenRequest**](EntityChildrenRequest.md)|  | [optional]
 
 ### Return type
 
@@ -1170,10 +1308,10 @@ Get an Entity using its ID.  <p> Note: To get an Entity the caller must be grant
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.entity import Entity
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1194,14 +1332,15 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of an Entity.
 
+    # example passing only required values which don't have defaults set
     try:
         # Get an Entity
         api_response = api_instance.get_entity(id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->get_entity: %s\n" % e)
 ```
 
@@ -1209,7 +1348,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of an Entity. | 
+ **id** | **str**| The ID of an Entity. |
 
 ### Return type
 
@@ -1242,10 +1381,10 @@ Get the Access Control List (ACL) for a given entity.  <p> Note: If this method 
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.access_control_list import AccessControlList
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1266,14 +1405,15 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of an Entity.
 
+    # example passing only required values which don't have defaults set
     try:
         # Get the Access Control List (ACL) for a given entity.
         api_response = api_instance.get_entity_acl(id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->get_entity_acl: %s\n" % e)
 ```
 
@@ -1281,7 +1421,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of an Entity. | 
+ **id** | **str**| The ID of an Entity. |
 
 ### Return type
 
@@ -1314,10 +1454,10 @@ Get the annotations for an entity.  <p>  Note: The caller must be granted the <a
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.annotations_v2 import AnnotationsV2
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1338,14 +1478,15 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of an Entity.
 
+    # example passing only required values which don't have defaults set
     try:
         # Get the annotations for an entity.
         api_response = api_instance.get_entity_annotations(id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->get_entity_annotations: %s\n" % e)
 ```
 
@@ -1353,7 +1494,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of an Entity. | 
+ **id** | **str**| The ID of an Entity. |
 
 ### Return type
 
@@ -1386,10 +1527,10 @@ Get an Entity's annotations for a specific version of a FileEntity.
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.annotations_v2 import AnnotationsV2
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1410,15 +1551,16 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of the Entity.
-version_number = 56 # int | The version number of the Entity.
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of the Entity.
+    version_number = 1 # int | The version number of the Entity.
 
+    # example passing only required values which don't have defaults set
     try:
         # Get an Entity's annotations for a specific version of a FileEntity.
         api_response = api_instance.get_entity_annotations_v2_for_version(id, version_number)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->get_entity_annotations_v2_for_version: %s\n" % e)
 ```
 
@@ -1426,8 +1568,8 @@ version_number = 56 # int | The version number of the Entity.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of the Entity. | 
- **version_number** | **int**| The version number of the Entity. | 
+ **id** | **str**| The ID of the Entity. |
+ **version_number** | **int**| The version number of the Entity. |
 
 ### Return type
 
@@ -1450,7 +1592,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_entity_benefactor**
-> EntityHeader get_entity_benefactor(id, body=body)
+> EntityHeader get_entity_benefactor(id)
 
 Get an Entity's benefactor.
 
@@ -1460,10 +1602,10 @@ Get an Entity's benefactor.  <p>  The term 'benefactor' is used indicate which E
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.entity_header import EntityHeader
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1484,15 +1626,25 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-body = None # object |  (optional)
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of an Entity.
+    body = {} # {str: (bool, date, datetime, dict, float, int, list, str, none_type)} |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Get an Entity's benefactor.
+        api_response = api_instance.get_entity_benefactor(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling EntityServicesApi->get_entity_benefactor: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Get an Entity's benefactor.
         api_response = api_instance.get_entity_benefactor(id, body=body)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->get_entity_benefactor: %s\n" % e)
 ```
 
@@ -1500,8 +1652,8 @@ body = None # object |  (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of an Entity. | 
- **body** | **object**|  | [optional] 
+ **id** | **str**| The ID of an Entity. |
+ **body** | **{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**|  | [optional]
 
 ### Return type
 
@@ -1534,10 +1686,10 @@ Get the FileHandles of the file currently associated with the current version of
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.file_handle_results import FileHandleResults
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1558,14 +1710,15 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of a File Entity.
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of a File Entity.
 
+    # example passing only required values which don't have defaults set
     try:
         # Get the FileHandles of the file currently associated with the current version of the Entity. 
         api_response = api_instance.get_entity_file_handles(id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->get_entity_file_handles: %s\n" % e)
 ```
 
@@ -1573,7 +1726,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of a File Entity. | 
+ **id** | **str**| The ID of a File Entity. |
 
 ### Return type
 
@@ -1606,10 +1759,10 @@ Get the FileHandles of the file associated with a specific version of a FileEnti
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.file_handle_results import FileHandleResults
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1630,15 +1783,16 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of the Entity.
-version_number = 56 # int | The version number of the Entity.
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of the Entity.
+    version_number = 1 # int | The version number of the Entity.
 
+    # example passing only required values which don't have defaults set
     try:
         # Get the FileHandles of the file associated with a specific version of a FileEntity. 
         api_response = api_instance.get_entity_file_handles_for_version(id, version_number)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->get_entity_file_handles_for_version: %s\n" % e)
 ```
 
@@ -1646,8 +1800,8 @@ version_number = 56 # int | The version number of the Entity.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of the Entity. | 
- **version_number** | **int**| The version number of the Entity. | 
+ **id** | **str**| The ID of the Entity. |
+ **version_number** | **int**| The version number of the Entity. |
 
 ### Return type
 
@@ -1680,10 +1834,10 @@ Get a specific version of an Entity.  Note: Only the current version of the Enti
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.entity import Entity
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1704,15 +1858,16 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of the Entity
-version_number = 56 # int | The version number of the Entity.
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of the Entity
+    version_number = 1 # int | The version number of the Entity.
 
+    # example passing only required values which don't have defaults set
     try:
         # Get a specific version of an Entity.
         api_response = api_instance.get_entity_for_version(id, version_number)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->get_entity_for_version: %s\n" % e)
 ```
 
@@ -1720,8 +1875,8 @@ version_number = 56 # int | The version number of the Entity.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of the Entity | 
- **version_number** | **int**| The version number of the Entity. | 
+ **id** | **str**| The ID of the Entity |
+ **version_number** | **int**| The version number of the Entity. |
 
 ### Return type
 
@@ -1744,7 +1899,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_entity_header_by_md5**
-> PaginatedResultsOfEntityHeader get_entity_header_by_md5(md5, body=body)
+> PaginatedResultsOfEntityHeader get_entity_header_by_md5(md5)
 
 Gets FileEntities matching the given MD5 string which the user has read access to. 
 
@@ -1754,10 +1909,10 @@ Gets at most 200 FileEntities matching the given MD5 string which the user has r
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.paginated_results_of_entity_header import PaginatedResultsOfEntityHeader
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1778,15 +1933,25 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    md5 = 'md5_example' # str | File MD5
-body = None # object |  (optional)
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    md5 = "md5_example" # str | File MD5
+    body = {} # {str: (bool, date, datetime, dict, float, int, list, str, none_type)} |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Gets FileEntities matching the given MD5 string which the user has read access to. 
+        api_response = api_instance.get_entity_header_by_md5(md5)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling EntityServicesApi->get_entity_header_by_md5: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Gets FileEntities matching the given MD5 string which the user has read access to. 
         api_response = api_instance.get_entity_header_by_md5(md5, body=body)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->get_entity_header_by_md5: %s\n" % e)
 ```
 
@@ -1794,8 +1959,8 @@ body = None # object |  (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **md5** | **str**| File MD5 | 
- **body** | **object**|  | [optional] 
+ **md5** | **str**| File MD5 |
+ **body** | **{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**|  | [optional]
 
 ### Return type
 
@@ -1828,10 +1993,10 @@ Lookup an Entity ID using an alias.
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.entity_id import EntityId
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1852,14 +2017,15 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    alias = 'alias_example' # str | Alias of an Entity
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    alias = "alias_example" # str | Alias of an Entity
 
+    # example passing only required values which don't have defaults set
     try:
         # Lookup an Entity ID using an alias.
         api_response = api_instance.get_entity_id_by_alias(alias)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->get_entity_id_by_alias: %s\n" % e)
 ```
 
@@ -1867,7 +2033,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **alias** | **str**| Alias of an Entity | 
+ **alias** | **str**| Alias of an Entity |
 
 ### Return type
 
@@ -1890,7 +2056,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_entity_json**
-> object get_entity_json(id)
+> {str: (bool, date, datetime, dict, float, int, list, str, none_type)} get_entity_json(id)
 
 Get the raw JSON for the given entity.
 
@@ -1900,10 +2066,9 @@ Get the raw JSON for the given entity. The resulting JSON can be used for the va
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1924,14 +2089,15 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of an Entity.
 
+    # example passing only required values which don't have defaults set
     try:
         # Get the raw JSON for the given entity.
         api_response = api_instance.get_entity_json(id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->get_entity_json: %s\n" % e)
 ```
 
@@ -1939,11 +2105,11 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of an Entity. | 
+ **id** | **str**| The ID of an Entity. |
 
 ### Return type
 
-**object**
+**{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**
 
 ### Authorization
 
@@ -1972,10 +2138,10 @@ Get the full path of an Entity as a List of EntityHeaders. The first EntityHeade
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.entity_path import EntityPath
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1996,14 +2162,15 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of an Entity.
 
+    # example passing only required values which don't have defaults set
     try:
         # Get the full path of an Entity as a List of EntityHeaders.
         api_response = api_instance.get_entity_path(id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->get_entity_path: %s\n" % e)
 ```
 
@@ -2011,7 +2178,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of an Entity. | 
+ **id** | **str**| The ID of an Entity. |
 
 ### Return type
 
@@ -2044,10 +2211,10 @@ Get the validation results of an Entity against its bound JSON schema. The valid
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.validation_results import ValidationResults
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -2068,14 +2235,15 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of the Entity.
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of the Entity.
 
+    # example passing only required values which don't have defaults set
     try:
         # Get the validation results of an Entity against its bound JSON schema.
         api_response = api_instance.get_entity_schema_validation_results(id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->get_entity_schema_validation_results: %s\n" % e)
 ```
 
@@ -2083,7 +2251,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of the Entity. | 
+ **id** | **str**| The ID of the Entity. |
 
 ### Return type
 
@@ -2116,10 +2284,10 @@ Get the The summary statistics of the JSON schema validation results for a singl
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.validation_summary_statistics import ValidationSummaryStatistics
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -2140,14 +2308,15 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of the container Entity.
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of the container Entity.
 
+    # example passing only required values which don't have defaults set
     try:
         # Get the summary statistics of the JSON schema validation results for a single container Entity such as a Project or Folder. 
         api_response = api_instance.get_entity_schema_validation_statistics(id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->get_entity_schema_validation_statistics: %s\n" % e)
 ```
 
@@ -2155,7 +2324,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of the container Entity. | 
+ **id** | **str**| The ID of the container Entity. |
 
 ### Return type
 
@@ -2178,7 +2347,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_entity_type**
-> EntityHeader get_entity_type(id, body=body)
+> EntityHeader get_entity_type(id)
 
 Get the EntityHeader of an Entity given its ID.
 
@@ -2188,10 +2357,10 @@ Get the EntityHeader of an Entity given its ID. The EntityHeader is a light weig
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.entity_header import EntityHeader
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -2212,15 +2381,25 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of the Entity.
-body = None # object |  (optional)
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of the Entity.
+    body = {} # {str: (bool, date, datetime, dict, float, int, list, str, none_type)} |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Get the EntityHeader of an Entity given its ID.
+        api_response = api_instance.get_entity_type(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling EntityServicesApi->get_entity_type: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Get the EntityHeader of an Entity given its ID.
         api_response = api_instance.get_entity_type(id, body=body)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->get_entity_type: %s\n" % e)
 ```
 
@@ -2228,8 +2407,8 @@ body = None # object |  (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of the Entity. | 
- **body** | **object**|  | [optional] 
+ **id** | **str**| The ID of the Entity. |
+ **body** | **{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**|  | [optional]
 
 ### Return type
 
@@ -2262,10 +2441,10 @@ Get a batch of EntityHeader given multile Entity IDs. The EntityHeader is a ligh
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.paginated_results_of_entity_header import PaginatedResultsOfEntityHeader
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -2286,14 +2465,15 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    batch = 'batch_example' # str | A comma separated list of Entity IDs to get EntityHeaders for. 
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    batch = "batch_example" # str | A comma separated list of Entity IDs to get EntityHeaders for. 
 
+    # example passing only required values which don't have defaults set
     try:
         # Get a batch of EntityHeader given multile Entity IDs.
         api_response = api_instance.get_entity_type_batch(batch)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->get_entity_type_batch: %s\n" % e)
 ```
 
@@ -2301,7 +2481,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **batch** | **str**| A comma separated list of Entity IDs to get EntityHeaders for.  | 
+ **batch** | **str**| A comma separated list of Entity IDs to get EntityHeaders for.  |
 
 ### Return type
 
@@ -2324,7 +2504,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_entity_versioned_type_batch**
-> PaginatedResultsOfEntityHeader get_entity_versioned_type_batch(reference_list=reference_list)
+> PaginatedResultsOfEntityHeader get_entity_versioned_type_batch()
 
 Get the EntityHeader for a list of references with a POST.
 
@@ -2334,10 +2514,11 @@ Get the EntityHeader for a list of references with a POST. If any item in the ba
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.paginated_results_of_entity_header import PaginatedResultsOfEntityHeader
+from synclient.model.reference_list import ReferenceList
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -2358,14 +2539,23 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    reference_list = synclient.ReferenceList() # ReferenceList |  (optional)
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    reference_list = ReferenceList(
+        references=[
+            Reference(
+                target_id="target_id_example",
+                target_version_number=3.14,
+            ),
+        ],
+    ) # ReferenceList |  (optional)
 
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Get the EntityHeader for a list of references with a POST.
         api_response = api_instance.get_entity_versioned_type_batch(reference_list=reference_list)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->get_entity_versioned_type_batch: %s\n" % e)
 ```
 
@@ -2373,7 +2563,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **reference_list** | [**ReferenceList**](ReferenceList.md)|  | [optional] 
+ **reference_list** | [**ReferenceList**](ReferenceList.md)|  | [optional]
 
 ### Return type
 
@@ -2396,7 +2586,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_file_preview_url**
-> str get_file_preview_url(id, redirect=redirect, status=status)
+> str get_file_preview_url(id)
 
 Get the URL of the preview file associated with the current version of a FileEntity. 
 
@@ -2406,10 +2596,9 @@ Get the URL of the preview file associated with the current version of a FileEnt
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -2430,16 +2619,26 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of a File Entity.
-redirect = True # bool | When set to false, the URL will be returned as text/plain instead of redirecting.  (optional)
-status = 56 # int | Status (optional)
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of a File Entity.
+    redirect = True # bool | When set to false, the URL will be returned as text/plain instead of redirecting.  (optional)
+    status = 1 # int | Status (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Get the URL of the preview file associated with the current version of a FileEntity. 
+        api_response = api_instance.get_file_preview_url(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling EntityServicesApi->get_file_preview_url: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Get the URL of the preview file associated with the current version of a FileEntity. 
         api_response = api_instance.get_file_preview_url(id, redirect=redirect, status=status)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->get_file_preview_url: %s\n" % e)
 ```
 
@@ -2447,9 +2646,9 @@ status = 56 # int | Status (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of a File Entity. | 
- **redirect** | **bool**| When set to false, the URL will be returned as text/plain instead of redirecting.  | [optional] 
- **status** | **int**| Status | [optional] 
+ **id** | **str**| The ID of a File Entity. |
+ **redirect** | **bool**| When set to false, the URL will be returned as text/plain instead of redirecting.  | [optional]
+ **status** | **int**| Status | [optional]
 
 ### Return type
 
@@ -2472,7 +2671,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_invalid_validation_results**
-> ListValidationResultsResponse get_invalid_validation_results(id, list_validation_results_request=list_validation_results_request)
+> ListValidationResultsResponse get_invalid_validation_results(id)
 
 Get a single page of invalid JSON schema validation results for a container Entity (Project or Folder). 
 
@@ -2482,10 +2681,11 @@ Get a single page of invalid JSON schema validation results for a container Enti
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.list_validation_results_response import ListValidationResultsResponse
+from synclient.model.list_validation_results_request import ListValidationResultsRequest
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -2506,15 +2706,28 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of the container Entity.
-list_validation_results_request = synclient.ListValidationResultsRequest() # ListValidationResultsRequest |  (optional)
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of the container Entity.
+    list_validation_results_request = ListValidationResultsRequest(
+        container_id="container_id_example",
+        next_page_token="next_page_token_example",
+    ) # ListValidationResultsRequest |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Get a single page of invalid JSON schema validation results for a container Entity (Project or Folder). 
+        api_response = api_instance.get_invalid_validation_results(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling EntityServicesApi->get_invalid_validation_results: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Get a single page of invalid JSON schema validation results for a container Entity (Project or Folder). 
         api_response = api_instance.get_invalid_validation_results(id, list_validation_results_request=list_validation_results_request)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->get_invalid_validation_results: %s\n" % e)
 ```
 
@@ -2522,8 +2735,8 @@ list_validation_results_request = synclient.ListValidationResultsRequest() # Lis
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of the container Entity. | 
- **list_validation_results_request** | [**ListValidationResultsRequest**](ListValidationResultsRequest.md)|  | [optional] 
+ **id** | **str**| The ID of the container Entity. |
+ **list_validation_results_request** | [**ListValidationResultsRequest**](ListValidationResultsRequest.md)|  | [optional]
 
 ### Return type
 
@@ -2556,10 +2769,10 @@ Gets the temporary S3 credentials from STS for the given entity. These credentia
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.sts_credentials import StsCredentials
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -2580,15 +2793,16 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of the Folder with an STS-enabled storage location. 
-permission = 'permission_example' # str | Read-only or read-write permissions. 
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of the Folder with an STS-enabled storage location. 
+    permission = "read_only" # str | Read-only or read-write permissions. 
 
+    # example passing only required values which don't have defaults set
     try:
         # Gets the temporary S3 credentials from STS for the given entity.
         api_response = api_instance.get_temporary_credentials_for_entity(id, permission)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->get_temporary_credentials_for_entity: %s\n" % e)
 ```
 
@@ -2596,8 +2810,8 @@ permission = 'permission_example' # str | Read-only or read-write permissions.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of the Folder with an STS-enabled storage location.  | 
- **permission** | **str**| Read-only or read-write permissions.  | 
+ **id** | **str**| The ID of the Folder with an STS-enabled storage location.  |
+ **permission** | **str**| Read-only or read-write permissions.  |
 
 ### Return type
 
@@ -2630,10 +2844,10 @@ Get the list of permission that the caller has on a given Entity.  A User's perm
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.user_entity_permissions import UserEntityPermissions
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -2654,14 +2868,15 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of an Entity.
 
+    # example passing only required values which don't have defaults set
     try:
         # Get the list of permission that the caller has on a given Entity.
         api_response = api_instance.get_user_entity_permissions(id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->get_user_entity_permissions: %s\n" % e)
 ```
 
@@ -2669,7 +2884,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of an Entity. | 
+ **id** | **str**| The ID of an Entity. |
 
 ### Return type
 
@@ -2692,7 +2907,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **has_access**
-> BooleanResult has_access(id, access_type=access_type, body=body)
+> BooleanResult has_access(id)
 
 Determine if the caller have a given permission on a given Entity.
 
@@ -2702,10 +2917,10 @@ Determine if the caller have a given permission on a given Entity.  <p>  A User'
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.boolean_result import BooleanResult
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -2726,16 +2941,26 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-access_type = 'access_type_example' # str | The permission to check. Must be from:  <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE</a>'  (optional)
-body = None # object |  (optional)
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of an Entity.
+    access_type = "accessType_example" # str | The permission to check. Must be from:  <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE</a>'  (optional)
+    body = {} # {str: (bool, date, datetime, dict, float, int, list, str, none_type)} |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Determine if the caller have a given permission on a given Entity.
+        api_response = api_instance.has_access(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling EntityServicesApi->has_access: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Determine if the caller have a given permission on a given Entity.
         api_response = api_instance.has_access(id, access_type=access_type, body=body)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->has_access: %s\n" % e)
 ```
 
@@ -2743,9 +2968,9 @@ body = None # object |  (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of an Entity. | 
- **access_type** | **str**| The permission to check. Must be from:  &lt;a href&#x3D;\&quot;${org.sagebionetworks.repo.model.ACCESS_TYPE}\&quot;&gt;ACCESS_TYPE&lt;/a&gt;&#39;  | [optional] 
- **body** | **object**|  | [optional] 
+ **id** | **str**| The ID of an Entity. |
+ **access_type** | **str**| The permission to check. Must be from:  &lt;a href&#x3D;\&quot;${org.sagebionetworks.repo.model.ACCESS_TYPE}\&quot;&gt;ACCESS_TYPE&lt;/a&gt;&#39;  | [optional]
+ **body** | **{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**|  | [optional]
 
 ### Return type
 
@@ -2768,7 +2993,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **lookup_child**
-> EntityId lookup_child(entity_lookup_request=entity_lookup_request)
+> EntityId lookup_child()
 
 Retrieve an entityId for a given parent ID and entity name.
 
@@ -2778,10 +3003,11 @@ Retrieve an entityId for a given parent ID and entity name. This service can als
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.entity_id import EntityId
+from synclient.model.entity_lookup_request import EntityLookupRequest
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -2802,14 +3028,19 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    entity_lookup_request = synclient.EntityLookupRequest() # EntityLookupRequest |  (optional)
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    entity_lookup_request = EntityLookupRequest(
+        entity_name="entity_name_example",
+        parent_id="parent_id_example",
+    ) # EntityLookupRequest |  (optional)
 
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Retrieve an entityId for a given parent ID and entity name.
         api_response = api_instance.lookup_child(entity_lookup_request=entity_lookup_request)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->lookup_child: %s\n" % e)
 ```
 
@@ -2817,7 +3048,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **entity_lookup_request** | [**EntityLookupRequest**](EntityLookupRequest.md)|  | [optional] 
+ **entity_lookup_request** | [**EntityLookupRequest**](EntityLookupRequest.md)|  | [optional]
 
 ### Return type
 
@@ -2840,7 +3071,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_activity_for_entity**
-> Activity update_activity_for_entity(id, generated_by, body=body)
+> Activity update_activity_for_entity(id, generated_by)
 
 Sets the generatedBy relationship for the current version of an Entity.
 
@@ -2850,10 +3081,10 @@ Sets the generatedBy relationship for the current version of an Entity.
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.activity import Activity
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -2874,16 +3105,26 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-generated_by = 'generated_by_example' # str | The id of the activity to connect to the entity. You must be the creator of the <a href=\"${org.sagebionetworks.repo.model.provenance.Activity}\">Activity</a> used here.' 
-body = None # object | Sets the generatedBy relationship for the current version of an Entity. (optional)
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of an Entity.
+    generated_by = "generatedBy_example" # str | The id of the activity to connect to the entity. You must be the creator of the <a href=\"${org.sagebionetworks.repo.model.provenance.Activity}\">Activity</a> used here.' 
+    body = {} # {str: (bool, date, datetime, dict, float, int, list, str, none_type)} | Sets the generatedBy relationship for the current version of an Entity. (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Sets the generatedBy relationship for the current version of an Entity.
+        api_response = api_instance.update_activity_for_entity(id, generated_by)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling EntityServicesApi->update_activity_for_entity: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Sets the generatedBy relationship for the current version of an Entity.
         api_response = api_instance.update_activity_for_entity(id, generated_by, body=body)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->update_activity_for_entity: %s\n" % e)
 ```
 
@@ -2891,9 +3132,9 @@ body = None # object | Sets the generatedBy relationship for the current version
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of an Entity. | 
- **generated_by** | **str**| The id of the activity to connect to the entity. You must be the creator of the &lt;a href&#x3D;\&quot;${org.sagebionetworks.repo.model.provenance.Activity}\&quot;&gt;Activity&lt;/a&gt; used here.&#39;  | 
- **body** | **object**| Sets the generatedBy relationship for the current version of an Entity. | [optional] 
+ **id** | **str**| The ID of an Entity. |
+ **generated_by** | **str**| The id of the activity to connect to the entity. You must be the creator of the &lt;a href&#x3D;\&quot;${org.sagebionetworks.repo.model.provenance.Activity}\&quot;&gt;Activity&lt;/a&gt; used here.&#39;  |
+ **body** | **{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**| Sets the generatedBy relationship for the current version of an Entity. | [optional]
 
 ### Return type
 
@@ -2916,7 +3157,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_entity**
-> Entity update_entity(id, generated_by=generated_by, new_version=new_version, entity=entity)
+> Entity update_entity(id)
 
 Update an entity.
 
@@ -2926,10 +3167,10 @@ Update an entity.  <p>  If the Entity is a FileEntity and the dataFileHandleId f
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.entity import Entity
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -2950,17 +3191,38 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-generated_by = 'generated_by_example' # str | To track the Provenance of an Entity update, include the ID of the <a href=\"${org.sagebionetworks.repo.model.provenance.Activity}\">Activity</a> that was created to track the change. For more information see: <a href=\"${POST.activity}\">POST /activity</a>. You must be the creator of the <a href=\"${org.sagebionetworks.repo.model.provenance.Activity}\">Activity</a> used here.'  (optional)
-new_version = 'new_version_example' # str | To force the creation of a new version for a <a href=\"${org.sagebionetworks.repo.model.VersionableEntity}\">versionable</a> entity such as a <a href= \"${org.sagebionetworks.repo.model.FileEntity}\">FileEntity</a>, include this optional parameter with a value set to true (i.e. newVersion=true). This parameter is ignored for entities of type  <a href=\"${org.sagebionetworks.repo.model.table.Table}\">Table</a> (See <a href=\"${POST.entity.id.table.snapshot}\">POST /entity/{id}/table/snapshot</a> instead)  (optional)
-entity = synclient.Entity() # Entity |  (optional)
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of an Entity.
+    generated_by = "generatedBy_example" # str | To track the Provenance of an Entity update, include the ID of the <a href=\"${org.sagebionetworks.repo.model.provenance.Activity}\">Activity</a> that was created to track the change. For more information see: <a href=\"${POST.activity}\">POST /activity</a>. You must be the creator of the <a href=\"${org.sagebionetworks.repo.model.provenance.Activity}\">Activity</a> used here.'  (optional)
+    new_version = "newVersion_example" # str | To force the creation of a new version for a <a href=\"${org.sagebionetworks.repo.model.VersionableEntity}\">versionable</a> entity such as a <a href= \"${org.sagebionetworks.repo.model.FileEntity}\">FileEntity</a>, include this optional parameter with a value set to true (i.e. newVersion=true). This parameter is ignored for entities of type  <a href=\"${org.sagebionetworks.repo.model.table.Table}\">Table</a> (See <a href=\"${POST.entity.id.table.snapshot}\">POST /entity/{id}/table/snapshot</a> instead)  (optional)
+    entity = Entity(
+        concrete_type="concrete_type_example",
+        created_by="created_by_example",
+        created_on="created_on_example",
+        description="description_example",
+        etag="etag_example",
+        id="id_example",
+        modified_by="modified_by_example",
+        modified_on="modified_on_example",
+        name="NNR(Mx.EO9uf3y+FjLWeL",
+        parent_id="parent_id_example",
+    ) # Entity |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Update an entity.
+        api_response = api_instance.update_entity(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling EntityServicesApi->update_entity: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Update an entity.
         api_response = api_instance.update_entity(id, generated_by=generated_by, new_version=new_version, entity=entity)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->update_entity: %s\n" % e)
 ```
 
@@ -2968,10 +3230,10 @@ entity = synclient.Entity() # Entity |  (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of an Entity. | 
- **generated_by** | **str**| To track the Provenance of an Entity update, include the ID of the &lt;a href&#x3D;\&quot;${org.sagebionetworks.repo.model.provenance.Activity}\&quot;&gt;Activity&lt;/a&gt; that was created to track the change. For more information see: &lt;a href&#x3D;\&quot;${POST.activity}\&quot;&gt;POST /activity&lt;/a&gt;. You must be the creator of the &lt;a href&#x3D;\&quot;${org.sagebionetworks.repo.model.provenance.Activity}\&quot;&gt;Activity&lt;/a&gt; used here.&#39;  | [optional] 
- **new_version** | **str**| To force the creation of a new version for a &lt;a href&#x3D;\&quot;${org.sagebionetworks.repo.model.VersionableEntity}\&quot;&gt;versionable&lt;/a&gt; entity such as a &lt;a href&#x3D; \&quot;${org.sagebionetworks.repo.model.FileEntity}\&quot;&gt;FileEntity&lt;/a&gt;, include this optional parameter with a value set to true (i.e. newVersion&#x3D;true). This parameter is ignored for entities of type  &lt;a href&#x3D;\&quot;${org.sagebionetworks.repo.model.table.Table}\&quot;&gt;Table&lt;/a&gt; (See &lt;a href&#x3D;\&quot;${POST.entity.id.table.snapshot}\&quot;&gt;POST /entity/{id}/table/snapshot&lt;/a&gt; instead)  | [optional] 
- **entity** | [**Entity**](Entity.md)|  | [optional] 
+ **id** | **str**| The ID of an Entity. |
+ **generated_by** | **str**| To track the Provenance of an Entity update, include the ID of the &lt;a href&#x3D;\&quot;${org.sagebionetworks.repo.model.provenance.Activity}\&quot;&gt;Activity&lt;/a&gt; that was created to track the change. For more information see: &lt;a href&#x3D;\&quot;${POST.activity}\&quot;&gt;POST /activity&lt;/a&gt;. You must be the creator of the &lt;a href&#x3D;\&quot;${org.sagebionetworks.repo.model.provenance.Activity}\&quot;&gt;Activity&lt;/a&gt; used here.&#39;  | [optional]
+ **new_version** | **str**| To force the creation of a new version for a &lt;a href&#x3D;\&quot;${org.sagebionetworks.repo.model.VersionableEntity}\&quot;&gt;versionable&lt;/a&gt; entity such as a &lt;a href&#x3D; \&quot;${org.sagebionetworks.repo.model.FileEntity}\&quot;&gt;FileEntity&lt;/a&gt;, include this optional parameter with a value set to true (i.e. newVersion&#x3D;true). This parameter is ignored for entities of type  &lt;a href&#x3D;\&quot;${org.sagebionetworks.repo.model.table.Table}\&quot;&gt;Table&lt;/a&gt; (See &lt;a href&#x3D;\&quot;${POST.entity.id.table.snapshot}\&quot;&gt;POST /entity/{id}/table/snapshot&lt;/a&gt; instead)  | [optional]
+ **entity** | [**Entity**](Entity.md)|  | [optional]
 
 ### Return type
 
@@ -2994,7 +3256,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_entity_acl**
-> AccessControlList update_entity_acl(id, access_control_list=access_control_list)
+> AccessControlList update_entity_acl(id)
 
 Update an Entity's ACL.
 
@@ -3004,10 +3266,10 @@ Update an Entity's ACL.  <p>  Note: The caller must be granted  <a href=\"${org.
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.access_control_list import AccessControlList
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -3028,15 +3290,40 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-access_control_list = synclient.AccessControlList() # AccessControlList |  (optional)
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of an Entity.
+    access_control_list = AccessControlList(
+        created_by="created_by_example",
+        creation_date="creation_date_example",
+        etag="etag_example",
+        id="id_example",
+        modified_by="modified_by_example",
+        modified_on="modified_on_example",
+        resource_access=[
+            ResourceAccess(
+                access_type=[
+                    ACCESSTYPE("CREATE"),
+                ],
+                principal_id=1,
+            ),
+        ],
+    ) # AccessControlList |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Update an Entity's ACL.
+        api_response = api_instance.update_entity_acl(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling EntityServicesApi->update_entity_acl: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Update an Entity's ACL.
         api_response = api_instance.update_entity_acl(id, access_control_list=access_control_list)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->update_entity_acl: %s\n" % e)
 ```
 
@@ -3044,8 +3331,8 @@ access_control_list = synclient.AccessControlList() # AccessControlList |  (opti
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of an Entity. | 
- **access_control_list** | [**AccessControlList**](AccessControlList.md)|  | [optional] 
+ **id** | **str**| The ID of an Entity. |
+ **access_control_list** | [**AccessControlList**](AccessControlList.md)|  | [optional]
 
 ### Return type
 
@@ -3068,7 +3355,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_entity_annotations**
-> AnnotationsV2 update_entity_annotations(id, annotations_v2=annotations_v2)
+> AnnotationsV2 update_entity_annotations(id)
 
 Update an Entity's annotations.
 
@@ -3078,10 +3365,10 @@ Update an Entity's annotations.  <p>  Note: The caller must be granted the <a hr
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.annotations_v2 import AnnotationsV2
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -3102,15 +3389,36 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-annotations_v2 = synclient.AnnotationsV2() # AnnotationsV2 |  (optional)
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of an Entity.
+    annotations_v2 = AnnotationsV2(
+        annotations={
+            "key": AnnotationsValue(
+                type=AnnotationsValueType("STRING"),
+                value=[
+                    "value_example",
+                ],
+            ),
+        },
+        etag="etag_example",
+        id="id_example",
+    ) # AnnotationsV2 |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Update an Entity's annotations.
+        api_response = api_instance.update_entity_annotations(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling EntityServicesApi->update_entity_annotations: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Update an Entity's annotations.
         api_response = api_instance.update_entity_annotations(id, annotations_v2=annotations_v2)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->update_entity_annotations: %s\n" % e)
 ```
 
@@ -3118,8 +3426,8 @@ annotations_v2 = synclient.AnnotationsV2() # AnnotationsV2 |  (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of an Entity. | 
- **annotations_v2** | [**AnnotationsV2**](AnnotationsV2.md)|  | [optional] 
+ **id** | **str**| The ID of an Entity. |
+ **annotations_v2** | [**AnnotationsV2**](AnnotationsV2.md)|  | [optional]
 
 ### Return type
 
@@ -3142,7 +3450,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_entity_file_handle**
-> str update_entity_file_handle(id, version_number, file_handle_update_request=file_handle_update_request)
+> str update_entity_file_handle(id, version_number)
 
 Updates the filehandle.
 
@@ -3152,10 +3460,10 @@ Updates the FileHandle associated with the FileEntity with the provided entity i
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
+from synclient.model.file_handle_update_request import FileHandleUpdateRequest
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -3176,16 +3484,29 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of the Entity.
-version_number = 56 # int | The version number of the Entity.
-file_handle_update_request = synclient.FileHandleUpdateRequest() # FileHandleUpdateRequest |  (optional)
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of the Entity.
+    version_number = 1 # int | The version number of the Entity.
+    file_handle_update_request = FileHandleUpdateRequest(
+        new_file_handle_id="new_file_handle_id_example",
+        old_file_handle_id="old_file_handle_id_example",
+    ) # FileHandleUpdateRequest |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Updates the filehandle.
+        api_response = api_instance.update_entity_file_handle(id, version_number)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling EntityServicesApi->update_entity_file_handle: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Updates the filehandle.
         api_response = api_instance.update_entity_file_handle(id, version_number, file_handle_update_request=file_handle_update_request)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->update_entity_file_handle: %s\n" % e)
 ```
 
@@ -3193,9 +3514,9 @@ file_handle_update_request = synclient.FileHandleUpdateRequest() # FileHandleUpd
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of the Entity. | 
- **version_number** | **int**| The version number of the Entity. | 
- **file_handle_update_request** | [**FileHandleUpdateRequest**](FileHandleUpdateRequest.md)|  | [optional] 
+ **id** | **str**| The ID of the Entity. |
+ **version_number** | **int**| The version number of the Entity. |
+ **file_handle_update_request** | [**FileHandleUpdateRequest**](FileHandleUpdateRequest.md)|  | [optional]
 
 ### Return type
 
@@ -3218,7 +3539,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_entity_with_json**
-> object update_entity_with_json(id, body=body)
+> {str: (bool, date, datetime, dict, float, int, list, str, none_type)} update_entity_with_json(id)
 
 Update the annotations of an entity using the raw JSON of the entity.
 
@@ -3228,10 +3549,9 @@ Update the annotations of an entity using the raw JSON of the entity.  <p>  See:
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import entity_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -3252,15 +3572,25 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EntityServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-body = None # object |  (optional)
+    api_instance = entity_services_api.EntityServicesApi(api_client)
+    id = "id_example" # str | The ID of an Entity.
+    body = {} # {str: (bool, date, datetime, dict, float, int, list, str, none_type)} |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Update the annotations of an entity using the raw JSON of the entity.
+        api_response = api_instance.update_entity_with_json(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling EntityServicesApi->update_entity_with_json: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Update the annotations of an entity using the raw JSON of the entity.
         api_response = api_instance.update_entity_with_json(id, body=body)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EntityServicesApi->update_entity_with_json: %s\n" % e)
 ```
 
@@ -3268,12 +3598,12 @@ body = None # object |  (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of an Entity. | 
- **body** | **object**|  | [optional] 
+ **id** | **str**| The ID of an Entity. |
+ **body** | **{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**|  | [optional]
 
 ### Return type
 
-**object**
+**{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**
 
 ### Authorization
 

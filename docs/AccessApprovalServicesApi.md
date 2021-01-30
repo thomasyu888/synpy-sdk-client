@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **get_team_access_approvals**
-> str get_team_access_approvals(id, limit=limit, offset=offset)
+> str get_team_access_approvals(id)
 
 Retrieve the Access Approvals for the given Team.
 
@@ -18,10 +18,9 @@ Retrieve the Access Approvals for the given Team.  This service is only availabl
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import access_approval_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -42,16 +41,26 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.AccessApprovalServicesApi(api_client)
-    id = 'id_example' # str | the ID of the Team.
-limit = 10 # int | Limits the size of the page returned. For example, a page size of 10 require limit = 10. The maximum limit for this call is 50.  (optional) (default to 10)
-offset = 0 # int | The index of the pagination offset. For a page size of 10, the first page would be at offset = 0, and the second page would be at offset = 10.  (optional) (default to 0)
+    api_instance = access_approval_services_api.AccessApprovalServicesApi(api_client)
+    id = "id_example" # str | the ID of the Team.
+    limit = 10 # int | Limits the size of the page returned. For example, a page size of 10 require limit = 10. The maximum limit for this call is 50.  (optional) if omitted the server will use the default value of 10
+    offset = 0 # int | The index of the pagination offset. For a page size of 10, the first page would be at offset = 0, and the second page would be at offset = 10.  (optional) if omitted the server will use the default value of 0
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Retrieve the Access Approvals for the given Team.
+        api_response = api_instance.get_team_access_approvals(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling AccessApprovalServicesApi->get_team_access_approvals: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Retrieve the Access Approvals for the given Team.
         api_response = api_instance.get_team_access_approvals(id, limit=limit, offset=offset)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling AccessApprovalServicesApi->get_team_access_approvals: %s\n" % e)
 ```
 
@@ -59,9 +68,9 @@ offset = 0 # int | The index of the pagination offset. For a page size of 10, th
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| the ID of the Team. | 
- **limit** | **int**| Limits the size of the page returned. For example, a page size of 10 require limit &#x3D; 10. The maximum limit for this call is 50.  | [optional] [default to 10]
- **offset** | **int**| The index of the pagination offset. For a page size of 10, the first page would be at offset &#x3D; 0, and the second page would be at offset &#x3D; 10.  | [optional] [default to 0]
+ **id** | **str**| the ID of the Team. |
+ **limit** | **int**| Limits the size of the page returned. For example, a page size of 10 require limit &#x3D; 10. The maximum limit for this call is 50.  | [optional] if omitted the server will use the default value of 10
+ **offset** | **int**| The index of the pagination offset. For a page size of 10, the first page would be at offset &#x3D; 0, and the second page would be at offset &#x3D; 10.  | [optional] if omitted the server will use the default value of 0
 
 ### Return type
 

@@ -4,7 +4,7 @@ A single page of a users/groups info query response.
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**children** | [**list[UserGroupHeader]**](UserGroupHeader.md) | The list of children that match the requested concept. | [optional] 
+**children** | [**[UserGroupHeader]**](UserGroupHeader.md) | The list of children that match the requested concept. | [optional] 
 **prefix_filter** | **str** | The prefix filter used to generate this result. | [optional] 
 **total_number_of_results** | **float** | Total number of results | [optional] 
 

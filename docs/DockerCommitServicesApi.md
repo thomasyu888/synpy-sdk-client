@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 
 # **add_docker_commit**
-> add_docker_commit(id, docker_commit=docker_commit)
+> add_docker_commit(id)
 
 Add a commit (tag and digest) for an external/unmanaged Docker repository.
 
@@ -19,10 +19,10 @@ Add a commit (tag and digest) for an external/unmanaged Docker repository. (Comm
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import docker_commit_services_api
+from synclient.model.docker_commit import DockerCommit
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -43,14 +43,27 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.DockerCommitServicesApi(api_client)
-    id = 'id_example' # str | the ID of the Docker repository entity
-docker_commit = synclient.DockerCommit() # DockerCommit | the new tag/digest pair for the repository (optional)
+    api_instance = docker_commit_services_api.DockerCommitServicesApi(api_client)
+    id = "id_example" # str | the ID of the Docker repository entity
+    docker_commit = DockerCommit(
+        created_on="created_on_example",
+        digest="digest_example",
+        tag="tag_example",
+    ) # DockerCommit | the new tag/digest pair for the repository (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Add a commit (tag and digest) for an external/unmanaged Docker repository.
+        api_instance.add_docker_commit(id)
+    except synclient.ApiException as e:
+        print("Exception when calling DockerCommitServicesApi->add_docker_commit: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Add a commit (tag and digest) for an external/unmanaged Docker repository.
         api_instance.add_docker_commit(id, docker_commit=docker_commit)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling DockerCommitServicesApi->add_docker_commit: %s\n" % e)
 ```
 
@@ -58,8 +71,8 @@ docker_commit = synclient.DockerCommit() # DockerCommit | the new tag/digest pai
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| the ID of the Docker repository entity | 
- **docker_commit** | [**DockerCommit**](DockerCommit.md)| the new tag/digest pair for the repository | [optional] 
+ **id** | **str**| the ID of the Docker repository entity |
+ **docker_commit** | [**DockerCommit**](DockerCommit.md)| the new tag/digest pair for the repository | [optional]
 
 ### Return type
 
@@ -82,7 +95,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_docker_tags**
-> PaginatedResultsOfDockerCommit list_docker_tags(id, ascending=ascending, limit=limit, offset=offset, sort=sort)
+> PaginatedResultsOfDockerCommit list_docker_tags(id)
 
 List the tagged commits (tag/digest pairs) for the given Docker repository.
 
@@ -92,10 +105,10 @@ List the tagged commits (tag/digest pairs) for the given Docker repository.  Onl
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import docker_commit_services_api
+from synclient.model.paginated_results_of_docker_commit import PaginatedResultsOfDockerCommit
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -116,18 +129,28 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.DockerCommitServicesApi(api_client)
-    id = 'id_example' # str | the ID of the Docker repository entity
-ascending = False # bool | Ascending (optional) (default to False)
-limit = 20 # int | pagination parameter, optional (default is 20) (optional) (default to 20)
-offset = 0 # int | pagination parameter, optional (default is 0) (optional) (default to 0)
-sort = 'sort_example' # str | Sort results (optional)
+    api_instance = docker_commit_services_api.DockerCommitServicesApi(api_client)
+    id = "id_example" # str | the ID of the Docker repository entity
+    ascending = False # bool | Ascending (optional) if omitted the server will use the default value of False
+    limit = 20 # int | pagination parameter, optional (default is 20) (optional) if omitted the server will use the default value of 20
+    offset = 0 # int | pagination parameter, optional (default is 0) (optional) if omitted the server will use the default value of 0
+    sort = "sort_example" # str | Sort results (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # List the tagged commits (tag/digest pairs) for the given Docker repository.
+        api_response = api_instance.list_docker_tags(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling DockerCommitServicesApi->list_docker_tags: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # List the tagged commits (tag/digest pairs) for the given Docker repository.
         api_response = api_instance.list_docker_tags(id, ascending=ascending, limit=limit, offset=offset, sort=sort)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling DockerCommitServicesApi->list_docker_tags: %s\n" % e)
 ```
 
@@ -135,11 +158,11 @@ sort = 'sort_example' # str | Sort results (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| the ID of the Docker repository entity | 
- **ascending** | **bool**| Ascending | [optional] [default to False]
- **limit** | **int**| pagination parameter, optional (default is 20) | [optional] [default to 20]
- **offset** | **int**| pagination parameter, optional (default is 0) | [optional] [default to 0]
- **sort** | **str**| Sort results | [optional] 
+ **id** | **str**| the ID of the Docker repository entity |
+ **ascending** | **bool**| Ascending | [optional] if omitted the server will use the default value of False
+ **limit** | **int**| pagination parameter, optional (default is 20) | [optional] if omitted the server will use the default value of 20
+ **offset** | **int**| pagination parameter, optional (default is 0) | [optional] if omitted the server will use the default value of 0
+ **sort** | **str**| Sort results | [optional]
 
 ### Return type
 

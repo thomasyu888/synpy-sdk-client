@@ -18,7 +18,7 @@ Method | HTTP request | Description
 
 
 # **create_snapshot**
-> SnapshotResponse create_snapshot(id, snapshot_request=snapshot_request)
+> SnapshotResponse create_snapshot(id)
 
 Request to create a new snapshot of a table.
 
@@ -28,10 +28,11 @@ Request to create a new snapshot of a table. The provided comment, label, and ac
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import table_services_api
+from synclient.model.snapshot_response import SnapshotResponse
+from synclient.model.snapshot_request import SnapshotRequest
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -52,15 +53,29 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TableServicesApi(api_client)
-    id = 'id_example' # str | The ID of a Table Entity.
-snapshot_request = synclient.SnapshotRequest() # SnapshotRequest |  (optional)
+    api_instance = table_services_api.TableServicesApi(api_client)
+    id = "id_example" # str | The ID of a Table Entity.
+    snapshot_request = SnapshotRequest(
+        snapshot_activity_id="snapshot_activity_id_example",
+        snapshot_comment="snapshot_comment_example",
+        snapshot_label="snapshot_label_example",
+    ) # SnapshotRequest |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Request to create a new snapshot of a table.
+        api_response = api_instance.create_snapshot(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling TableServicesApi->create_snapshot: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Request to create a new snapshot of a table.
         api_response = api_instance.create_snapshot(id, snapshot_request=snapshot_request)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TableServicesApi->create_snapshot: %s\n" % e)
 ```
 
@@ -68,8 +83,8 @@ snapshot_request = synclient.SnapshotRequest() # SnapshotRequest |  (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of a Table Entity. | 
- **snapshot_request** | [**SnapshotRequest**](SnapshotRequest.md)|  | [optional] 
+ **id** | **str**| The ID of a Table Entity. |
+ **snapshot_request** | [**SnapshotRequest**](SnapshotRequest.md)|  | [optional]
 
 ### Return type
 
@@ -102,10 +117,10 @@ Asynchronously get the results of a csv download started with POST  Note: When t
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import table_services_api
+from synclient.model.download_from_table_result import DownloadFromTableResult
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -126,15 +141,16 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TableServicesApi(api_client)
-    id = 'id_example' # str | The ID of a TableEntity.
-async_token = 'async_token_example' # str | Async Token
+    api_instance = table_services_api.TableServicesApi(api_client)
+    id = "id_example" # str | The ID of a TableEntity.
+    async_token = "asyncToken_example" # str | Async Token
 
+    # example passing only required values which don't have defaults set
     try:
         # Asynchronously get the results of a csv download started with.
         api_response = api_instance.csv_download_async_get(id, async_token)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TableServicesApi->csv_download_async_get: %s\n" % e)
 ```
 
@@ -142,8 +158,8 @@ async_token = 'async_token_example' # str | Async Token
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of a TableEntity. | 
- **async_token** | **str**| Async Token | 
+ **id** | **str**| The ID of a TableEntity. |
+ **async_token** | **str**| Async Token |
 
 ### Return type
 
@@ -166,7 +182,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **csv_download_async_start**
-> AsyncJobId csv_download_async_start(id, download_from_table_request=download_from_table_request)
+> AsyncJobId csv_download_async_start(id)
 
 Asynchronously start a csv download.
 
@@ -176,10 +192,11 @@ Asynchronously start a csv download. Use the returned job id and  /entity/{id}/t
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import table_services_api
+from synclient.model.async_job_id import AsyncJobId
+from synclient.model.download_from_table_request import DownloadFromTableRequest
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -200,15 +217,25 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TableServicesApi(api_client)
-    id = 'id_example' # str | The ID of a TableEntity.
-download_from_table_request = synclient.DownloadFromTableRequest() # DownloadFromTableRequest |  (optional)
+    api_instance = table_services_api.TableServicesApi(api_client)
+    id = "id_example" # str | The ID of a TableEntity.
+    download_from_table_request = DownloadFromTableRequest() # DownloadFromTableRequest |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Asynchronously start a csv download.
+        api_response = api_instance.csv_download_async_start(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling TableServicesApi->csv_download_async_start: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Asynchronously start a csv download.
         api_response = api_instance.csv_download_async_start(id, download_from_table_request=download_from_table_request)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TableServicesApi->csv_download_async_start: %s\n" % e)
 ```
 
@@ -216,8 +243,8 @@ download_from_table_request = synclient.DownloadFromTableRequest() # DownloadFro
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of a TableEntity. | 
- **download_from_table_request** | [**DownloadFromTableRequest**](DownloadFromTableRequest.md)|  | [optional] 
+ **id** | **str**| The ID of a TableEntity. |
+ **download_from_table_request** | [**DownloadFromTableRequest**](DownloadFromTableRequest.md)|  | [optional]
 
 ### Return type
 
@@ -240,7 +267,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **file_preview_redirect_url_for_row**
-> str file_preview_redirect_url_for_row(column_id, id, row_id, version_number, redirect=redirect)
+> str file_preview_redirect_url_for_row(column_id, id, row_id, version_number)
 
 Get the preview URL of the file associated with a specific version of a row and file handle column. 
 
@@ -250,10 +277,9 @@ Get the preview URL of the file associated with a specific version of a row and 
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import table_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -274,18 +300,28 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TableServicesApi(api_client)
-    column_id = 'column_id_example' # str | The ID of the Table column
-id = 'id_example' # str | The ID of the FileEntity to get.
-row_id = 3.4 # float | The ID of the Table Row
-version_number = 3.4 # float | The version of the Table Row
-redirect = True # bool | When set to false, the URL will be returned as text/plain instead of redirecting.  (optional)
+    api_instance = table_services_api.TableServicesApi(api_client)
+    column_id = "columnId_example" # str | The ID of the Table column
+    id = "id_example" # str | The ID of the FileEntity to get.
+    row_id = 3.14 # float | The ID of the Table Row
+    version_number = 3.14 # float | The version of the Table Row
+    redirect = True # bool | When set to false, the URL will be returned as text/plain instead of redirecting.  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Get the preview URL of the file associated with a specific version of a row and file handle column. 
+        api_response = api_instance.file_preview_redirect_url_for_row(column_id, id, row_id, version_number)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling TableServicesApi->file_preview_redirect_url_for_row: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Get the preview URL of the file associated with a specific version of a row and file handle column. 
         api_response = api_instance.file_preview_redirect_url_for_row(column_id, id, row_id, version_number, redirect=redirect)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TableServicesApi->file_preview_redirect_url_for_row: %s\n" % e)
 ```
 
@@ -293,11 +329,11 @@ redirect = True # bool | When set to false, the URL will be returned as text/pla
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **column_id** | **str**| The ID of the Table column | 
- **id** | **str**| The ID of the FileEntity to get. | 
- **row_id** | **float**| The ID of the Table Row | 
- **version_number** | **float**| The version of the Table Row | 
- **redirect** | **bool**| When set to false, the URL will be returned as text/plain instead of redirecting.  | [optional] 
+ **column_id** | **str**| The ID of the Table column |
+ **id** | **str**| The ID of the FileEntity to get. |
+ **row_id** | **float**| The ID of the Table Row |
+ **version_number** | **float**| The version of the Table Row |
+ **redirect** | **bool**| When set to false, the URL will be returned as text/plain instead of redirecting.  | [optional]
 
 ### Return type
 
@@ -320,7 +356,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **file_redirect_url_for_row**
-> str file_redirect_url_for_row(column_id, id, row_id, version_number, redirect=redirect)
+> str file_redirect_url_for_row(column_id, id, row_id, version_number)
 
 Get the actual URL of the file associated with a specific version of a row and file handle column. 
 
@@ -330,10 +366,9 @@ Get the actual URL of the file associated with a specific version of a row and f
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import table_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -354,18 +389,28 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TableServicesApi(api_client)
-    column_id = 'column_id_example' # str | The ID of the Table column
-id = 'id_example' # str | The ID of the FileEntity to get.
-row_id = 3.4 # float | The ID of the Table Row
-version_number = 3.4 # float | The version of the Table Row
-redirect = True # bool | When set to false, the URL will be returned as text/plain instead of redirecting.  (optional)
+    api_instance = table_services_api.TableServicesApi(api_client)
+    column_id = "columnId_example" # str | The ID of the Table column
+    id = "id_example" # str | The ID of the FileEntity to get.
+    row_id = 3.14 # float | The ID of the Table Row
+    version_number = 3.14 # float | The version of the Table Row
+    redirect = True # bool | When set to false, the URL will be returned as text/plain instead of redirecting.  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Get the actual URL of the file associated with a specific version of a row and file handle column. 
+        api_response = api_instance.file_redirect_url_for_row(column_id, id, row_id, version_number)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling TableServicesApi->file_redirect_url_for_row: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Get the actual URL of the file associated with a specific version of a row and file handle column. 
         api_response = api_instance.file_redirect_url_for_row(column_id, id, row_id, version_number, redirect=redirect)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TableServicesApi->file_redirect_url_for_row: %s\n" % e)
 ```
 
@@ -373,11 +418,11 @@ redirect = True # bool | When set to false, the URL will be returned as text/pla
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **column_id** | **str**| The ID of the Table column | 
- **id** | **str**| The ID of the FileEntity to get. | 
- **row_id** | **float**| The ID of the Table Row | 
- **version_number** | **float**| The version of the Table Row | 
- **redirect** | **bool**| When set to false, the URL will be returned as text/plain instead of redirecting.  | [optional] 
+ **column_id** | **str**| The ID of the Table column |
+ **id** | **str**| The ID of the FileEntity to get. |
+ **row_id** | **float**| The ID of the Table Row |
+ **version_number** | **float**| The version of the Table Row |
+ **redirect** | **bool**| When set to false, the URL will be returned as text/plain instead of redirecting.  | [optional]
 
 ### Return type
 
@@ -410,10 +455,10 @@ Given the ID of a <a href=\"${org.sagebionetworks.repo.model.table.TableEntity}\
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import table_services_api
+from synclient.model.paginated_column_models import PaginatedColumnModels
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -434,14 +479,15 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TableServicesApi(api_client)
-    id = 'id_example' # str | The ID of a Table.
+    api_instance = table_services_api.TableServicesApi(api_client)
+    id = "id_example" # str | The ID of a Table.
 
+    # example passing only required values which don't have defaults set
     try:
         # Given the ID of a.
         api_response = api_instance.get_column_for_table(id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TableServicesApi->get_column_for_table: %s\n" % e)
 ```
 
@@ -449,7 +495,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of a Table. | 
+ **id** | **str**| The ID of a Table. |
 
 ### Return type
 
@@ -472,7 +518,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_file_handles**
-> TableFileHandleResults get_file_handles(id, row_reference_set=row_reference_set)
+> TableFileHandleResults get_file_handles(id)
 
 .
 
@@ -482,10 +528,11 @@ This method is used to get file handle information for rows in a TableEntity. Th
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import table_services_api
+from synclient.model.row_reference_set import RowReferenceSet
+from synclient.model.table_file_handle_results import TableFileHandleResults
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -506,15 +553,41 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TableServicesApi(api_client)
-    id = 'id_example' # str | The ID of a TableEntity.
-row_reference_set = synclient.RowReferenceSet() # RowReferenceSet |  (optional)
+    api_instance = table_services_api.TableServicesApi(api_client)
+    id = "id_example" # str | The ID of a TableEntity.
+    row_reference_set = RowReferenceSet(
+        etag="etag_example",
+        headers=[
+            SelectColumn(
+                column_type=ColumnType("STRING"),
+                id="id_example",
+                name="name_example",
+            ),
+        ],
+        rows=[
+            RowReference(
+                row_id=1,
+                version_number=1,
+            ),
+        ],
+        table_id="table_id_example",
+    ) # RowReferenceSet |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # .
+        api_response = api_instance.get_file_handles(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling TableServicesApi->get_file_handles: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # .
         api_response = api_instance.get_file_handles(id, row_reference_set=row_reference_set)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TableServicesApi->get_file_handles: %s\n" % e)
 ```
 
@@ -522,8 +595,8 @@ row_reference_set = synclient.RowReferenceSet() # RowReferenceSet |  (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of a TableEntity. | 
- **row_reference_set** | [**RowReferenceSet**](RowReferenceSet.md)|  | [optional] 
+ **id** | **str**| The ID of a TableEntity. |
+ **row_reference_set** | [**RowReferenceSet**](RowReferenceSet.md)|  | [optional]
 
 ### Return type
 
@@ -556,10 +629,10 @@ Asynchronously get the results of a table update transaction started with POST /
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import table_services_api
+from synclient.model.table_update_transaction_response import TableUpdateTransactionResponse
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -580,15 +653,16 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TableServicesApi(api_client)
-    async_token = 'async_token_example' # str | The token returned when the job was started.
-id = 'id_example' # str | The ID of a Table entity.
+    api_instance = table_services_api.TableServicesApi(api_client)
+    async_token = "asyncToken_example" # str | The token returned when the job was started.
+    id = "id_example" # str | The ID of a Table entity.
 
+    # example passing only required values which don't have defaults set
     try:
         # Asynchronously get the results of a table update transaction started with.
         api_response = api_instance.get_table_transaction_result(async_token, id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TableServicesApi->get_table_transaction_result: %s\n" % e)
 ```
 
@@ -596,8 +670,8 @@ id = 'id_example' # str | The ID of a Table entity.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **async_token** | **str**| The token returned when the job was started. | 
- **id** | **str**| The ID of a Table entity. | 
+ **async_token** | **str**| The token returned when the job was started. |
+ **id** | **str**| The ID of a Table entity. |
 
 ### Return type
 
@@ -630,10 +704,10 @@ Asynchronously get the results of a query started with POST /entity/{id}/table/q
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import table_services_api
+from synclient.model.query_result_bundle import QueryResultBundle
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -654,15 +728,16 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TableServicesApi(api_client)
-    async_token = 'async_token_example' # str | Async Token
-id = 'id_example' # str | The ID of the TableEntity.
+    api_instance = table_services_api.TableServicesApi(api_client)
+    async_token = "asyncToken_example" # str | Async Token
+    id = "id_example" # str | The ID of the TableEntity.
 
+    # example passing only required values which don't have defaults set
     try:
         # Asynchronously get the results of a query started with.
         api_response = api_instance.query_async_get(async_token, id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TableServicesApi->query_async_get: %s\n" % e)
 ```
 
@@ -670,8 +745,8 @@ id = 'id_example' # str | The ID of the TableEntity.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **async_token** | **str**| Async Token | 
- **id** | **str**| The ID of the TableEntity. | 
+ **async_token** | **str**| Async Token |
+ **id** | **str**| The ID of the TableEntity. |
 
 ### Return type
 
@@ -694,7 +769,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **query_async_start**
-> AsyncJobId query_async_start(id, query_bundle_request=query_bundle_request)
+> AsyncJobId query_async_start(id)
 
 Asynchronously start a query.
 
@@ -704,10 +779,11 @@ Asynchronously start a query. Use the returned job id and GET /entity/{id}/table
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import table_services_api
+from synclient.model.async_job_id import AsyncJobId
+from synclient.model.query_bundle_request import QueryBundleRequest
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -728,15 +804,50 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TableServicesApi(api_client)
-    id = 'id_example' # str | The ID of a TableEntity.
-query_bundle_request = synclient.QueryBundleRequest() # QueryBundleRequest |  (optional)
+    api_instance = table_services_api.TableServicesApi(api_client)
+    id = "id_example" # str | The ID of a TableEntity.
+    query_bundle_request = QueryBundleRequest(
+        concrete_type="concrete_type_example",
+        entity_id="entity_id_example",
+        part_mask=1,
+        query=Query(
+            additional_filters=[
+                {},
+            ],
+            include_entity_etag=True,
+            limit=1,
+            offset=1,
+            selected_facets=[
+                FacetColumnRequest(
+                    column_name="column_name_example",
+                    concrete_type="concrete_type_example",
+                ),
+            ],
+            sort=[
+                SortItem(
+                    column="column_example",
+                    direction=SortDirection("ASC"),
+                ),
+            ],
+            sql="sql_example",
+        ),
+    ) # QueryBundleRequest |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Asynchronously start a query.
+        api_response = api_instance.query_async_start(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling TableServicesApi->query_async_start: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Asynchronously start a query.
         api_response = api_instance.query_async_start(id, query_bundle_request=query_bundle_request)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TableServicesApi->query_async_start: %s\n" % e)
 ```
 
@@ -744,8 +855,8 @@ query_bundle_request = synclient.QueryBundleRequest() # QueryBundleRequest |  (o
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of a TableEntity. | 
- **query_bundle_request** | [**QueryBundleRequest**](QueryBundleRequest.md)|  | [optional] 
+ **id** | **str**| The ID of a TableEntity. |
+ **query_bundle_request** | [**QueryBundleRequest**](QueryBundleRequest.md)|  | [optional]
 
 ### Return type
 
@@ -768,7 +879,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **start_table_transaction_job**
-> AsyncJobId start_table_transaction_job(id, table_update_transaction_request=table_update_transaction_request)
+> AsyncJobId start_table_transaction_job(id)
 
 Start a table update job that will attempt to make all of the requested changes in a single transaction. 
 
@@ -778,10 +889,11 @@ Start a table update job that will attempt to make all of the requested changes 
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import table_services_api
+from synclient.model.async_job_id import AsyncJobId
+from synclient.model.table_update_transaction_request import TableUpdateTransactionRequest
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -802,15 +914,40 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TableServicesApi(api_client)
-    id = 'id_example' # str | The ID of a Table Entity.
-table_update_transaction_request = synclient.TableUpdateTransactionRequest() # TableUpdateTransactionRequest |  (optional)
+    api_instance = table_services_api.TableServicesApi(api_client)
+    id = "id_example" # str | The ID of a Table Entity.
+    table_update_transaction_request = TableUpdateTransactionRequest(
+        changes=[
+            TableUpdateRequest(
+                concrete_type="concrete_type_example",
+                entity_id="entity_id_example",
+            ),
+        ],
+        concrete_type="concrete_type_example",
+        create_snapshot=True,
+        entity_id="entity_id_example",
+        snapshot_options=SnapshotRequest(
+            snapshot_activity_id="snapshot_activity_id_example",
+            snapshot_comment="snapshot_comment_example",
+            snapshot_label="snapshot_label_example",
+        ),
+    ) # TableUpdateTransactionRequest |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Start a table update job that will attempt to make all of the requested changes in a single transaction. 
+        api_response = api_instance.start_table_transaction_job(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling TableServicesApi->start_table_transaction_job: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Start a table update job that will attempt to make all of the requested changes in a single transaction. 
         api_response = api_instance.start_table_transaction_job(id, table_update_transaction_request=table_update_transaction_request)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TableServicesApi->start_table_transaction_job: %s\n" % e)
 ```
 
@@ -818,8 +955,8 @@ table_update_transaction_request = synclient.TableUpdateTransactionRequest() # T
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of a Table Entity. | 
- **table_update_transaction_request** | [**TableUpdateTransactionRequest**](TableUpdateTransactionRequest.md)|  | [optional] 
+ **id** | **str**| The ID of a Table Entity. |
+ **table_update_transaction_request** | [**TableUpdateTransactionRequest**](TableUpdateTransactionRequest.md)|  | [optional]
 
 ### Return type
 

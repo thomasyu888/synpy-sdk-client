@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 
 # **get_open_requests_by_team**
-> PaginatedResultsOfMembershipRequest get_open_requests_by_team(id, limit=limit, offset=offset, requestor_id=requestor_id)
+> PaginatedResultsOfMembershipRequest get_open_requests_by_team(id)
 
 Retrieve the open requests submitted to a Team, optionally filtering by the requester.
 
@@ -19,10 +19,10 @@ Retrieve the open requests submitted to a Team, optionally filtering by the requ
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import membership_request_services_api
+from synclient.model.paginated_results_of_membership_request import PaginatedResultsOfMembershipRequest
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -43,17 +43,27 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.MembershipRequestServicesApi(api_client)
-    id = 'id_example' # str | the ID of the Team.
-limit = 10 # int | the maximum number of requests to return (default 10) (optional) (default to 10)
-offset = 0 # int | the starting index of the returned results (default 0) (optional) (default to 0)
-requestor_id = 'requestor_id_example' # str | the ID of the user requesting admission to the Team (optional)
+    api_instance = membership_request_services_api.MembershipRequestServicesApi(api_client)
+    id = "id_example" # str | the ID of the Team.
+    limit = 10 # int | the maximum number of requests to return (default 10) (optional) if omitted the server will use the default value of 10
+    offset = 0 # int | the starting index of the returned results (default 0) (optional) if omitted the server will use the default value of 0
+    requestor_id = "requestorId_example" # str | the ID of the user requesting admission to the Team (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Retrieve the open requests submitted to a Team, optionally filtering by the requester.
+        api_response = api_instance.get_open_requests_by_team(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling MembershipRequestServicesApi->get_open_requests_by_team: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Retrieve the open requests submitted to a Team, optionally filtering by the requester.
         api_response = api_instance.get_open_requests_by_team(id, limit=limit, offset=offset, requestor_id=requestor_id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling MembershipRequestServicesApi->get_open_requests_by_team: %s\n" % e)
 ```
 
@@ -61,10 +71,10 @@ requestor_id = 'requestor_id_example' # str | the ID of the user requesting admi
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| the ID of the Team. | 
- **limit** | **int**| the maximum number of requests to return (default 10) | [optional] [default to 10]
- **offset** | **int**| the starting index of the returned results (default 0) | [optional] [default to 0]
- **requestor_id** | **str**| the ID of the user requesting admission to the Team | [optional] 
+ **id** | **str**| the ID of the Team. |
+ **limit** | **int**| the maximum number of requests to return (default 10) | [optional] if omitted the server will use the default value of 10
+ **offset** | **int**| the starting index of the returned results (default 0) | [optional] if omitted the server will use the default value of 0
+ **requestor_id** | **str**| the ID of the user requesting admission to the Team | [optional]
 
 ### Return type
 
@@ -87,7 +97,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_open_requests_by_user**
-> PaginatedResultsOfMembershipRequest get_open_requests_by_user(id, limit=limit, offset=offset, team_id=team_id)
+> PaginatedResultsOfMembershipRequest get_open_requests_by_user(id)
 
 Retrieve the open requests submitted by a user, optionally filtering by the Team. 
 
@@ -97,10 +107,10 @@ Retrieve the open requests submitted by a user, optionally filtering by the Team
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import membership_request_services_api
+from synclient.model.paginated_results_of_membership_request import PaginatedResultsOfMembershipRequest
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -121,17 +131,27 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.MembershipRequestServicesApi(api_client)
-    id = 'id_example' # str | The ID of the Synapse user.
-limit = 10 # int | the maximum number of requests to return (optional) (default to 10)
-offset = 0 # int | the starting index of the returned results. (optional) (default to 0)
-team_id = 'team_id_example' # str | ID of a Synapse Team. (optional)
+    api_instance = membership_request_services_api.MembershipRequestServicesApi(api_client)
+    id = "id_example" # str | The ID of the Synapse user.
+    limit = 10 # int | the maximum number of requests to return (optional) if omitted the server will use the default value of 10
+    offset = 0 # int | the starting index of the returned results. (optional) if omitted the server will use the default value of 0
+    team_id = "teamId_example" # str | ID of a Synapse Team. (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Retrieve the open requests submitted by a user, optionally filtering by the Team. 
+        api_response = api_instance.get_open_requests_by_user(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling MembershipRequestServicesApi->get_open_requests_by_user: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Retrieve the open requests submitted by a user, optionally filtering by the Team. 
         api_response = api_instance.get_open_requests_by_user(id, limit=limit, offset=offset, team_id=team_id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling MembershipRequestServicesApi->get_open_requests_by_user: %s\n" % e)
 ```
 
@@ -139,10 +159,10 @@ team_id = 'team_id_example' # str | ID of a Synapse Team. (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of the Synapse user. | 
- **limit** | **int**| the maximum number of requests to return | [optional] [default to 10]
- **offset** | **int**| the starting index of the returned results. | [optional] [default to 0]
- **team_id** | **str**| ID of a Synapse Team. | [optional] 
+ **id** | **str**| The ID of the Synapse user. |
+ **limit** | **int**| the maximum number of requests to return | [optional] if omitted the server will use the default value of 10
+ **offset** | **int**| the starting index of the returned results. | [optional] if omitted the server will use the default value of 0
+ **team_id** | **str**| ID of a Synapse Team. | [optional]
 
 ### Return type
 

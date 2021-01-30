@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     Platform Repository Service
 
@@ -11,18 +9,28 @@
 """
 
 
-from __future__ import absolute_import
-
 import re  # noqa: F401
+import sys  # noqa: F401
 
-# python 2 and python 3 compatibility library
-import six
-
-from synclient.api_client import ApiClient
-from synclient.exceptions import (  # noqa: F401
-    ApiTypeError,
-    ApiValueError
+from synclient.api_client import ApiClient, Endpoint
+from synclient.model_utils import (  # noqa: F401
+    check_allowed_values,
+    check_validations,
+    date,
+    datetime,
+    file_type,
+    none_type,
+    validate_and_convert_types
 )
+from synclient.model.alias_list import AliasList
+from synclient.model.id_list import IdList
+from synclient.model.list_wrapper_of_user_profile import ListWrapperOfUserProfile
+from synclient.model.paginated_results_of_user_group import PaginatedResultsOfUserGroup
+from synclient.model.paginated_results_of_user_profile import PaginatedResultsOfUserProfile
+from synclient.model.user_bundle import UserBundle
+from synclient.model.user_group_header_response import UserGroupHeaderResponse
+from synclient.model.user_group_header_response_page import UserGroupHeaderResponsePage
+from synclient.model.user_profile import UserProfile
 
 
 class UserProfileServicesApi(object):
@@ -37,1558 +45,1618 @@ class UserProfileServicesApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def get_my_own_user_bundle(self, mask, **kwargs):  # noqa: E501
-        """Get the user bundle of the caller (my own bundle).  # noqa: E501
+        def __get_my_own_user_bundle(
+            self,
+            mask,
+            **kwargs
+        ):
+            """Get the user bundle of the caller (my own bundle).  # noqa: E501
 
-        Get the user bundle of the caller (my own bundle). <p><b>Note:</b> Private fields will be returned.</p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_my_own_user_bundle(mask, async_req=True)
-        >>> result = thread.get()
+            Get the user bundle of the caller (my own bundle). <p><b>Note:</b> Private fields will be returned.</p>   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        :param async_req bool: execute request asynchronously
-        :param str mask: integer flag defining which components to include in the bundle <p> This integer is used as a bit-string of flags to specify which parts to include in the UserBundle. The mask is defined as follows: <ul> <li> UserProfile  = 0x1 </li> <li> ORCID  = 0x2 </li> <li> VerificationSubmission = 0x4 </li> <li> Is Certified = 0x8 </li> <li> Is Verified  = 0x10 </li> <li> Is ACT Member = 0x20 </li> </ul> </p>  (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: UserBundle
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_my_own_user_bundle_with_http_info(mask, **kwargs)  # noqa: E501
+            >>> thread = api.get_my_own_user_bundle(mask, async_req=True)
+            >>> result = thread.get()
 
-    def get_my_own_user_bundle_with_http_info(self, mask, **kwargs):  # noqa: E501
-        """Get the user bundle of the caller (my own bundle).  # noqa: E501
+            Args:
+                mask (str): integer flag defining which components to include in the bundle <p> This integer is used as a bit-string of flags to specify which parts to include in the UserBundle. The mask is defined as follows: <ul> <li> UserProfile  = 0x1 </li> <li> ORCID  = 0x2 </li> <li> VerificationSubmission = 0x4 </li> <li> Is Certified = 0x8 </li> <li> Is Verified  = 0x10 </li> <li> Is ACT Member = 0x20 </li> </ul> </p> 
 
-        Get the user bundle of the caller (my own bundle). <p><b>Note:</b> Private fields will be returned.</p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_my_own_user_bundle_with_http_info(mask, async_req=True)
-        >>> result = thread.get()
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        :param async_req bool: execute request asynchronously
-        :param str mask: integer flag defining which components to include in the bundle <p> This integer is used as a bit-string of flags to specify which parts to include in the UserBundle. The mask is defined as follows: <ul> <li> UserProfile  = 0x1 </li> <li> ORCID  = 0x2 </li> <li> VerificationSubmission = 0x4 </li> <li> Is Certified = 0x8 </li> <li> Is Verified  = 0x10 </li> <li> Is ACT Member = 0x20 </li> </ul> </p>  (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(UserBundle, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
+            Returns:
+                UserBundle
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['mask'] = \
+                mask
+            return self.call_with_http_info(**kwargs)
 
-        local_var_params = locals()
-
-        all_params = [
-            'mask'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.get_my_own_user_bundle = Endpoint(
+            settings={
+                'response_type': (UserBundle,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/user/bundle',
+                'operation_id': 'get_my_own_user_bundle',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'mask',
+                ],
+                'required': [
+                    'mask',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'mask':
+                        (str,),
+                },
+                'attribute_map': {
+                    'mask': 'mask',
+                },
+                'location_map': {
+                    'mask': 'query',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_my_own_user_bundle
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_my_own_user_bundle" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'mask' is set
-        if self.api_client.client_side_validation and ('mask' not in local_var_params or  # noqa: E501
-                                                        local_var_params['mask'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `mask` when calling `get_my_own_user_bundle`")  # noqa: E501
+        def __get_my_own_user_profile(
+            self,
+            **kwargs
+        ):
+            """Get the profile of the caller (my profile).  # noqa: E501
 
-        collection_formats = {}
+            Get the profile of the caller (my profile). <p><b>Note:</b> Private user profile fields will be returned.</p>'   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
+            >>> thread = api.get_my_own_user_profile(async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
-        if 'mask' in local_var_params and local_var_params['mask'] is not None:  # noqa: E501
-            query_params.append(('mask', local_var_params['mask']))  # noqa: E501
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                UserProfile
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/user/bundle', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='UserBundle',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def get_my_own_user_profile(self, **kwargs):  # noqa: E501
-        """Get the profile of the caller (my profile).  # noqa: E501
-
-        Get the profile of the caller (my profile). <p><b>Note:</b> Private user profile fields will be returned.</p>'   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_my_own_user_profile(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: UserProfile
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_my_own_user_profile_with_http_info(**kwargs)  # noqa: E501
-
-    def get_my_own_user_profile_with_http_info(self, **kwargs):  # noqa: E501
-        """Get the profile of the caller (my profile).  # noqa: E501
-
-        Get the profile of the caller (my profile). <p><b>Note:</b> Private user profile fields will be returned.</p>'   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_my_own_user_profile_with_http_info(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(UserProfile, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.get_my_own_user_profile = Endpoint(
+            settings={
+                'response_type': (UserProfile,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/userProfile',
+                'operation_id': 'get_my_own_user_profile',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                ],
+                'required': [],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_my_own_user_profile
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_my_own_user_profile" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+        def __get_user_bundle_by_owner_id(
+            self,
+            id,
+            mask,
+            **kwargs
+        ):
+            """Get the user bundle of a specified user.  # noqa: E501
 
-        collection_formats = {}
+            Get the user bundle of a specified user. <p><b>Note:</b> Private fields (e.g. \"rStudioUrl\") are omitted unless the requester is the profile owner or an administrator.</p>   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
+            >>> thread = api.get_user_bundle_by_owner_id(id, mask, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                id (str): The ID of the Synapse user.
+                mask (str): integer flag defining which components to include in the bundle <p> This integer is used as a bit-string of flags to specify which parts to include in the UserBundle. The mask is defined as follows: <ul> <li> UserProfile  = 0x1 </li> <li> ORCID  = 0x2 </li> <li> VerificationSubmission = 0x4 </li> <li> Is Certified = 0x8 </li> <li> Is Verified  = 0x10 </li> <li> Is ACT Member = 0x20 </li> </ul> </p> 
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                UserBundle
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['id'] = \
+                id
+            kwargs['mask'] = \
+                mask
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/userProfile', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='UserProfile',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def get_user_bundle_by_owner_id(self, id, mask, **kwargs):  # noqa: E501
-        """Get the user bundle of a specified user.  # noqa: E501
-
-        Get the user bundle of a specified user. <p><b>Note:</b> Private fields (e.g. \"rStudioUrl\") are omitted unless the requester is the profile owner or an administrator.</p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_user_bundle_by_owner_id(id, mask, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str id: The ID of the Synapse user. (required)
-        :param str mask: integer flag defining which components to include in the bundle <p> This integer is used as a bit-string of flags to specify which parts to include in the UserBundle. The mask is defined as follows: <ul> <li> UserProfile  = 0x1 </li> <li> ORCID  = 0x2 </li> <li> VerificationSubmission = 0x4 </li> <li> Is Certified = 0x8 </li> <li> Is Verified  = 0x10 </li> <li> Is ACT Member = 0x20 </li> </ul> </p>  (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: UserBundle
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_user_bundle_by_owner_id_with_http_info(id, mask, **kwargs)  # noqa: E501
-
-    def get_user_bundle_by_owner_id_with_http_info(self, id, mask, **kwargs):  # noqa: E501
-        """Get the user bundle of a specified user.  # noqa: E501
-
-        Get the user bundle of a specified user. <p><b>Note:</b> Private fields (e.g. \"rStudioUrl\") are omitted unless the requester is the profile owner or an administrator.</p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_user_bundle_by_owner_id_with_http_info(id, mask, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str id: The ID of the Synapse user. (required)
-        :param str mask: integer flag defining which components to include in the bundle <p> This integer is used as a bit-string of flags to specify which parts to include in the UserBundle. The mask is defined as follows: <ul> <li> UserProfile  = 0x1 </li> <li> ORCID  = 0x2 </li> <li> VerificationSubmission = 0x4 </li> <li> Is Certified = 0x8 </li> <li> Is Verified  = 0x10 </li> <li> Is ACT Member = 0x20 </li> </ul> </p>  (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(UserBundle, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'id',
-            'mask'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.get_user_bundle_by_owner_id = Endpoint(
+            settings={
+                'response_type': (UserBundle,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/user/{id}/bundle',
+                'operation_id': 'get_user_bundle_by_owner_id',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'id',
+                    'mask',
+                ],
+                'required': [
+                    'id',
+                    'mask',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'id':
+                        (str,),
+                    'mask':
+                        (str,),
+                },
+                'attribute_map': {
+                    'id': 'id',
+                    'mask': 'mask',
+                },
+                'location_map': {
+                    'id': 'path',
+                    'mask': 'query',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_user_bundle_by_owner_id
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_user_bundle_by_owner_id" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'id' is set
-        if self.api_client.client_side_validation and ('id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `id` when calling `get_user_bundle_by_owner_id`")  # noqa: E501
-        # verify the required parameter 'mask' is set
-        if self.api_client.client_side_validation and ('mask' not in local_var_params or  # noqa: E501
-                                                        local_var_params['mask'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `mask` when calling `get_user_bundle_by_owner_id`")  # noqa: E501
+        def __get_user_group_headers_by_aliases(
+            self,
+            **kwargs
+        ):
+            """Get Users and Groups that match the given list of aliases.  # noqa: E501
 
-        collection_formats = {}
+            Get Users and Groups that match the given list of aliases.  # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'id' in local_var_params:
-            path_params['id'] = local_var_params['id']  # noqa: E501
+            >>> thread = api.get_user_group_headers_by_aliases(async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
-        if 'mask' in local_var_params and local_var_params['mask'] is not None:  # noqa: E501
-            query_params.append(('mask', local_var_params['mask']))  # noqa: E501
 
-        header_params = {}
+            Keyword Args:
+                alias_list (AliasList): The list of principal aliases to lookup. Each alias must be either a user name or team name. The maximum number of aliases per request is 100. . [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                UserGroupHeaderResponse
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/user/{id}/bundle', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='UserBundle',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def get_user_group_headers_by_aliases(self, **kwargs):  # noqa: E501
-        """Get Users and Groups that match the given list of aliases.  # noqa: E501
-
-        Get Users and Groups that match the given list of aliases.  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_user_group_headers_by_aliases(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param AliasList alias_list: The list of principal aliases to lookup. Each alias must be either a user name or team name. The maximum number of aliases per request is 100. 
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: UserGroupHeaderResponse
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_user_group_headers_by_aliases_with_http_info(**kwargs)  # noqa: E501
-
-    def get_user_group_headers_by_aliases_with_http_info(self, **kwargs):  # noqa: E501
-        """Get Users and Groups that match the given list of aliases.  # noqa: E501
-
-        Get Users and Groups that match the given list of aliases.  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_user_group_headers_by_aliases_with_http_info(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param AliasList alias_list: The list of principal aliases to lookup. Each alias must be either a user name or team name. The maximum number of aliases per request is 100. 
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(UserGroupHeaderResponse, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'alias_list'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.get_user_group_headers_by_aliases = Endpoint(
+            settings={
+                'response_type': (UserGroupHeaderResponse,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/userGroupHeaders/aliases',
+                'operation_id': 'get_user_group_headers_by_aliases',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'alias_list',
+                ],
+                'required': [],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'alias_list':
+                        (AliasList,),
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                    'alias_list': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__get_user_group_headers_by_aliases
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_user_group_headers_by_aliases" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+        def __get_user_group_headers_by_ids(
+            self,
+            ids,
+            **kwargs
+        ):
+            """Batch get UserGroupHeaders.  # noqa: E501
 
-        collection_formats = {}
+            Batch get UserGroupHeaders. This fetches information about a collection of users or groups, specified by Synapse IDs.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
+            >>> thread = api.get_user_group_headers_by_ids(ids, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                ids (str): IDs are specified as request parameters at the end of the URL, separated by commas. For example: ids=1001,819 
 
-        header_params = {}
+            Keyword Args:
+                body ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}): Batch get UserGroupHeaders. This fetches information about a collection of users or groups, specified by Synapse IDs. . [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                UserGroupHeaderResponsePage
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['ids'] = \
+                ids
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        if 'alias_list' in local_var_params:
-            body_params = local_var_params['alias_list']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/userGroupHeaders/aliases', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='UserGroupHeaderResponse',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def get_user_group_headers_by_ids(self, ids, **kwargs):  # noqa: E501
-        """Batch get UserGroupHeaders.  # noqa: E501
-
-        Batch get UserGroupHeaders. This fetches information about a collection of users or groups, specified by Synapse IDs.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_user_group_headers_by_ids(ids, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str ids: IDs are specified as request parameters at the end of the URL, separated by commas. For example: ids=1001,819  (required)
-        :param object body: Batch get UserGroupHeaders. This fetches information about a collection of users or groups, specified by Synapse IDs. 
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: UserGroupHeaderResponsePage
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_user_group_headers_by_ids_with_http_info(ids, **kwargs)  # noqa: E501
-
-    def get_user_group_headers_by_ids_with_http_info(self, ids, **kwargs):  # noqa: E501
-        """Batch get UserGroupHeaders.  # noqa: E501
-
-        Batch get UserGroupHeaders. This fetches information about a collection of users or groups, specified by Synapse IDs.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_user_group_headers_by_ids_with_http_info(ids, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str ids: IDs are specified as request parameters at the end of the URL, separated by commas. For example: ids=1001,819  (required)
-        :param object body: Batch get UserGroupHeaders. This fetches information about a collection of users or groups, specified by Synapse IDs. 
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(UserGroupHeaderResponsePage, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'ids',
-            'body'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.get_user_group_headers_by_ids = Endpoint(
+            settings={
+                'response_type': (UserGroupHeaderResponsePage,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/userGroupHeaders/batch',
+                'operation_id': 'get_user_group_headers_by_ids',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'ids',
+                    'body',
+                ],
+                'required': [
+                    'ids',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'ids':
+                        (str,),
+                    'body':
+                        ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},),
+                },
+                'attribute_map': {
+                    'ids': 'ids',
+                },
+                'location_map': {
+                    'ids': 'query',
+                    'body': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__get_user_group_headers_by_ids
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_user_group_headers_by_ids" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'ids' is set
-        if self.api_client.client_side_validation and ('ids' not in local_var_params or  # noqa: E501
-                                                        local_var_params['ids'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `ids` when calling `get_user_group_headers_by_ids`")  # noqa: E501
+        def __get_user_group_headers_by_prefix(
+            self,
+            **kwargs
+        ):
+            """Get Users and Groups that match the given prefix.  # noqa: E501
 
-        collection_formats = {}
+            Get Users and Groups that match the given prefix.  # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
+            >>> thread = api.get_user_group_headers_by_prefix(async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
-        if 'ids' in local_var_params and local_var_params['ids'] is not None:  # noqa: E501
-            query_params.append(('ids', local_var_params['ids']))  # noqa: E501
 
-        header_params = {}
+            Keyword Args:
+                limit (int): Limits the number of items that will be fetched for this page. . [optional] if omitted the server will use the default value of 10
+                offset (int): The offset index determines where this page will start from. An index of 0 is the first item. . [optional] if omitted the server will use the default value of 0
+                prefix (str): The name to search for.. [optional]
+                type_filter (str): Restrict the results to a type of principal. Available options: <a href=\"${org.sagebionetworks.repo.model.principal.TypeFilter}\">TypeFilter</a>.' . [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                UserGroupHeaderResponsePage
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        if 'body' in local_var_params:
-            body_params = local_var_params['body']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+        self.get_user_group_headers_by_prefix = Endpoint(
+            settings={
+                'response_type': (UserGroupHeaderResponsePage,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/userGroupHeaders',
+                'operation_id': 'get_user_group_headers_by_prefix',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'limit',
+                    'offset',
+                    'prefix',
+                    'type_filter',
+                ],
+                'required': [],
+                'nullable': [
+                ],
+                'enum': [
+                    'type_filter',
+                ],
+                'validation': [
+                    'offset',
+                ]
+            },
+            root_map={
+                'validations': {
+                    ('offset',): {
 
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
+                        'inclusive_minimum': 10,
+                    },
+                },
+                'allowed_values': {
+                    ('type_filter',): {
 
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/userGroupHeaders/batch', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='UserGroupHeaderResponsePage',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def get_user_group_headers_by_prefix(self, **kwargs):  # noqa: E501
-        """Get Users and Groups that match the given prefix.  # noqa: E501
-
-        Get Users and Groups that match the given prefix.  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_user_group_headers_by_prefix(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param int limit: Limits the number of items that will be fetched for this page. 
-        :param int offset: The offset index determines where this page will start from. An index of 0 is the first item. 
-        :param str prefix: The name to search for.
-        :param str type_filter: Restrict the results to a type of principal. Available options: <a href=\"${org.sagebionetworks.repo.model.principal.TypeFilter}\">TypeFilter</a>.' 
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: UserGroupHeaderResponsePage
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_user_group_headers_by_prefix_with_http_info(**kwargs)  # noqa: E501
-
-    def get_user_group_headers_by_prefix_with_http_info(self, **kwargs):  # noqa: E501
-        """Get Users and Groups that match the given prefix.  # noqa: E501
-
-        Get Users and Groups that match the given prefix.  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_user_group_headers_by_prefix_with_http_info(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param int limit: Limits the number of items that will be fetched for this page. 
-        :param int offset: The offset index determines where this page will start from. An index of 0 is the first item. 
-        :param str prefix: The name to search for.
-        :param str type_filter: Restrict the results to a type of principal. Available options: <a href=\"${org.sagebionetworks.repo.model.principal.TypeFilter}\">TypeFilter</a>.' 
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(UserGroupHeaderResponsePage, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'limit',
-            'offset',
-            'prefix',
-            'type_filter'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+                        "ALL": "ALL",
+                        "TEAMS_ONLY": "TEAMS_ONLY",
+                        "USERS_ONLY": "USERS_ONLY"
+                    },
+                },
+                'openapi_types': {
+                    'limit':
+                        (int,),
+                    'offset':
+                        (int,),
+                    'prefix':
+                        (str,),
+                    'type_filter':
+                        (str,),
+                },
+                'attribute_map': {
+                    'limit': 'limit',
+                    'offset': 'offset',
+                    'prefix': 'prefix',
+                    'type_filter': 'typeFilter',
+                },
+                'location_map': {
+                    'limit': 'query',
+                    'offset': 'query',
+                    'prefix': 'query',
+                    'type_filter': 'query',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_user_group_headers_by_prefix
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_user_group_headers_by_prefix" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+        def __get_user_groups(
+            self,
+            **kwargs
+        ):
+            """Get the user-groups in the system.  # noqa: E501
 
-        if self.api_client.client_side_validation and 'offset' in local_var_params and local_var_params['offset'] < 10:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `offset` when calling `get_user_group_headers_by_prefix`, must be a value greater than or equal to `10`")  # noqa: E501
-        collection_formats = {}
+            Get the user-groups in the system  # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
+            >>> thread = api.get_user_groups(async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
-        if 'limit' in local_var_params and local_var_params['limit'] is not None:  # noqa: E501
-            query_params.append(('limit', local_var_params['limit']))  # noqa: E501
-        if 'offset' in local_var_params and local_var_params['offset'] is not None:  # noqa: E501
-            query_params.append(('offset', local_var_params['offset']))  # noqa: E501
-        if 'prefix' in local_var_params and local_var_params['prefix'] is not None:  # noqa: E501
-            query_params.append(('prefix', local_var_params['prefix']))  # noqa: E501
-        if 'type_filter' in local_var_params and local_var_params['type_filter'] is not None:  # noqa: E501
-            query_params.append(('typeFilter', local_var_params['type_filter']))  # noqa: E501
 
-        header_params = {}
+            Keyword Args:
+                ascending (bool): Return results in ascending order.. [optional] if omitted the server will use the default value of True
+                limit (int): the maximum number of results to return.. [optional] if omitted the server will use the default value of 10
+                offset (int): the starting index of the returned results.. [optional] if omitted the server will use the default value of 0
+                sort (str): Sort results.. [optional] if omitted the server will use the default value of "NONE"
+                body ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}): Get the user-groups in the system. [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                PaginatedResultsOfUserGroup
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+        self.get_user_groups = Endpoint(
+            settings={
+                'response_type': (PaginatedResultsOfUserGroup,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/userGroup',
+                'operation_id': 'get_user_groups',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'ascending',
+                    'limit',
+                    'offset',
+                    'sort',
+                    'body',
+                ],
+                'required': [],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                    'offset',
+                ]
+            },
+            root_map={
+                'validations': {
+                    ('offset',): {
 
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/userGroupHeaders', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='UserGroupHeaderResponsePage',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def get_user_groups(self, **kwargs):  # noqa: E501
-        """Get the user-groups in the system.  # noqa: E501
-
-        Get the user-groups in the system  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_user_groups(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param bool ascending: Return results in ascending order.
-        :param int limit: the maximum number of results to return.
-        :param int offset: the starting index of the returned results.
-        :param str sort: Sort results.
-        :param object body: Get the user-groups in the system
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: PaginatedResultsOfUserGroup
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_user_groups_with_http_info(**kwargs)  # noqa: E501
-
-    def get_user_groups_with_http_info(self, **kwargs):  # noqa: E501
-        """Get the user-groups in the system.  # noqa: E501
-
-        Get the user-groups in the system  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_user_groups_with_http_info(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param bool ascending: Return results in ascending order.
-        :param int limit: the maximum number of results to return.
-        :param int offset: the starting index of the returned results.
-        :param str sort: Sort results.
-        :param object body: Get the user-groups in the system
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(PaginatedResultsOfUserGroup, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'ascending',
-            'limit',
-            'offset',
-            'sort',
-            'body'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+                        'inclusive_minimum': 0,
+                    },
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'ascending':
+                        (bool,),
+                    'limit':
+                        (int,),
+                    'offset':
+                        (int,),
+                    'sort':
+                        (str,),
+                    'body':
+                        ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},),
+                },
+                'attribute_map': {
+                    'ascending': 'ascending',
+                    'limit': 'limit',
+                    'offset': 'offset',
+                    'sort': 'sort',
+                },
+                'location_map': {
+                    'ascending': 'query',
+                    'limit': 'query',
+                    'offset': 'query',
+                    'sort': 'query',
+                    'body': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__get_user_groups
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_user_groups" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+        def __get_user_profile(
+            self,
+            profile_id,
+            **kwargs
+        ):
+            """Get the profile of a specified user.  # noqa: E501
 
-        if self.api_client.client_side_validation and 'offset' in local_var_params and local_var_params['offset'] < 0:  # noqa: E501
-            raise ApiValueError("Invalid value for parameter `offset` when calling `get_user_groups`, must be a value greater than or equal to `0`")  # noqa: E501
-        collection_formats = {}
+            Get the profile of a specified user. <p><b>Note:</b> Private fields (e.g. \"rStudioUrl\") are omitted unless the requester is the profile owner or an administrator.</p>'   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
+            >>> thread = api.get_user_profile(profile_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
-        if 'ascending' in local_var_params and local_var_params['ascending'] is not None:  # noqa: E501
-            query_params.append(('ascending', local_var_params['ascending']))  # noqa: E501
-        if 'limit' in local_var_params and local_var_params['limit'] is not None:  # noqa: E501
-            query_params.append(('limit', local_var_params['limit']))  # noqa: E501
-        if 'offset' in local_var_params and local_var_params['offset'] is not None:  # noqa: E501
-            query_params.append(('offset', local_var_params['offset']))  # noqa: E501
-        if 'sort' in local_var_params and local_var_params['sort'] is not None:  # noqa: E501
-            query_params.append(('sort', local_var_params['sort']))  # noqa: E501
+            Args:
+                profile_id (str): The ID of the Synapse user.
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                UserProfile
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['profile_id'] = \
+                profile_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        if 'body' in local_var_params:
-            body_params = local_var_params['body']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/userGroup', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='PaginatedResultsOfUserGroup',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def get_user_profile(self, profile_id, **kwargs):  # noqa: E501
-        """Get the profile of a specified user.  # noqa: E501
-
-        Get the profile of a specified user. <p><b>Note:</b> Private fields (e.g. \"rStudioUrl\") are omitted unless the requester is the profile owner or an administrator.</p>'   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_user_profile(profile_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str profile_id: The ID of the Synapse user. (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: UserProfile
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_user_profile_with_http_info(profile_id, **kwargs)  # noqa: E501
-
-    def get_user_profile_with_http_info(self, profile_id, **kwargs):  # noqa: E501
-        """Get the profile of a specified user.  # noqa: E501
-
-        Get the profile of a specified user. <p><b>Note:</b> Private fields (e.g. \"rStudioUrl\") are omitted unless the requester is the profile owner or an administrator.</p>'   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_user_profile_with_http_info(profile_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str profile_id: The ID of the Synapse user. (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(UserProfile, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'profile_id'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.get_user_profile = Endpoint(
+            settings={
+                'response_type': (UserProfile,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/userProfile/{profileId}',
+                'operation_id': 'get_user_profile',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'profile_id',
+                ],
+                'required': [
+                    'profile_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'profile_id':
+                        (str,),
+                },
+                'attribute_map': {
+                    'profile_id': 'profileId',
+                },
+                'location_map': {
+                    'profile_id': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_user_profile
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_user_profile" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'profile_id' is set
-        if self.api_client.client_side_validation and ('profile_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['profile_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `profile_id` when calling `get_user_profile`")  # noqa: E501
+        def __get_user_profiles_paginated(
+            self,
+            **kwargs
+        ):
+            """Get all publicly available.  # noqa: E501
 
-        collection_formats = {}
+            Get all publicly available <a href=\"${org.sagebionetworks.repo.model.UserProfile}\">UserProfile</a> data in the system   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'profile_id' in local_var_params:
-            path_params['profileId'] = local_var_params['profile_id']  # noqa: E501
+            >>> thread = api.get_user_profiles_paginated(async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
 
-        header_params = {}
+            Keyword Args:
+                ascending (bool): Used to indicate whether the sort direction is ascending or not.. [optional] if omitted the server will use the default value of True
+                limit (int): Limits the number of items that will be fetched for this page . [optional] if omitted the server will use the default value of 100
+                offset (int): The offset index determines where this page will start from. An index of 0 is the first item.. [optional] if omitted the server will use the default value of 0
+                sort (str): Used to indicate upon which field(s) to sort.. [optional]
+                body ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}): Get all publicly available <a href=\"${org.sagebionetworks.repo.model.UserProfile}\">UserProfile</a> data in the system . [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                PaginatedResultsOfUserProfile
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/userProfile/{profileId}', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='UserProfile',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def get_user_profiles_paginated(self, **kwargs):  # noqa: E501
-        """Get all publicly available.  # noqa: E501
-
-        Get all publicly available <a href=\"${org.sagebionetworks.repo.model.UserProfile}\">UserProfile</a> data in the system   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_user_profiles_paginated(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param bool ascending: Used to indicate whether the sort direction is ascending or not.
-        :param int limit: Limits the number of items that will be fetched for this page 
-        :param int offset: The offset index determines where this page will start from. An index of 0 is the first item.
-        :param str sort: Used to indicate upon which field(s) to sort.
-        :param object body: Get all publicly available <a href=\"${org.sagebionetworks.repo.model.UserProfile}\">UserProfile</a> data in the system 
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: PaginatedResultsOfUserProfile
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.get_user_profiles_paginated_with_http_info(**kwargs)  # noqa: E501
-
-    def get_user_profiles_paginated_with_http_info(self, **kwargs):  # noqa: E501
-        """Get all publicly available.  # noqa: E501
-
-        Get all publicly available <a href=\"${org.sagebionetworks.repo.model.UserProfile}\">UserProfile</a> data in the system   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_user_profiles_paginated_with_http_info(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param bool ascending: Used to indicate whether the sort direction is ascending or not.
-        :param int limit: Limits the number of items that will be fetched for this page 
-        :param int offset: The offset index determines where this page will start from. An index of 0 is the first item.
-        :param str sort: Used to indicate upon which field(s) to sort.
-        :param object body: Get all publicly available <a href=\"${org.sagebionetworks.repo.model.UserProfile}\">UserProfile</a> data in the system 
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(PaginatedResultsOfUserProfile, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'ascending',
-            'limit',
-            'offset',
-            'sort',
-            'body'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.get_user_profiles_paginated = Endpoint(
+            settings={
+                'response_type': (PaginatedResultsOfUserProfile,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/user',
+                'operation_id': 'get_user_profiles_paginated',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'ascending',
+                    'limit',
+                    'offset',
+                    'sort',
+                    'body',
+                ],
+                'required': [],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'ascending':
+                        (bool,),
+                    'limit':
+                        (int,),
+                    'offset':
+                        (int,),
+                    'sort':
+                        (str,),
+                    'body':
+                        ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},),
+                },
+                'attribute_map': {
+                    'ascending': 'ascending',
+                    'limit': 'limit',
+                    'offset': 'offset',
+                    'sort': 'sort',
+                },
+                'location_map': {
+                    'ascending': 'query',
+                    'limit': 'query',
+                    'offset': 'query',
+                    'sort': 'query',
+                    'body': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__get_user_profiles_paginated
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_user_profiles_paginated" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+        def __image_preview_redirect_url_for_user(
+            self,
+            profile_id,
+            **kwargs
+        ):
+            """Get the actual URL of the image file associated with a user's profile.  # noqa: E501
 
-        collection_formats = {}
+            Get the actual URL of the image file associated with a user''s profile. <p> Note: This call will result in a HTTP temporary redirect (307), to the actual file URL if the caller meets all of the download requirements. </p>   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
+            >>> thread = api.image_preview_redirect_url_for_user(profile_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
-        if 'ascending' in local_var_params and local_var_params['ascending'] is not None:  # noqa: E501
-            query_params.append(('ascending', local_var_params['ascending']))  # noqa: E501
-        if 'limit' in local_var_params and local_var_params['limit'] is not None:  # noqa: E501
-            query_params.append(('limit', local_var_params['limit']))  # noqa: E501
-        if 'offset' in local_var_params and local_var_params['offset'] is not None:  # noqa: E501
-            query_params.append(('offset', local_var_params['offset']))  # noqa: E501
-        if 'sort' in local_var_params and local_var_params['sort'] is not None:  # noqa: E501
-            query_params.append(('sort', local_var_params['sort']))  # noqa: E501
+            Args:
+                profile_id (str): The ID of the Synapse user.
 
-        header_params = {}
+            Keyword Args:
+                redirect (bool): When set to false, the URL will be returned as text/plain instead of redirecting. . [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                str
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['profile_id'] = \
+                profile_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        if 'body' in local_var_params:
-            body_params = local_var_params['body']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/user', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='PaginatedResultsOfUserProfile',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def image_preview_redirect_url_for_user(self, profile_id, **kwargs):  # noqa: E501
-        """Get the actual URL of the image file associated with a user's profile.  # noqa: E501
-
-        Get the actual URL of the image file associated with a user''s profile. <p> Note: This call will result in a HTTP temporary redirect (307), to the actual file URL if the caller meets all of the download requirements. </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.image_preview_redirect_url_for_user(profile_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str profile_id: The ID of the Synapse user. (required)
-        :param bool redirect: When set to false, the URL will be returned as text/plain instead of redirecting. 
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: str
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.image_preview_redirect_url_for_user_with_http_info(profile_id, **kwargs)  # noqa: E501
-
-    def image_preview_redirect_url_for_user_with_http_info(self, profile_id, **kwargs):  # noqa: E501
-        """Get the actual URL of the image file associated with a user's profile.  # noqa: E501
-
-        Get the actual URL of the image file associated with a user''s profile. <p> Note: This call will result in a HTTP temporary redirect (307), to the actual file URL if the caller meets all of the download requirements. </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.image_preview_redirect_url_for_user_with_http_info(profile_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str profile_id: The ID of the Synapse user. (required)
-        :param bool redirect: When set to false, the URL will be returned as text/plain instead of redirecting. 
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(str, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'profile_id',
-            'redirect'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.image_preview_redirect_url_for_user = Endpoint(
+            settings={
+                'response_type': (str,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/userProfile/{profileId}/image/preview',
+                'operation_id': 'image_preview_redirect_url_for_user',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'profile_id',
+                    'redirect',
+                ],
+                'required': [
+                    'profile_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'profile_id':
+                        (str,),
+                    'redirect':
+                        (bool,),
+                },
+                'attribute_map': {
+                    'profile_id': 'profileId',
+                    'redirect': 'redirect',
+                },
+                'location_map': {
+                    'profile_id': 'path',
+                    'redirect': 'query',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__image_preview_redirect_url_for_user
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method image_preview_redirect_url_for_user" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'profile_id' is set
-        if self.api_client.client_side_validation and ('profile_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['profile_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `profile_id` when calling `image_preview_redirect_url_for_user`")  # noqa: E501
+        def __image_redirect_url_for_user(
+            self,
+            profile_id,
+            **kwargs
+        ):
+            """Get the actual URL of the image file associated with a user's profile.  # noqa: E501
 
-        collection_formats = {}
+            Get the actual URL of the image file associated with a user's profile. <p> Note: This call will result in a HTTP temporary redirect (307), to the actual file URL if the caller meets all of the download requirements. </p>   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'profile_id' in local_var_params:
-            path_params['profileId'] = local_var_params['profile_id']  # noqa: E501
+            >>> thread = api.image_redirect_url_for_user(profile_id, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
-        if 'redirect' in local_var_params and local_var_params['redirect'] is not None:  # noqa: E501
-            query_params.append(('redirect', local_var_params['redirect']))  # noqa: E501
+            Args:
+                profile_id (str): The ID of the Synapse user.
 
-        header_params = {}
+            Keyword Args:
+                redirect (bool): When set to false, the URL will be returned as text/plain instead of redirecting. . [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                str
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['profile_id'] = \
+                profile_id
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/userProfile/{profileId}/image/preview', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='str',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def image_redirect_url_for_user(self, profile_id, **kwargs):  # noqa: E501
-        """Get the actual URL of the image file associated with a user's profile.  # noqa: E501
-
-        Get the actual URL of the image file associated with a user's profile. <p> Note: This call will result in a HTTP temporary redirect (307), to the actual file URL if the caller meets all of the download requirements. </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.image_redirect_url_for_user(profile_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str profile_id: The ID of the Synapse user. (required)
-        :param bool redirect: When set to false, the URL will be returned as text/plain instead of redirecting. 
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: str
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.image_redirect_url_for_user_with_http_info(profile_id, **kwargs)  # noqa: E501
-
-    def image_redirect_url_for_user_with_http_info(self, profile_id, **kwargs):  # noqa: E501
-        """Get the actual URL of the image file associated with a user's profile.  # noqa: E501
-
-        Get the actual URL of the image file associated with a user's profile. <p> Note: This call will result in a HTTP temporary redirect (307), to the actual file URL if the caller meets all of the download requirements. </p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.image_redirect_url_for_user_with_http_info(profile_id, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str profile_id: The ID of the Synapse user. (required)
-        :param bool redirect: When set to false, the URL will be returned as text/plain instead of redirecting. 
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(str, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'profile_id',
-            'redirect'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.image_redirect_url_for_user = Endpoint(
+            settings={
+                'response_type': (str,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/userProfile/{profileId}/image',
+                'operation_id': 'image_redirect_url_for_user',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'profile_id',
+                    'redirect',
+                ],
+                'required': [
+                    'profile_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'profile_id':
+                        (str,),
+                    'redirect':
+                        (bool,),
+                },
+                'attribute_map': {
+                    'profile_id': 'profileId',
+                    'redirect': 'redirect',
+                },
+                'location_map': {
+                    'profile_id': 'path',
+                    'redirect': 'query',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__image_redirect_url_for_user
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method image_redirect_url_for_user" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'profile_id' is set
-        if self.api_client.client_side_validation and ('profile_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['profile_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `profile_id` when calling `image_redirect_url_for_user`")  # noqa: E501
+        def __list_user_profiles(
+            self,
+            **kwargs
+        ):
+            """Batch get UserGroupHeaders.  # noqa: E501
 
-        collection_formats = {}
+            Batch get UserGroupHeaders. This fetches information about a collection of users or groups, specified by Synapse IDs.'   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'profile_id' in local_var_params:
-            path_params['profileId'] = local_var_params['profile_id']  # noqa: E501
+            >>> thread = api.list_user_profiles(async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
-        if 'redirect' in local_var_params and local_var_params['redirect'] is not None:  # noqa: E501
-            query_params.append(('redirect', local_var_params['redirect']))  # noqa: E501
 
-        header_params = {}
+            Keyword Args:
+                id_list (IdList): IDs are specified as request parameters at the end of the URL, separated by commas. For example: ids=1001,819 . [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                ListWrapperOfUserProfile
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/userProfile/{profileId}/image', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='str',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def list_user_profiles(self, **kwargs):  # noqa: E501
-        """Batch get UserGroupHeaders.  # noqa: E501
-
-        Batch get UserGroupHeaders. This fetches information about a collection of users or groups, specified by Synapse IDs.'   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.list_user_profiles(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param IdList id_list: IDs are specified as request parameters at the end of the URL, separated by commas. For example: ids=1001,819 
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: ListWrapperOfUserProfile
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.list_user_profiles_with_http_info(**kwargs)  # noqa: E501
-
-    def list_user_profiles_with_http_info(self, **kwargs):  # noqa: E501
-        """Batch get UserGroupHeaders.  # noqa: E501
-
-        Batch get UserGroupHeaders. This fetches information about a collection of users or groups, specified by Synapse IDs.'   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.list_user_profiles_with_http_info(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param IdList id_list: IDs are specified as request parameters at the end of the URL, separated by commas. For example: ids=1001,819 
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(ListWrapperOfUserProfile, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'id_list'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.list_user_profiles = Endpoint(
+            settings={
+                'response_type': (ListWrapperOfUserProfile,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/userProfile',
+                'operation_id': 'list_user_profiles',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'id_list',
+                ],
+                'required': [],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'id_list':
+                        (IdList,),
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                    'id_list': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__list_user_profiles
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method list_user_profiles" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
+        def __update_user_profile(
+            self,
+            **kwargs
+        ):
+            """Update your own profile.  # noqa: E501
 
-        collection_formats = {}
+            Update your own profile  <p><b>Note: </b> The user associated with the UserProfile \"ownerId\" must match the identity of the caller, otherwise an Unauthorized response will occur.</p>   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
+            >>> thread = api.update_user_profile(async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
 
-        header_params = {}
+            Keyword Args:
+                user_profile (UserProfile): [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                UserProfile
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        if 'id_list' in local_var_params:
-            body_params = local_var_params['id_list']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/userProfile', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='ListWrapperOfUserProfile',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def update_user_profile(self, **kwargs):  # noqa: E501
-        """Update your own profile.  # noqa: E501
-
-        Update your own profile  <p><b>Note: </b> The user associated with the UserProfile \"ownerId\" must match the identity of the caller, otherwise an Unauthorized response will occur.</p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.update_user_profile(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param UserProfile user_profile:
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: UserProfile
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.update_user_profile_with_http_info(**kwargs)  # noqa: E501
-
-    def update_user_profile_with_http_info(self, **kwargs):  # noqa: E501
-        """Update your own profile.  # noqa: E501
-
-        Update your own profile  <p><b>Note: </b> The user associated with the UserProfile \"ownerId\" must match the identity of the caller, otherwise an Unauthorized response will occur.</p>   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.update_user_profile_with_http_info(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param UserProfile user_profile:
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(UserProfile, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'user_profile'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.update_user_profile = Endpoint(
+            settings={
+                'response_type': (UserProfile,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/userProfile',
+                'operation_id': 'update_user_profile',
+                'http_method': 'PUT',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'user_profile',
+                ],
+                'required': [],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'user_profile':
+                        (UserProfile,),
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                    'user_profile': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__update_user_profile
         )
-
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method update_user_profile" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-
-        collection_formats = {}
-
-        path_params = {}
-
-        query_params = []
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        if 'user_profile' in local_var_params:
-            body_params = local_var_params['user_profile']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['bearerAuth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/userProfile', 'PUT',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='UserProfile',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)

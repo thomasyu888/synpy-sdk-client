@@ -20,7 +20,7 @@ Method | HTTP request | Description
 
 
 # **create_thread**
-> DiscussionThreadBundle create_thread(create_discussion_thread=create_discussion_thread)
+> DiscussionThreadBundle create_thread()
 
 Create a new thread in a forum.
 
@@ -30,10 +30,11 @@ This API is used to create a new thread in a forum.  Target users: anyone who ha
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import discussion_services_api
+from synclient.model.create_discussion_thread import CreateDiscussionThread
+from synclient.model.discussion_thread_bundle import DiscussionThreadBundle
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -54,14 +55,20 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.DiscussionServicesApi(api_client)
-    create_discussion_thread = synclient.CreateDiscussionThread() # CreateDiscussionThread |  (optional)
+    api_instance = discussion_services_api.DiscussionServicesApi(api_client)
+    create_discussion_thread = CreateDiscussionThread(
+        forum_id="forum_id_example",
+        message_markdown="message_markdown_example",
+        title="title_example",
+    ) # CreateDiscussionThread |  (optional)
 
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Create a new thread in a forum.
         api_response = api_instance.create_thread(create_discussion_thread=create_discussion_thread)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling DiscussionServicesApi->create_thread: %s\n" % e)
 ```
 
@@ -69,7 +76,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **create_discussion_thread** | [**CreateDiscussionThread**](CreateDiscussionThread.md)|  | [optional] 
+ **create_discussion_thread** | [**CreateDiscussionThread**](CreateDiscussionThread.md)|  | [optional]
 
 ### Return type
 
@@ -102,10 +109,9 @@ This API is used to mark a thread as deleted.  Target users: only forum's modera
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import discussion_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -126,13 +132,14 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.DiscussionServicesApi(api_client)
-    thread_id = 'thread_id_example' # str | The ID of a thread.
+    api_instance = discussion_services_api.DiscussionServicesApi(api_client)
+    thread_id = "threadId_example" # str | The ID of a thread.
 
+    # example passing only required values which don't have defaults set
     try:
         # Delete a Thread.
         api_instance.delete_thread(thread_id)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling DiscussionServicesApi->delete_thread: %s\n" % e)
 ```
 
@@ -140,7 +147,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **thread_id** | **str**| The ID of a thread. | 
+ **thread_id** | **str**| The ID of a thread. |
 
 ### Return type
 
@@ -163,7 +170,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_replies_for_thread**
-> PaginatedResultsOfDiscussionReplyBundle get_replies_for_thread(thread_id, filter, ascending=ascending, limit=limit, offset=offset, sort=sort)
+> PaginatedResultsOfDiscussionReplyBundle get_replies_for_thread(thread_id, filter)
 
 Get N number of replies for a given thread ID.
 
@@ -173,10 +180,10 @@ This API is used to get N number of replies for a given thread ID.  Target users
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import discussion_services_api
+from synclient.model.paginated_results_of_discussion_reply_bundle import PaginatedResultsOfDiscussionReplyBundle
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -197,19 +204,29 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.DiscussionServicesApi(api_client)
-    thread_id = 'thread_id_example' # str | The ID of a thread.
-filter = 'filter_example' # str | Filter deleted not deleted replies.
-ascending = True # bool | The direction of sort: true for ascending, and false for descending (optional)
-limit = 10 # int | Limits the size of the page returned. For example, a page size of 10 require limit = 10.  (optional) (default to 10)
-offset = 0 # int | The index of the pagination offset. For a page size of 10, the first page would be at offset = 0, and the second page would be at offset = 10.'  (optional) (default to 0)
-sort = 'sort_example' # str | The field to sort the resulting replies on.  (optional)
+    api_instance = discussion_services_api.DiscussionServicesApi(api_client)
+    thread_id = "threadId_example" # str | The ID of a thread.
+    filter = "DELETED_ONLY" # str | Filter deleted not deleted replies.
+    ascending = True # bool | The direction of sort: true for ascending, and false for descending (optional)
+    limit = 10 # int | Limits the size of the page returned. For example, a page size of 10 require limit = 10.  (optional) if omitted the server will use the default value of 10
+    offset = 0 # int | The index of the pagination offset. For a page size of 10, the first page would be at offset = 0, and the second page would be at offset = 10.'  (optional) if omitted the server will use the default value of 0
+    sort = "CREATED_ON" # str | The field to sort the resulting replies on.  (optional) if omitted the server will use the default value of "CREATED_ON"
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Get N number of replies for a given thread ID.
+        api_response = api_instance.get_replies_for_thread(thread_id, filter)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling DiscussionServicesApi->get_replies_for_thread: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Get N number of replies for a given thread ID.
         api_response = api_instance.get_replies_for_thread(thread_id, filter, ascending=ascending, limit=limit, offset=offset, sort=sort)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling DiscussionServicesApi->get_replies_for_thread: %s\n" % e)
 ```
 
@@ -217,12 +234,12 @@ sort = 'sort_example' # str | The field to sort the resulting replies on.  (opti
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **thread_id** | **str**| The ID of a thread. | 
- **filter** | **str**| Filter deleted not deleted replies. | 
- **ascending** | **bool**| The direction of sort: true for ascending, and false for descending | [optional] 
- **limit** | **int**| Limits the size of the page returned. For example, a page size of 10 require limit &#x3D; 10.  | [optional] [default to 10]
- **offset** | **int**| The index of the pagination offset. For a page size of 10, the first page would be at offset &#x3D; 0, and the second page would be at offset &#x3D; 10.&#39;  | [optional] [default to 0]
- **sort** | **str**| The field to sort the resulting replies on.  | [optional] 
+ **thread_id** | **str**| The ID of a thread. |
+ **filter** | **str**| Filter deleted not deleted replies. |
+ **ascending** | **bool**| The direction of sort: true for ascending, and false for descending | [optional]
+ **limit** | **int**| Limits the size of the page returned. For example, a page size of 10 require limit &#x3D; 10.  | [optional] if omitted the server will use the default value of 10
+ **offset** | **int**| The index of the pagination offset. For a page size of 10, the first page would be at offset &#x3D; 0, and the second page would be at offset &#x3D; 10.&#39;  | [optional] if omitted the server will use the default value of 0
+ **sort** | **str**| The field to sort the resulting replies on.  | [optional] if omitted the server will use the default value of "CREATED_ON"
 
 ### Return type
 
@@ -255,10 +272,10 @@ This API is used to get the total number of replies for a given thread ID.  Targ
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import discussion_services_api
+from synclient.model.reply_count import ReplyCount
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -279,15 +296,16 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.DiscussionServicesApi(api_client)
-    thread_id = 'thread_id_example' # str | The ID of a thread.
-filter = 'filter_example' # str | Filter deleted not deleted replies.
+    api_instance = discussion_services_api.DiscussionServicesApi(api_client)
+    thread_id = "threadId_example" # str | The ID of a thread.
+    filter = "DELETED_ONLY" # str | Filter deleted not deleted replies.
 
+    # example passing only required values which don't have defaults set
     try:
         # Get the total number of replies for a given Thread. 
         api_response = api_instance.get_reply_count_for_thread(thread_id, filter)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling DiscussionServicesApi->get_reply_count_for_thread: %s\n" % e)
 ```
 
@@ -295,8 +313,8 @@ filter = 'filter_example' # str | Filter deleted not deleted replies.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **thread_id** | **str**| The ID of a thread. | 
- **filter** | **str**| Filter deleted not deleted replies. | 
+ **thread_id** | **str**| The ID of a thread. |
+ **filter** | **str**| Filter deleted not deleted replies. |
 
 ### Return type
 
@@ -329,10 +347,10 @@ This API is used to get a thread and its statistic given its ID.  Target users: 
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import discussion_services_api
+from synclient.model.discussion_thread_bundle import DiscussionThreadBundle
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -353,14 +371,15 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.DiscussionServicesApi(api_client)
-    thread_id = 'thread_id_example' # str | The ID of a thread.
+    api_instance = discussion_services_api.DiscussionServicesApi(api_client)
+    thread_id = "threadId_example" # str | The ID of a thread.
 
+    # example passing only required values which don't have defaults set
     try:
         # Get a thread.
         api_response = api_instance.get_thread(thread_id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling DiscussionServicesApi->get_thread: %s\n" % e)
 ```
 
@@ -368,7 +387,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **thread_id** | **str**| The ID of a thread. | 
+ **thread_id** | **str**| The ID of a thread. |
 
 ### Return type
 
@@ -391,7 +410,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_thread_counts**
-> EntityThreadCounts get_thread_counts(entity_id_list=entity_id_list)
+> EntityThreadCounts get_thread_counts()
 
 Get number of threads that belong to projects user can view and references the given entity. 
 
@@ -401,10 +420,11 @@ This API is used to get list of entity and count pairs, with count is the number
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import discussion_services_api
+from synclient.model.entity_id_list import EntityIdList
+from synclient.model.entity_thread_counts import EntityThreadCounts
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -425,14 +445,20 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.DiscussionServicesApi(api_client)
-    entity_id_list = synclient.EntityIdList() # EntityIdList | The requested list. Limit size 20. (optional)
+    api_instance = discussion_services_api.DiscussionServicesApi(api_client)
+    entity_id_list = EntityIdList(
+        id_list=[
+            "id_list_example",
+        ],
+    ) # EntityIdList | The requested list. Limit size 20. (optional)
 
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Get number of threads that belong to projects user can view and references the given entity. 
         api_response = api_instance.get_thread_counts(entity_id_list=entity_id_list)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling DiscussionServicesApi->get_thread_counts: %s\n" % e)
 ```
 
@@ -440,7 +466,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **entity_id_list** | [**EntityIdList**](EntityIdList.md)| The requested list. Limit size 20. | [optional] 
+ **entity_id_list** | [**EntityIdList**](EntityIdList.md)| The requested list. Limit size 20. | [optional]
 
 ### Return type
 
@@ -473,10 +499,10 @@ This API is used to get the message URL of a thread. The message URL is the URL 
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import discussion_services_api
+from synclient.model.message_url import MessageURL
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -497,14 +523,15 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.DiscussionServicesApi(api_client)
-    message_key = 'message_key_example' # str | Message Key
+    api_instance = discussion_services_api.DiscussionServicesApi(api_client)
+    message_key = "messageKey_example" # str | Message Key
 
+    # example passing only required values which don't have defaults set
     try:
         # Get the message URL of a thread.
         api_response = api_instance.get_thread_url(message_key)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling DiscussionServicesApi->get_thread_url: %s\n" % e)
 ```
 
@@ -512,7 +539,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **message_key** | **str**| Message Key | 
+ **message_key** | **str**| Message Key |
 
 ### Return type
 
@@ -535,7 +562,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_threads_for_entity**
-> PaginatedResultsOfDiscussionThreadBundle get_threads_for_entity(id, ascending=ascending, limit=limit, offset=offset, sort=sort)
+> PaginatedResultsOfDiscussionThreadBundle get_threads_for_entity(id)
 
 This API is used to get N number of threads that belongs to projects user can view and references the given entity. 
 
@@ -545,10 +572,10 @@ This API is used to get N number of threads that belongs to projects user can vi
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import discussion_services_api
+from synclient.model.paginated_results_of_discussion_thread_bundle import PaginatedResultsOfDiscussionThreadBundle
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -569,18 +596,28 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.DiscussionServicesApi(api_client)
-    id = 'id_example' # str | The ID of an Entity.
-ascending = True # bool | The direction of sort: true for ascending, and false for descending (optional)
-limit = 10 # float | Limits the size of the page returned. For example, a page size of 10 require limit = 10. The maximum Limit for this call is 20.'  (optional) (default to 10)
-offset = 0 # float | The index of the pagination offset. For a page size of 10, the first page would be at offset = 0, and the second page would be at offset = 10.'  (optional) (default to 0)
-sort = 'sort_example' # str | The field to sort the resulting threads on. Available options DiscussionThreadOrder  (optional)
+    api_instance = discussion_services_api.DiscussionServicesApi(api_client)
+    id = "id_example" # str | The ID of an Entity.
+    ascending = True # bool | The direction of sort: true for ascending, and false for descending (optional)
+    limit = 10 # float | Limits the size of the page returned. For example, a page size of 10 require limit = 10. The maximum Limit for this call is 20.'  (optional) if omitted the server will use the default value of 10
+    offset = 0 # float | The index of the pagination offset. For a page size of 10, the first page would be at offset = 0, and the second page would be at offset = 10.'  (optional) if omitted the server will use the default value of 0
+    sort = "NUMBER_OF_REPLIES" # str | The field to sort the resulting threads on. Available options DiscussionThreadOrder  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # This API is used to get N number of threads that belongs to projects user can view and references the given entity. 
+        api_response = api_instance.get_threads_for_entity(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling DiscussionServicesApi->get_threads_for_entity: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # This API is used to get N number of threads that belongs to projects user can view and references the given entity. 
         api_response = api_instance.get_threads_for_entity(id, ascending=ascending, limit=limit, offset=offset, sort=sort)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling DiscussionServicesApi->get_threads_for_entity: %s\n" % e)
 ```
 
@@ -588,11 +625,11 @@ sort = 'sort_example' # str | The field to sort the resulting threads on. Availa
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of an Entity. | 
- **ascending** | **bool**| The direction of sort: true for ascending, and false for descending | [optional] 
- **limit** | **float**| Limits the size of the page returned. For example, a page size of 10 require limit &#x3D; 10. The maximum Limit for this call is 20.&#39;  | [optional] [default to 10]
- **offset** | **float**| The index of the pagination offset. For a page size of 10, the first page would be at offset &#x3D; 0, and the second page would be at offset &#x3D; 10.&#39;  | [optional] [default to 0]
- **sort** | **str**| The field to sort the resulting threads on. Available options DiscussionThreadOrder  | [optional] 
+ **id** | **str**| The ID of an Entity. |
+ **ascending** | **bool**| The direction of sort: true for ascending, and false for descending | [optional]
+ **limit** | **float**| Limits the size of the page returned. For example, a page size of 10 require limit &#x3D; 10. The maximum Limit for this call is 20.&#39;  | [optional] if omitted the server will use the default value of 10
+ **offset** | **float**| The index of the pagination offset. For a page size of 10, the first page would be at offset &#x3D; 0, and the second page would be at offset &#x3D; 10.&#39;  | [optional] if omitted the server will use the default value of 0
+ **sort** | **str**| The field to sort the resulting threads on. Available options DiscussionThreadOrder  | [optional]
 
 ### Return type
 
@@ -625,10 +662,9 @@ This API is used to mark a thread as pinned.  Target users: only forum's moderat
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import discussion_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -649,13 +685,14 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.DiscussionServicesApi(api_client)
-    thread_id = 'thread_id_example' # str | The ID of a thread.
+    api_instance = discussion_services_api.DiscussionServicesApi(api_client)
+    thread_id = "threadId_example" # str | The ID of a thread.
 
+    # example passing only required values which don't have defaults set
     try:
         # Pin a Thread.
         api_instance.pin_thread(thread_id)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling DiscussionServicesApi->pin_thread: %s\n" % e)
 ```
 
@@ -663,7 +700,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **thread_id** | **str**| The ID of a thread. | 
+ **thread_id** | **str**| The ID of a thread. |
 
 ### Return type
 
@@ -696,10 +733,9 @@ This API is used to restore a deleted thread.  Target users: only forum's modera
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import discussion_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -720,14 +756,15 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.DiscussionServicesApi(api_client)
-    thread_id = 'thread_id_example' # str | The ID of a thread.
+    api_instance = discussion_services_api.DiscussionServicesApi(api_client)
+    thread_id = "threadId_example" # str | The ID of a thread.
 
+    # example passing only required values which don't have defaults set
     try:
         # Restore a deleted thread.
         api_response = api_instance.restore_deleted_thread(thread_id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling DiscussionServicesApi->restore_deleted_thread: %s\n" % e)
 ```
 
@@ -735,7 +772,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **thread_id** | **str**| The ID of a thread. | 
+ **thread_id** | **str**| The ID of a thread. |
 
 ### Return type
 
@@ -768,10 +805,9 @@ This API is used to unpin a thread.  Target users: only forum's moderator can un
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import discussion_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -792,13 +828,14 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.DiscussionServicesApi(api_client)
-    thread_id = 'thread_id_example' # str | The ID of a thread.
+    api_instance = discussion_services_api.DiscussionServicesApi(api_client)
+    thread_id = "threadId_example" # str | The ID of a thread.
 
+    # example passing only required values which don't have defaults set
     try:
         # Unpin a thread.
         api_instance.unpin_thread(thread_id)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling DiscussionServicesApi->unpin_thread: %s\n" % e)
 ```
 
@@ -806,7 +843,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **thread_id** | **str**| The ID of a thread. | 
+ **thread_id** | **str**| The ID of a thread. |
 
 ### Return type
 
@@ -829,7 +866,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_thread_message**
-> DiscussionThreadBundle update_thread_message(thread_id, update_thread_message=update_thread_message)
+> DiscussionThreadBundle update_thread_message(thread_id)
 
 Update the message of a thread.
 
@@ -839,10 +876,11 @@ This API is used to update the message of a thread.  Target users: only the auth
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import discussion_services_api
+from synclient.model.update_thread_message import UpdateThreadMessage
+from synclient.model.discussion_thread_bundle import DiscussionThreadBundle
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -863,15 +901,27 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.DiscussionServicesApi(api_client)
-    thread_id = 'thread_id_example' # str | The ID of a thread.
-update_thread_message = synclient.UpdateThreadMessage() # UpdateThreadMessage |  (optional)
+    api_instance = discussion_services_api.DiscussionServicesApi(api_client)
+    thread_id = "threadId_example" # str | The ID of a thread.
+    update_thread_message = UpdateThreadMessage(
+        message_markdown="message_markdown_example",
+    ) # UpdateThreadMessage |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Update the message of a thread.
+        api_response = api_instance.update_thread_message(thread_id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling DiscussionServicesApi->update_thread_message: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Update the message of a thread.
         api_response = api_instance.update_thread_message(thread_id, update_thread_message=update_thread_message)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling DiscussionServicesApi->update_thread_message: %s\n" % e)
 ```
 
@@ -879,8 +929,8 @@ update_thread_message = synclient.UpdateThreadMessage() # UpdateThreadMessage | 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **thread_id** | **str**| The ID of a thread. | 
- **update_thread_message** | [**UpdateThreadMessage**](UpdateThreadMessage.md)|  | [optional] 
+ **thread_id** | **str**| The ID of a thread. |
+ **update_thread_message** | [**UpdateThreadMessage**](UpdateThreadMessage.md)|  | [optional]
 
 ### Return type
 
@@ -903,7 +953,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_thread_title**
-> DiscussionThreadBundle update_thread_title(thread_id, update_thread_title=update_thread_title)
+> DiscussionThreadBundle update_thread_title(thread_id)
 
 Update the title of a Thread.
 
@@ -913,10 +963,11 @@ This API is used to update the title of a thread.  Target users: only the author
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import discussion_services_api
+from synclient.model.discussion_thread_bundle import DiscussionThreadBundle
+from synclient.model.update_thread_title import UpdateThreadTitle
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -937,15 +988,27 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.DiscussionServicesApi(api_client)
-    thread_id = 'thread_id_example' # str | The ID of a thread.
-update_thread_title = synclient.UpdateThreadTitle() # UpdateThreadTitle |  (optional)
+    api_instance = discussion_services_api.DiscussionServicesApi(api_client)
+    thread_id = "threadId_example" # str | The ID of a thread.
+    update_thread_title = UpdateThreadTitle(
+        title="title_example",
+    ) # UpdateThreadTitle |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Update the title of a Thread.
+        api_response = api_instance.update_thread_title(thread_id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling DiscussionServicesApi->update_thread_title: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Update the title of a Thread.
         api_response = api_instance.update_thread_title(thread_id, update_thread_title=update_thread_title)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling DiscussionServicesApi->update_thread_title: %s\n" % e)
 ```
 
@@ -953,8 +1016,8 @@ update_thread_title = synclient.UpdateThreadTitle() # UpdateThreadTitle |  (opti
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **thread_id** | **str**| The ID of a thread. | 
- **update_thread_title** | [**UpdateThreadTitle**](UpdateThreadTitle.md)|  | [optional] 
+ **thread_id** | **str**| The ID of a thread. |
+ **update_thread_title** | [**UpdateThreadTitle**](UpdateThreadTitle.md)|  | [optional]
 
 ### Return type
 

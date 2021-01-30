@@ -4,7 +4,7 @@ The Thread model object represents a single Thread.
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**active_authors** | **list[str]** | The list of userId whose most active on this Thread | [optional] 
+**active_authors** | **[str]** | The list of userId whose most active on this Thread | [optional] 
 **created_by** | **str** | The id of the user that created this Thread | [optional] 
 **created_on** | **str** | The timestamp when this Thread was created | [optional] 
 **etag** | **str** | Synapse employs an Optimistic Concurrency Control (OCC) scheme to handle concurrent updates. Since the E-Tag changes every time an entity is updated it is used to detect when a client&#39;s current representation of an entity is out-of-date.  | [optional] 

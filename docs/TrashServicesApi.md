@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 
 # **flag_for_purge**
-> str flag_for_purge(id, body=body)
+> str flag_for_purge(id)
 
 Flags the specified entity for priority purge.
 
@@ -22,10 +22,9 @@ Flags the specified entity for priority purge. The entity will be deleted as soo
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import trash_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -46,15 +45,25 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TrashServicesApi(api_client)
-    id = 'id_example' # str | The ID of an entity.
-body = None # object |  (optional)
+    api_instance = trash_services_api.TrashServicesApi(api_client)
+    id = "id_example" # str | The ID of an entity.
+    body = {} # {str: (bool, date, datetime, dict, float, int, list, str, none_type)} |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Flags the specified entity for priority purge.
+        api_response = api_instance.flag_for_purge(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling TrashServicesApi->flag_for_purge: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Flags the specified entity for priority purge.
         api_response = api_instance.flag_for_purge(id, body=body)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TrashServicesApi->flag_for_purge: %s\n" % e)
 ```
 
@@ -62,8 +71,8 @@ body = None # object |  (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of an entity. | 
- **body** | **object**|  | [optional] 
+ **id** | **str**| The ID of an entity. |
+ **body** | **{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**|  | [optional]
 
 ### Return type
 
@@ -86,7 +95,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **move_to_trash**
-> str move_to_trash(id, body=body)
+> str move_to_trash(id)
 
 Moves an entity and its descendants to the trash can.
 
@@ -96,10 +105,9 @@ Moves an entity and its descendants to the trash can.
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import trash_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -120,15 +128,25 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TrashServicesApi(api_client)
-    id = 'id_example' # str | The ID of an entity.
-body = None # object |  (optional)
+    api_instance = trash_services_api.TrashServicesApi(api_client)
+    id = "id_example" # str | The ID of an entity.
+    body = {} # {str: (bool, date, datetime, dict, float, int, list, str, none_type)} |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Moves an entity and its descendants to the trash can.
+        api_response = api_instance.move_to_trash(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling TrashServicesApi->move_to_trash: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Moves an entity and its descendants to the trash can.
         api_response = api_instance.move_to_trash(id, body=body)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TrashServicesApi->move_to_trash: %s\n" % e)
 ```
 
@@ -136,8 +154,8 @@ body = None # object |  (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of an entity. | 
- **body** | **object**|  | [optional] 
+ **id** | **str**| The ID of an entity. |
+ **body** | **{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**|  | [optional]
 
 ### Return type
 
@@ -160,7 +178,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **restore_from_trash**
-> str restore_from_trash(id, body=body)
+> str restore_from_trash(id)
 
 Moves an entity and its descendants out of the trash can back to its original parent. 
 
@@ -170,10 +188,9 @@ Moves an entity and its descendants out of the trash can back to its original pa
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import trash_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -194,15 +211,25 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TrashServicesApi(api_client)
-    id = 'id_example' # str | The ID of an entity.
-body = None # object |  (optional)
+    api_instance = trash_services_api.TrashServicesApi(api_client)
+    id = "id_example" # str | The ID of an entity.
+    body = {} # {str: (bool, date, datetime, dict, float, int, list, str, none_type)} |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Moves an entity and its descendants out of the trash can back to its original parent. 
+        api_response = api_instance.restore_from_trash(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling TrashServicesApi->restore_from_trash: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Moves an entity and its descendants out of the trash can back to its original parent. 
         api_response = api_instance.restore_from_trash(id, body=body)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TrashServicesApi->restore_from_trash: %s\n" % e)
 ```
 
@@ -210,8 +237,8 @@ body = None # object |  (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of an entity. | 
- **body** | **object**|  | [optional] 
+ **id** | **str**| The ID of an entity. |
+ **body** | **{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**|  | [optional]
 
 ### Return type
 
@@ -234,7 +261,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **restore_from_trash_to_parent**
-> str restore_from_trash_to_parent(id, parent_id, body=body)
+> str restore_from_trash_to_parent(id, parent_id)
 
 Moves an entity and its descendants out of the trash can to a new parent.
 
@@ -244,10 +271,9 @@ Moves an entity and its descendants out of the trash can to a new parent.  NOTE:
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import trash_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -268,16 +294,26 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TrashServicesApi(api_client)
-    id = 'id_example' # str | The ID of a deleted entity.
-parent_id = 'parent_id_example' # str | The ID of the new parent entity.
-body = None # object |  (optional)
+    api_instance = trash_services_api.TrashServicesApi(api_client)
+    id = "id_example" # str | The ID of a deleted entity.
+    parent_id = "parentId_example" # str | The ID of the new parent entity.
+    body = {} # {str: (bool, date, datetime, dict, float, int, list, str, none_type)} |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Moves an entity and its descendants out of the trash can to a new parent.
+        api_response = api_instance.restore_from_trash_to_parent(id, parent_id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling TrashServicesApi->restore_from_trash_to_parent: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Moves an entity and its descendants out of the trash can to a new parent.
         api_response = api_instance.restore_from_trash_to_parent(id, parent_id, body=body)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TrashServicesApi->restore_from_trash_to_parent: %s\n" % e)
 ```
 
@@ -285,9 +321,9 @@ body = None # object |  (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of a deleted entity. | 
- **parent_id** | **str**| The ID of the new parent entity. | 
- **body** | **object**|  | [optional] 
+ **id** | **str**| The ID of a deleted entity. |
+ **parent_id** | **str**| The ID of the new parent entity. |
+ **body** | **{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**|  | [optional]
 
 ### Return type
 
@@ -310,7 +346,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **view_trash**
-> PaginatedResultsOfTrashedEntity view_trash(limit=limit, offset=offset, body=body)
+> PaginatedResultsOfTrashedEntity view_trash()
 
 Retrieves the paginated list of trash entities deleted by the current user.
 
@@ -320,10 +356,10 @@ Retrieves the paginated list of trash entities deleted by the current user.
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import trash_services_api
+from synclient.model.paginated_results_of_trashed_entity import PaginatedResultsOfTrashedEntity
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -344,16 +380,18 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.TrashServicesApi(api_client)
-    limit = 10 # int | The maximum number of entities to retrieve per page. (optional) (default to 10)
-offset = 0 # int | Paginated results. Offset to the current page. (optional) (default to 0)
-body = None # object |  (optional)
+    api_instance = trash_services_api.TrashServicesApi(api_client)
+    limit = 10 # int | The maximum number of entities to retrieve per page. (optional) if omitted the server will use the default value of 10
+    offset = 0 # int | Paginated results. Offset to the current page. (optional) if omitted the server will use the default value of 0
+    body = {} # {str: (bool, date, datetime, dict, float, int, list, str, none_type)} |  (optional)
 
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Retrieves the paginated list of trash entities deleted by the current user.
         api_response = api_instance.view_trash(limit=limit, offset=offset, body=body)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling TrashServicesApi->view_trash: %s\n" % e)
 ```
 
@@ -361,9 +399,9 @@ body = None # object |  (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **limit** | **int**| The maximum number of entities to retrieve per page. | [optional] [default to 10]
- **offset** | **int**| Paginated results. Offset to the current page. | [optional] [default to 0]
- **body** | **object**|  | [optional] 
+ **limit** | **int**| The maximum number of entities to retrieve per page. | [optional] if omitted the server will use the default value of 10
+ **offset** | **int**| Paginated results. Offset to the current page. | [optional] if omitted the server will use the default value of 0
+ **body** | **{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**|  | [optional]
 
 ### Return type
 

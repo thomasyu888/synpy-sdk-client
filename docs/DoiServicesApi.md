@@ -22,10 +22,10 @@ Get the results of a call to POST /doi/async/start
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import doi_services_api
+from synclient.model.doi_response import DoiResponse
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -46,14 +46,15 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.DoiServicesApi(api_client)
-    async_token = 'async_token_example' # str | The async job token from the create/update call
+    api_instance = doi_services_api.DoiServicesApi(api_client)
+    async_token = "asyncToken_example" # str | The async job token from the create/update call
 
+    # example passing only required values which don't have defaults set
     try:
         # Get the results of a call to POST /doi/async/start
         api_response = api_instance.get_create_or_update_doi_results(async_token)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling DoiServicesApi->get_create_or_update_doi_results: %s\n" % e)
 ```
 
@@ -61,7 +62,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **async_token** | **str**| The async job token from the create/update call | 
+ **async_token** | **str**| The async job token from the create/update call |
 
 ### Return type
 
@@ -84,7 +85,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_doi_association**
-> DoiAssociation get_doi_association(id, type, version=version)
+> DoiAssociation get_doi_association(id, type)
 
 Retrieves the DOI for the object.
 
@@ -94,10 +95,11 @@ Retrieves the DOI for the object. Note: this call only retrieves the DOI associa
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import doi_services_api
+from synclient.model.object_type import ObjectType
+from synclient.model.doi_association import DoiAssociation
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -118,16 +120,26 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.DoiServicesApi(api_client)
-    id = 'id_example' # str | The ID of the object to retrieve
-type = synclient.ObjectType() # ObjectType | The type of the object
-version = 56 # int | The version number of the object (optional)
+    api_instance = doi_services_api.DoiServicesApi(api_client)
+    id = "id_example" # str | The ID of the object to retrieve
+    type = ObjectType("ENTITY") # ObjectType | The type of the object
+    version = 1 # int | The version number of the object (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Retrieves the DOI for the object.
+        api_response = api_instance.get_doi_association(id, type)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling DoiServicesApi->get_doi_association: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Retrieves the DOI for the object.
         api_response = api_instance.get_doi_association(id, type, version=version)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling DoiServicesApi->get_doi_association: %s\n" % e)
 ```
 
@@ -135,9 +147,9 @@ version = 56 # int | The version number of the object (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of the object to retrieve | 
- **type** | [**ObjectType**](.md)| The type of the object | 
- **version** | **int**| The version number of the object | [optional] 
+ **id** | **str**| The ID of the object to retrieve |
+ **type** | **ObjectType**| The type of the object |
+ **version** | **int**| The version number of the object | [optional]
 
 ### Return type
 
@@ -160,7 +172,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_doi_v2**
-> Doi get_doi_v2(id, type, version=version)
+> Doi get_doi_v2(id, type)
 
 Retrieves the DOI for the object and its associated DOI metadata.
 
@@ -170,10 +182,11 @@ Retrieves the DOI for the object and its associated DOI metadata. Note: this cal
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import doi_services_api
+from synclient.model.doi import Doi
+from synclient.model.object_type import ObjectType
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -194,16 +207,26 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.DoiServicesApi(api_client)
-    id = 'id_example' # str | The ID of the object to retrieve
-type = synclient.ObjectType() # ObjectType | The type of the object
-version = 56 # int | The version number of the object (optional)
+    api_instance = doi_services_api.DoiServicesApi(api_client)
+    id = "id_example" # str | The ID of the object to retrieve
+    type = ObjectType("ENTITY") # ObjectType | The type of the object
+    version = 1 # int | The version number of the object (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Retrieves the DOI for the object and its associated DOI metadata.
+        api_response = api_instance.get_doi_v2(id, type)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling DoiServicesApi->get_doi_v2: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Retrieves the DOI for the object and its associated DOI metadata.
         api_response = api_instance.get_doi_v2(id, type, version=version)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling DoiServicesApi->get_doi_v2: %s\n" % e)
 ```
 
@@ -211,9 +234,9 @@ version = 56 # int | The version number of the object (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of the object to retrieve | 
- **type** | [**ObjectType**](.md)| The type of the object | 
- **version** | **int**| The version number of the object | [optional] 
+ **id** | **str**| The ID of the object to retrieve |
+ **type** | **ObjectType**| The type of the object |
+ **version** | **int**| The version number of the object | [optional]
 
 ### Return type
 
@@ -236,7 +259,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **locate**
-> str locate(id, type, redirect=redirect, version=version)
+> str locate(id, type)
 
 Retrieves the Synapse web portal URL to the object entered.
 
@@ -246,10 +269,10 @@ Retrieves the Synapse web portal URL to the object entered. Note: This call does
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import doi_services_api
+from synclient.model.object_type import ObjectType
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -270,17 +293,27 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.DoiServicesApi(api_client)
-    id = 'id_example' # str | The ID of the object to retrieve
-type = synclient.ObjectType() # ObjectType | The type of the object
-redirect = True # bool | Whether to return the URL or redirect to the URL (optional) (default to True)
-version = 56 # int | The version number of the object (optional)
+    api_instance = doi_services_api.DoiServicesApi(api_client)
+    id = "id_example" # str | The ID of the object to retrieve
+    type = ObjectType("ENTITY") # ObjectType | The type of the object
+    redirect = True # bool | Whether to return the URL or redirect to the URL (optional) if omitted the server will use the default value of True
+    version = 1 # int | The version number of the object (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Retrieves the Synapse web portal URL to the object entered.
+        api_response = api_instance.locate(id, type)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling DoiServicesApi->locate: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Retrieves the Synapse web portal URL to the object entered.
         api_response = api_instance.locate(id, type, redirect=redirect, version=version)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling DoiServicesApi->locate: %s\n" % e)
 ```
 
@@ -288,10 +321,10 @@ version = 56 # int | The version number of the object (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| The ID of the object to retrieve | 
- **type** | [**ObjectType**](.md)| The type of the object | 
- **redirect** | **bool**| Whether to return the URL or redirect to the URL | [optional] [default to True]
- **version** | **int**| The version number of the object | [optional] 
+ **id** | **str**| The ID of the object to retrieve |
+ **type** | **ObjectType**| The type of the object |
+ **redirect** | **bool**| Whether to return the URL or redirect to the URL | [optional] if omitted the server will use the default value of True
+ **version** | **int**| The version number of the object | [optional]
 
 ### Return type
 
@@ -314,7 +347,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **start_create_or_update_doi**
-> AsyncJobId start_create_or_update_doi(doi_request=doi_request)
+> AsyncJobId start_create_or_update_doi()
 
 Asynchronously creates or updates a DOI in Synapse, with input metadata.
 
@@ -324,10 +357,11 @@ Asynchronously creates or updates a DOI in Synapse, with input metadata. Retriev
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import doi_services_api
+from synclient.model.async_job_id import AsyncJobId
+from synclient.model.doi_request import DoiRequest
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -348,14 +382,19 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.DoiServicesApi(api_client)
-    doi_request = synclient.DoiRequest() # DoiRequest | A request containing a DOI and its metadata to associate with a Synapse object  (optional)
+    api_instance = doi_services_api.DoiServicesApi(api_client)
+    doi_request = DoiRequest(
+        concrete_type="concrete_type_example",
+        doi=Doi(),
+    ) # DoiRequest | A request containing a DOI and its metadata to associate with a Synapse object  (optional)
 
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Asynchronously creates or updates a DOI in Synapse, with input metadata.
         api_response = api_instance.start_create_or_update_doi(doi_request=doi_request)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling DoiServicesApi->start_create_or_update_doi: %s\n" % e)
 ```
 
@@ -363,7 +402,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **doi_request** | [**DoiRequest**](DoiRequest.md)| A request containing a DOI and its metadata to associate with a Synapse object  | [optional] 
+ **doi_request** | [**DoiRequest**](DoiRequest.md)| A request containing a DOI and its metadata to associate with a Synapse object  | [optional]
 
 ### Return type
 

@@ -20,7 +20,7 @@ Method | HTTP request | Description
 
 
 # **create_challenge**
-> Challenge create_challenge(challenge=challenge)
+> Challenge create_challenge()
 
 Create a Challenge object, associated with a Project.
 
@@ -30,10 +30,10 @@ Create a Challenge object, associated with a Project.  A participant Team must b
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import challenge_services_api
+from synclient.model.challenge import Challenge
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -54,14 +54,21 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.ChallengeServicesApi(api_client)
-    challenge = synclient.Challenge() # Challenge |  (optional)
+    api_instance = challenge_services_api.ChallengeServicesApi(api_client)
+    challenge = Challenge(
+        etag="etag_example",
+        project_id="project_id_example",
+        participant_team_id="participant_team_id_example",
+        id="id_example",
+    ) # Challenge |  (optional)
 
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Create a Challenge object, associated with a Project.
         api_response = api_instance.create_challenge(challenge=challenge)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling ChallengeServicesApi->create_challenge: %s\n" % e)
 ```
 
@@ -69,7 +76,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **challenge** | [**Challenge**](Challenge.md)|  | [optional] 
+ **challenge** | [**Challenge**](Challenge.md)|  | [optional]
 
 ### Return type
 
@@ -92,7 +99,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_challenge_team**
-> ChallengeTeam create_challenge_team(challenge_id, challenge_team=challenge_team)
+> ChallengeTeam create_challenge_team(challenge_id)
 
 Register a Team with a Challenge.
 
@@ -102,10 +109,10 @@ Register a Team with a Challenge. You must be a member of the Challenge's partic
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import challenge_services_api
+from synclient.model.challenge_team import ChallengeTeam
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -126,15 +133,31 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.ChallengeServicesApi(api_client)
-    challenge_id = 56 # int | The ID of the challenge.
-challenge_team = synclient.ChallengeTeam() # ChallengeTeam |  (optional)
+    api_instance = challenge_services_api.ChallengeServicesApi(api_client)
+    challenge_id = 1 # int | The ID of the challenge.
+    challenge_team = ChallengeTeam(
+        id="id_example",
+        team_id="team_id_example",
+        challenge_id="challenge_id_example",
+        message="message_example",
+        etag="etag_example",
+    ) # ChallengeTeam |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Register a Team with a Challenge.
+        api_response = api_instance.create_challenge_team(challenge_id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling ChallengeServicesApi->create_challenge_team: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Register a Team with a Challenge.
         api_response = api_instance.create_challenge_team(challenge_id, challenge_team=challenge_team)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling ChallengeServicesApi->create_challenge_team: %s\n" % e)
 ```
 
@@ -142,8 +165,8 @@ challenge_team = synclient.ChallengeTeam() # ChallengeTeam |  (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **challenge_id** | **int**| The ID of the challenge. | 
- **challenge_team** | [**ChallengeTeam**](ChallengeTeam.md)|  | [optional] 
+ **challenge_id** | **int**| The ID of the challenge. |
+ **challenge_team** | [**ChallengeTeam**](ChallengeTeam.md)|  | [optional]
 
 ### Return type
 
@@ -176,10 +199,9 @@ Delete a Challenge.  The caller must have DELETE permission on the project assoc
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import challenge_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -200,13 +222,14 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.ChallengeServicesApi(api_client)
-    challenge_id = 56 # int | The ID of the challenge.
+    api_instance = challenge_services_api.ChallengeServicesApi(api_client)
+    challenge_id = 1 # int | The ID of the challenge.
 
+    # example passing only required values which don't have defaults set
     try:
         # Delete a Challenge.
         api_instance.delete_challenge(challenge_id)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling ChallengeServicesApi->delete_challenge: %s\n" % e)
 ```
 
@@ -214,7 +237,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **challenge_id** | **int**| The ID of the challenge. | 
+ **challenge_id** | **int**| The ID of the challenge. |
 
 ### Return type
 
@@ -247,10 +270,9 @@ De-register a Team from a Challenge. You must be a member of the Challenge's par
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import challenge_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -271,13 +293,14 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.ChallengeServicesApi(api_client)
-    challenge_team_id = 56 # int | The ID of the challenge team.
+    api_instance = challenge_services_api.ChallengeServicesApi(api_client)
+    challenge_team_id = 1 # int | The ID of the challenge team.
 
+    # example passing only required values which don't have defaults set
     try:
         # De-register a Team from a Challenge.
         api_instance.delete_challenge_team(challenge_team_id)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling ChallengeServicesApi->delete_challenge_team: %s\n" % e)
 ```
 
@@ -285,7 +308,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **challenge_team_id** | **int**| The ID of the challenge team. | 
+ **challenge_team_id** | **int**| The ID of the challenge team. |
 
 ### Return type
 
@@ -318,10 +341,10 @@ Retrieve a Challenge given its ID.  To retrieve a Challenge one must have READ p
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import challenge_services_api
+from synclient.model.challenge import Challenge
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -342,14 +365,15 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.ChallengeServicesApi(api_client)
-    challenge_id = 56 # int | The ID of the challenge.
+    api_instance = challenge_services_api.ChallengeServicesApi(api_client)
+    challenge_id = 1 # int | The ID of the challenge.
 
+    # example passing only required values which don't have defaults set
     try:
         # Retrieve a Challenge given its ID.
         api_response = api_instance.get_challenge(challenge_id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling ChallengeServicesApi->get_challenge: %s\n" % e)
 ```
 
@@ -357,7 +381,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **challenge_id** | **int**| The ID of the challenge. | 
+ **challenge_id** | **int**| The ID of the challenge. |
 
 ### Return type
 
@@ -390,10 +414,10 @@ Retrieve a Challenge given the ID of its associated Project.  To retrieve a Chal
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import challenge_services_api
+from synclient.model.challenge import Challenge
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -414,14 +438,15 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.ChallengeServicesApi(api_client)
-    id = 'id_example' # str | Synapse Project id
+    api_instance = challenge_services_api.ChallengeServicesApi(api_client)
+    id = "id_example" # str | Synapse Project id
 
+    # example passing only required values which don't have defaults set
     try:
         # Retrieve a Challenge given the ID of its associated Project.
         api_response = api_instance.get_challenge_by_project_id(id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling ChallengeServicesApi->get_challenge_by_project_id: %s\n" % e)
 ```
 
@@ -429,7 +454,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| Synapse Project id | 
+ **id** | **str**| Synapse Project id |
 
 ### Return type
 
@@ -452,7 +477,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_challenge_teams**
-> ChallengeTeamPagedResults list_challenge_teams(challenge_id, limit=limit, offset=offset)
+> ChallengeTeamPagedResults list_challenge_teams(challenge_id)
 
 List the Teams registered for a Challenge.
 
@@ -462,10 +487,10 @@ List the Teams registered for a Challenge.  You must have READ permission in the
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import challenge_services_api
+from synclient.model.challenge_team_paged_results import ChallengeTeamPagedResults
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -486,16 +511,26 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.ChallengeServicesApi(api_client)
-    challenge_id = 56 # int | The ID of the challenge.
-limit = 10 # int | Maximum number of results returned (optional) (default to 10)
-offset = 0 # int | Index of the first result that must be returned (optional) (default to 0)
+    api_instance = challenge_services_api.ChallengeServicesApi(api_client)
+    challenge_id = 1 # int | The ID of the challenge.
+    limit = 10 # int | Maximum number of results returned (optional) if omitted the server will use the default value of 10
+    offset = 0 # int | Index of the first result that must be returned (optional) if omitted the server will use the default value of 0
 
+    # example passing only required values which don't have defaults set
+    try:
+        # List the Teams registered for a Challenge.
+        api_response = api_instance.list_challenge_teams(challenge_id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling ChallengeServicesApi->list_challenge_teams: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # List the Teams registered for a Challenge.
         api_response = api_instance.list_challenge_teams(challenge_id, limit=limit, offset=offset)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling ChallengeServicesApi->list_challenge_teams: %s\n" % e)
 ```
 
@@ -503,9 +538,9 @@ offset = 0 # int | Index of the first result that must be returned (optional) (d
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **challenge_id** | **int**| The ID of the challenge. | 
- **limit** | **int**| Maximum number of results returned | [optional] [default to 10]
- **offset** | **int**| Index of the first result that must be returned | [optional] [default to 0]
+ **challenge_id** | **int**| The ID of the challenge. |
+ **limit** | **int**| Maximum number of results returned | [optional] if omitted the server will use the default value of 10
+ **offset** | **int**| Index of the first result that must be returned | [optional] if omitted the server will use the default value of 0
 
 ### Return type
 
@@ -528,7 +563,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_challenges_for_participant**
-> ChallengePagedResults list_challenges_for_participant(participant_id, limit=limit, offset=offset)
+> ChallengePagedResults list_challenges_for_participant(participant_id)
 
 List the Challenges for which the given participant is registered.
 
@@ -538,10 +573,10 @@ List the Challenges for which the given participant is registered. To be in the 
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import challenge_services_api
+from synclient.model.challenge_paged_results import ChallengePagedResults
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -562,16 +597,26 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.ChallengeServicesApi(api_client)
-    participant_id = 56 # int | Synapse user id
-limit = 10 # int | Maximum number of results returned (optional) (default to 10)
-offset = 0 # int | Index of the first result that must be returned (optional) (default to 0)
+    api_instance = challenge_services_api.ChallengeServicesApi(api_client)
+    participant_id = 1 # int | Synapse user id
+    limit = 10 # int | Maximum number of results returned (optional) if omitted the server will use the default value of 10
+    offset = 0 # int | Index of the first result that must be returned (optional) if omitted the server will use the default value of 0
 
+    # example passing only required values which don't have defaults set
+    try:
+        # List the Challenges for which the given participant is registered.
+        api_response = api_instance.list_challenges_for_participant(participant_id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling ChallengeServicesApi->list_challenges_for_participant: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # List the Challenges for which the given participant is registered.
         api_response = api_instance.list_challenges_for_participant(participant_id, limit=limit, offset=offset)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling ChallengeServicesApi->list_challenges_for_participant: %s\n" % e)
 ```
 
@@ -579,9 +624,9 @@ offset = 0 # int | Index of the first result that must be returned (optional) (d
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **participant_id** | **int**| Synapse user id | 
- **limit** | **int**| Maximum number of results returned | [optional] [default to 10]
- **offset** | **int**| Index of the first result that must be returned | [optional] [default to 0]
+ **participant_id** | **int**| Synapse user id |
+ **limit** | **int**| Maximum number of results returned | [optional] if omitted the server will use the default value of 10
+ **offset** | **int**| Index of the first result that must be returned | [optional] if omitted the server will use the default value of 0
 
 ### Return type
 
@@ -604,7 +649,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_participants_in_challenge**
-> PaginatedIds list_participants_in_challenge(challenge_id, affiliated=affiliated, limit=limit, offset=offset)
+> PaginatedIds list_participants_in_challenge(challenge_id)
 
 List the participants registered for a Challenge.
 
@@ -614,10 +659,10 @@ List the participants registered for a Challenge. The caller must have READ perm
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import challenge_services_api
+from synclient.model.paginated_ids import PaginatedIds
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -638,17 +683,27 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.ChallengeServicesApi(api_client)
-    challenge_id = 56 # int | The ID of the challenge.
-affiliated = True # bool | If affiliated=true, return just participants affiliated with some registered Team.  If false, return those not affiliated with any registered Team. If omitted return all participants.  (optional)
-limit = 10 # int | Maximum number of results returned (optional) (default to 10)
-offset = 0 # int | Index of the first result that must be returned (optional) (default to 0)
+    api_instance = challenge_services_api.ChallengeServicesApi(api_client)
+    challenge_id = 1 # int | The ID of the challenge.
+    affiliated = True # bool | If affiliated=true, return just participants affiliated with some registered Team.  If false, return those not affiliated with any registered Team. If omitted return all participants.  (optional)
+    limit = 10 # int | Maximum number of results returned (optional) if omitted the server will use the default value of 10
+    offset = 0 # int | Index of the first result that must be returned (optional) if omitted the server will use the default value of 0
 
+    # example passing only required values which don't have defaults set
+    try:
+        # List the participants registered for a Challenge.
+        api_response = api_instance.list_participants_in_challenge(challenge_id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling ChallengeServicesApi->list_participants_in_challenge: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # List the participants registered for a Challenge.
         api_response = api_instance.list_participants_in_challenge(challenge_id, affiliated=affiliated, limit=limit, offset=offset)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling ChallengeServicesApi->list_participants_in_challenge: %s\n" % e)
 ```
 
@@ -656,10 +711,10 @@ offset = 0 # int | Index of the first result that must be returned (optional) (d
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **challenge_id** | **int**| The ID of the challenge. | 
- **affiliated** | **bool**| If affiliated&#x3D;true, return just participants affiliated with some registered Team.  If false, return those not affiliated with any registered Team. If omitted return all participants.  | [optional] 
- **limit** | **int**| Maximum number of results returned | [optional] [default to 10]
- **offset** | **int**| Index of the first result that must be returned | [optional] [default to 0]
+ **challenge_id** | **int**| The ID of the challenge. |
+ **affiliated** | **bool**| If affiliated&#x3D;true, return just participants affiliated with some registered Team.  If false, return those not affiliated with any registered Team. If omitted return all participants.  | [optional]
+ **limit** | **int**| Maximum number of results returned | [optional] if omitted the server will use the default value of 10
+ **offset** | **int**| Index of the first result that must be returned | [optional] if omitted the server will use the default value of 0
 
 ### Return type
 
@@ -682,7 +737,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_registratable_teams**
-> PaginatedIds list_registratable_teams(challenge_id, limit=limit, offset=offset)
+> PaginatedIds list_registratable_teams(challenge_id)
 
 List the Teams that caller can register for the Challenge.
 
@@ -692,10 +747,10 @@ List the Teams that caller can register for the Challenge, i.e. Teams on which t
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import challenge_services_api
+from synclient.model.paginated_ids import PaginatedIds
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -716,16 +771,26 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.ChallengeServicesApi(api_client)
-    challenge_id = 56 # int | The ID of the challenge.
-limit = 10 # int | Maximum number of results returned (optional) (default to 10)
-offset = 0 # int | Index of the first result that must be returned (optional) (default to 0)
+    api_instance = challenge_services_api.ChallengeServicesApi(api_client)
+    challenge_id = 1 # int | The ID of the challenge.
+    limit = 10 # int | Maximum number of results returned (optional) if omitted the server will use the default value of 10
+    offset = 0 # int | Index of the first result that must be returned (optional) if omitted the server will use the default value of 0
 
+    # example passing only required values which don't have defaults set
+    try:
+        # List the Teams that caller can register for the Challenge.
+        api_response = api_instance.list_registratable_teams(challenge_id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling ChallengeServicesApi->list_registratable_teams: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # List the Teams that caller can register for the Challenge.
         api_response = api_instance.list_registratable_teams(challenge_id, limit=limit, offset=offset)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling ChallengeServicesApi->list_registratable_teams: %s\n" % e)
 ```
 
@@ -733,9 +798,9 @@ offset = 0 # int | Index of the first result that must be returned (optional) (d
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **challenge_id** | **int**| The ID of the challenge. | 
- **limit** | **int**| Maximum number of results returned | [optional] [default to 10]
- **offset** | **int**| Index of the first result that must be returned | [optional] [default to 0]
+ **challenge_id** | **int**| The ID of the challenge. |
+ **limit** | **int**| Maximum number of results returned | [optional] if omitted the server will use the default value of 10
+ **offset** | **int**| Index of the first result that must be returned | [optional] if omitted the server will use the default value of 0
 
 ### Return type
 
@@ -758,7 +823,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_submission_teams**
-> PaginatedIds list_submission_teams(challenge_id, limit=limit, offset=offset)
+> PaginatedIds list_submission_teams(challenge_id)
 
 List the Teams under which the given submitter may submit to the Challenge.
 
@@ -768,10 +833,10 @@ List the Teams under which the given submitter may submit to the Challenge, i.e.
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import challenge_services_api
+from synclient.model.paginated_ids import PaginatedIds
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -792,16 +857,26 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.ChallengeServicesApi(api_client)
-    challenge_id = 56 # int | The ID of the challenge.
-limit = 10 # int | Maximum number of results returned (optional) (default to 10)
-offset = 0 # int | Index of the first result that must be returned (optional) (default to 0)
+    api_instance = challenge_services_api.ChallengeServicesApi(api_client)
+    challenge_id = 1 # int | The ID of the challenge.
+    limit = 10 # int | Maximum number of results returned (optional) if omitted the server will use the default value of 10
+    offset = 0 # int | Index of the first result that must be returned (optional) if omitted the server will use the default value of 0
 
+    # example passing only required values which don't have defaults set
+    try:
+        # List the Teams under which the given submitter may submit to the Challenge.
+        api_response = api_instance.list_submission_teams(challenge_id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling ChallengeServicesApi->list_submission_teams: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # List the Teams under which the given submitter may submit to the Challenge.
         api_response = api_instance.list_submission_teams(challenge_id, limit=limit, offset=offset)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling ChallengeServicesApi->list_submission_teams: %s\n" % e)
 ```
 
@@ -809,9 +884,9 @@ offset = 0 # int | Index of the first result that must be returned (optional) (d
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **challenge_id** | **int**| The ID of the challenge. | 
- **limit** | **int**| Maximum number of results returned | [optional] [default to 10]
- **offset** | **int**| Index of the first result that must be returned | [optional] [default to 0]
+ **challenge_id** | **int**| The ID of the challenge. |
+ **limit** | **int**| Maximum number of results returned | [optional] if omitted the server will use the default value of 10
+ **offset** | **int**| Index of the first result that must be returned | [optional] if omitted the server will use the default value of 0
 
 ### Return type
 
@@ -834,7 +909,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_challenge**
-> Challenge update_challenge(challenge_id, challenge=challenge)
+> Challenge update_challenge(challenge_id)
 
 Update a Challenge.
 
@@ -844,10 +919,10 @@ Update a Challenge.  The caller must have UPDATE permission on the project assoc
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import challenge_services_api
+from synclient.model.challenge import Challenge
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -868,15 +943,30 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.ChallengeServicesApi(api_client)
-    challenge_id = 56 # int | The ID of the challenge.
-challenge = synclient.Challenge() # Challenge |  (optional)
+    api_instance = challenge_services_api.ChallengeServicesApi(api_client)
+    challenge_id = 1 # int | The ID of the challenge.
+    challenge = Challenge(
+        etag="etag_example",
+        project_id="project_id_example",
+        participant_team_id="participant_team_id_example",
+        id="id_example",
+    ) # Challenge |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Update a Challenge.
+        api_response = api_instance.update_challenge(challenge_id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling ChallengeServicesApi->update_challenge: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Update a Challenge.
         api_response = api_instance.update_challenge(challenge_id, challenge=challenge)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling ChallengeServicesApi->update_challenge: %s\n" % e)
 ```
 
@@ -884,8 +974,8 @@ challenge = synclient.Challenge() # Challenge |  (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **challenge_id** | **int**| The ID of the challenge. | 
- **challenge** | [**Challenge**](Challenge.md)|  | [optional] 
+ **challenge_id** | **int**| The ID of the challenge. |
+ **challenge** | [**Challenge**](Challenge.md)|  | [optional]
 
 ### Return type
 
@@ -908,7 +998,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_challenge_team**
-> ChallengeTeam update_challenge_team(challenge_id, challenge_team_id, challenge_team=challenge_team)
+> ChallengeTeam update_challenge_team(challenge_id, challenge_team_id)
 
 Update a Challenge Team.
 
@@ -918,10 +1008,10 @@ Update a Challenge Team. You must be a member of the Challenge's participant Tea
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import challenge_services_api
+from synclient.model.challenge_team import ChallengeTeam
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -942,16 +1032,32 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.ChallengeServicesApi(api_client)
-    challenge_id = 56 # int | The ID of the challenge.
-challenge_team_id = 56 # int | The ID of the challenge team.
-challenge_team = synclient.ChallengeTeam() # ChallengeTeam |  (optional)
+    api_instance = challenge_services_api.ChallengeServicesApi(api_client)
+    challenge_id = 1 # int | The ID of the challenge.
+    challenge_team_id = 1 # int | The ID of the challenge team.
+    challenge_team = ChallengeTeam(
+        id="id_example",
+        team_id="team_id_example",
+        challenge_id="challenge_id_example",
+        message="message_example",
+        etag="etag_example",
+    ) # ChallengeTeam |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Update a Challenge Team.
+        api_response = api_instance.update_challenge_team(challenge_id, challenge_team_id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling ChallengeServicesApi->update_challenge_team: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Update a Challenge Team.
         api_response = api_instance.update_challenge_team(challenge_id, challenge_team_id, challenge_team=challenge_team)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling ChallengeServicesApi->update_challenge_team: %s\n" % e)
 ```
 
@@ -959,9 +1065,9 @@ challenge_team = synclient.ChallengeTeam() # ChallengeTeam |  (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **challenge_id** | **int**| The ID of the challenge. | 
- **challenge_team_id** | **int**| The ID of the challenge team. | 
- **challenge_team** | [**ChallengeTeam**](ChallengeTeam.md)|  | [optional] 
+ **challenge_id** | **int**| The ID of the challenge. |
+ **challenge_team_id** | **int**| The ID of the challenge team. |
+ **challenge_team** | [**ChallengeTeam**](ChallengeTeam.md)|  | [optional]
 
 ### Return type
 

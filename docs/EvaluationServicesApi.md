@@ -39,7 +39,7 @@ Method | HTTP request | Description
 
 
 # **create_evaluation**
-> Evaluation create_evaluation(evaluation=evaluation)
+> Evaluation create_evaluation()
 
 Creates a new Evaluation.
 
@@ -49,10 +49,10 @@ Creates a new Evaluation.
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
+from synclient.model.evaluation import Evaluation
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -73,14 +73,33 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    evaluation = synclient.Evaluation() # Evaluation |  (optional)
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    evaluation = Evaluation(
+        content_source="content_source_example",
+        created_on="created_on_example",
+        description="description_example",
+        etag="etag_example",
+        id="id_example",
+        name="name_example",
+        owner_id="owner_id_example",
+        quota=SubmissionQuota(
+            first_round_start="first_round_start_example",
+            number_of_rounds=1,
+            round_duration_millis=1,
+            submission_limit=1,
+        ),
+        status=EvaluationStatus("PLANNED"),
+        submission_instructions_message="submission_instructions_message_example",
+        submission_receipt_message="submission_receipt_message_example",
+    ) # Evaluation |  (optional)
 
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Creates a new Evaluation.
         api_response = api_instance.create_evaluation(evaluation=evaluation)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->create_evaluation: %s\n" % e)
 ```
 
@@ -88,7 +107,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **evaluation** | [**Evaluation**](Evaluation.md)|  | [optional] 
+ **evaluation** | [**Evaluation**](Evaluation.md)|  | [optional]
 
 ### Return type
 
@@ -111,7 +130,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_evaluation_round**
-> EvaluationRound create_evaluation_round(eval_id, evaluation_round=evaluation_round)
+> EvaluationRound create_evaluation_round(eval_id)
 
 Create Evaluation Round
 
@@ -121,10 +140,10 @@ Create Evaluation Round
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
+from synclient.model.evaluation_round import EvaluationRound
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -145,15 +164,37 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-evaluation_round = synclient.EvaluationRound() # EvaluationRound |  (optional)
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    eval_id = "evalId_example" # str | The ID of the specified Evaluation.
+    evaluation_round = EvaluationRound(
+        etag="etag_example",
+        evaluation_id="evaluation_id_example",
+        id="id_example",
+        limits=[
+            EvaluationRoundLimit(
+                limit_type=EvaluationRoundLimitType("TOTAL"),
+                maximum_submissions=1,
+            ),
+        ],
+        round_end="round_end_example",
+        round_start="round_start_example",
+    ) # EvaluationRound |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Create Evaluation Round
+        api_response = api_instance.create_evaluation_round(eval_id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling EvaluationServicesApi->create_evaluation_round: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Create Evaluation Round
         api_response = api_instance.create_evaluation_round(eval_id, evaluation_round=evaluation_round)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->create_evaluation_round: %s\n" % e)
 ```
 
@@ -161,8 +202,8 @@ evaluation_round = synclient.EvaluationRound() # EvaluationRound |  (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **eval_id** | **str**| The ID of the specified Evaluation. | 
- **evaluation_round** | [**EvaluationRound**](EvaluationRound.md)|  | [optional] 
+ **eval_id** | **str**| The ID of the specified Evaluation. |
+ **evaluation_round** | [**EvaluationRound**](EvaluationRound.md)|  | [optional]
 
 ### Return type
 
@@ -185,7 +226,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_submission**
-> SubmissionModel create_submission(challenge_endpoint=challenge_endpoint, etag=etag, notification_unsubscribe_endpoint=notification_unsubscribe_endpoint, submission_eligibility_hash=submission_eligibility_hash, submission_model=submission_model)
+> SubmissionModel create_submission()
 
 Creates a Submission and sends a submission notification email to the submitter's team members. 
 
@@ -195,10 +236,10 @@ Creates a Submission and sends a submission notification email to the submitter'
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
+from synclient.model.submission_model import SubmissionModel
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -219,18 +260,40 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    challenge_endpoint = 'challenge_endpoint_example' # str | The portal endpoint prefix to the an entity/challenge page. The entity ID of the challenge project is appended to create the complete URL. In normal operation, this parameter should be omitted.'  (optional)
-etag = 'etag_example' # str | The current eTag of the Entity being submitted (optional)
-notification_unsubscribe_endpoint = 'notification_unsubscribe_endpoint_example' # str | The portal endpoint prefix for one-click email unsubscription. A signed, serialized token is appended to create the complete URL: <a href=\"${org.sagebionetworks.repo.model.message.NotificationSettingsSignedToken}\">NotificationSettingsSignedToken</a>. In normal operation, this parameter should be omitted.'  (optional)
-submission_eligibility_hash = 'submission_eligibility_hash_example' # str | The hash provided by the <a href=\"${org.sagebionetworks.evaluation.model.TeamSubmissionEligibility}\">TeamSubmissionEligibility</a> object.  (optional)
-submission_model = synclient.SubmissionModel() # SubmissionModel |  (optional)
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    challenge_endpoint = "challengeEndpoint_example" # str | The portal endpoint prefix to the an entity/challenge page. The entity ID of the challenge project is appended to create the complete URL. In normal operation, this parameter should be omitted.'  (optional)
+    etag = "etag_example" # str | The current eTag of the Entity being submitted (optional)
+    notification_unsubscribe_endpoint = "notificationUnsubscribeEndpoint_example" # str | The portal endpoint prefix for one-click email unsubscription. A signed, serialized token is appended to create the complete URL: <a href=\"${org.sagebionetworks.repo.model.message.NotificationSettingsSignedToken}\">NotificationSettingsSignedToken</a>. In normal operation, this parameter should be omitted.'  (optional)
+    submission_eligibility_hash = "submissionEligibilityHash_example" # str | The hash provided by the <a href=\"${org.sagebionetworks.evaluation.model.TeamSubmissionEligibility}\">TeamSubmissionEligibility</a> object.  (optional)
+    submission_model = SubmissionModel(
+        contributors=[
+            SubmissionContributor(
+                created_on="created_on_example",
+                principal_id="principal_id_example",
+            ),
+        ],
+        created_on="created_on_example",
+        docker_digest="docker_digest_example",
+        docker_repository_name="docker_repository_name_example",
+        entity_bundle_json="entity_bundle_json_example",
+        entity_id="entity_id_example",
+        evaluation_id="evaluation_id_example",
+        evaluation_round_id="evaluation_round_id_example",
+        id="id_example",
+        name="name_example",
+        submitter_alias="submitter_alias_example",
+        team_id="team_id_example",
+        user_id="user_id_example",
+        version_number=1,
+    ) # SubmissionModel |  (optional)
 
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Creates a Submission and sends a submission notification email to the submitter's team members. 
         api_response = api_instance.create_submission(challenge_endpoint=challenge_endpoint, etag=etag, notification_unsubscribe_endpoint=notification_unsubscribe_endpoint, submission_eligibility_hash=submission_eligibility_hash, submission_model=submission_model)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->create_submission: %s\n" % e)
 ```
 
@@ -238,11 +301,11 @@ submission_model = synclient.SubmissionModel() # SubmissionModel |  (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **challenge_endpoint** | **str**| The portal endpoint prefix to the an entity/challenge page. The entity ID of the challenge project is appended to create the complete URL. In normal operation, this parameter should be omitted.&#39;  | [optional] 
- **etag** | **str**| The current eTag of the Entity being submitted | [optional] 
- **notification_unsubscribe_endpoint** | **str**| The portal endpoint prefix for one-click email unsubscription. A signed, serialized token is appended to create the complete URL: &lt;a href&#x3D;\&quot;${org.sagebionetworks.repo.model.message.NotificationSettingsSignedToken}\&quot;&gt;NotificationSettingsSignedToken&lt;/a&gt;. In normal operation, this parameter should be omitted.&#39;  | [optional] 
- **submission_eligibility_hash** | **str**| The hash provided by the &lt;a href&#x3D;\&quot;${org.sagebionetworks.evaluation.model.TeamSubmissionEligibility}\&quot;&gt;TeamSubmissionEligibility&lt;/a&gt; object.  | [optional] 
- **submission_model** | [**SubmissionModel**](SubmissionModel.md)|  | [optional] 
+ **challenge_endpoint** | **str**| The portal endpoint prefix to the an entity/challenge page. The entity ID of the challenge project is appended to create the complete URL. In normal operation, this parameter should be omitted.&#39;  | [optional]
+ **etag** | **str**| The current eTag of the Entity being submitted | [optional]
+ **notification_unsubscribe_endpoint** | **str**| The portal endpoint prefix for one-click email unsubscription. A signed, serialized token is appended to create the complete URL: &lt;a href&#x3D;\&quot;${org.sagebionetworks.repo.model.message.NotificationSettingsSignedToken}\&quot;&gt;NotificationSettingsSignedToken&lt;/a&gt;. In normal operation, this parameter should be omitted.&#39;  | [optional]
+ **submission_eligibility_hash** | **str**| The hash provided by the &lt;a href&#x3D;\&quot;${org.sagebionetworks.evaluation.model.TeamSubmissionEligibility}\&quot;&gt;TeamSubmissionEligibility&lt;/a&gt; object.  | [optional]
+ **submission_model** | [**SubmissionModel**](SubmissionModel.md)|  | [optional]
 
 ### Return type
 
@@ -275,10 +338,9 @@ This method is deprecated and should be removed from future versions of the API.
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -299,13 +361,14 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    eval_id = "evalId_example" # str | The ID of the specified Evaluation.
 
+    # example passing only required values which don't have defaults set
     try:
         # This method is deprecated and should be removed from future versions of the API.
         api_instance.delete_acl(eval_id)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->delete_acl: %s\n" % e)
 ```
 
@@ -313,7 +376,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **eval_id** | **str**| The ID of the specified Evaluation. | 
+ **eval_id** | **str**| The ID of the specified Evaluation. |
 
 ### Return type
 
@@ -346,10 +409,9 @@ Deletes an Evaluation.  <p>  <b>Note:</b> The caller must be granted the <a href
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -370,13 +432,14 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    eval_id = "evalId_example" # str | The ID of the specified Evaluation.
 
+    # example passing only required values which don't have defaults set
     try:
         # Deletes an Evaluation.
         api_instance.delete_evaluation(eval_id)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->delete_evaluation: %s\n" % e)
 ```
 
@@ -384,7 +447,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **eval_id** | **str**| The ID of the specified Evaluation. | 
+ **eval_id** | **str**| The ID of the specified Evaluation. |
 
 ### Return type
 
@@ -417,10 +480,9 @@ Delete Evaluation Round
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -441,14 +503,15 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-round_id = 'round_id_example' # str | The ID of the evaluation round
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    eval_id = "evalId_example" # str | The ID of the specified Evaluation.
+    round_id = "roundId_example" # str | The ID of the evaluation round
 
+    # example passing only required values which don't have defaults set
     try:
         # Delete Evaluation Round
         api_instance.delete_evaluation_round(eval_id, round_id)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->delete_evaluation_round: %s\n" % e)
 ```
 
@@ -456,8 +519,8 @@ round_id = 'round_id_example' # str | The ID of the evaluation round
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **eval_id** | **str**| The ID of the specified Evaluation. | 
- **round_id** | **str**| The ID of the evaluation round | 
+ **eval_id** | **str**| The ID of the specified Evaluation. |
+ **round_id** | **str**| The ID of the evaluation round |
 
 ### Return type
 
@@ -490,10 +553,9 @@ Deletes a Submission and its accompanying SubmissionStatus.  <b>This service is 
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -514,13 +576,14 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    sub_id = 'sub_id_example' # str | The ID of the Submission
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    sub_id = "subId_example" # str | The ID of the Submission
 
+    # example passing only required values which don't have defaults set
     try:
         # Deletes a Submission and its accompanying SubmissionStatus.
         api_instance.delete_submission(sub_id)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->delete_submission: %s\n" % e)
 ```
 
@@ -528,7 +591,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **sub_id** | **str**| The ID of the Submission | 
+ **sub_id** | **str**| The ID of the Submission |
 
 ### Return type
 
@@ -561,10 +624,10 @@ Finds an Evaluation by name. <p> <b>Note:</b> The caller must be granted the <a 
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
+from synclient.model.evaluation import Evaluation
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -585,14 +648,15 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    name = 'name_example' # str | The name of the desired Evaluation.
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    name = "name_example" # str | The name of the desired Evaluation.
 
+    # example passing only required values which don't have defaults set
     try:
         # Finds an Evaluation by name.
         api_response = api_instance.find_evaluation(name)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->find_evaluation: %s\n" % e)
 ```
 
@@ -600,7 +664,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **name** | **str**| The name of the desired Evaluation. | 
+ **name** | **str**| The name of the desired Evaluation. |
 
 ### Return type
 
@@ -633,10 +697,10 @@ Gets the access control list (ACL) governing the given evaluation. The user shou
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
+from synclient.model.access_control_list import AccessControlList
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -657,14 +721,15 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    eval_id = "evalId_example" # str | The ID of the specified Evaluation.
 
+    # example passing only required values which don't have defaults set
     try:
         # Gets the access control list (ACL) governing the given evaluation.
         api_response = api_instance.get_acl(eval_id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->get_acl: %s\n" % e)
 ```
 
@@ -672,7 +737,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **eval_id** | **str**| The ID of the specified Evaluation. | 
+ **eval_id** | **str**| The ID of the specified Evaluation. |
 
 ### Return type
 
@@ -695,7 +760,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_all_evaluation_rounds**
-> EvaluationRoundListResponse get_all_evaluation_rounds(eval_id, evaluation_round_list_request=evaluation_round_list_request)
+> EvaluationRoundListResponse get_all_evaluation_rounds(eval_id)
 
 Get all rounds of an Evaluation
 
@@ -705,10 +770,11 @@ Get all rounds of an Evaluation
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
+from synclient.model.evaluation_round_list_request import EvaluationRoundListRequest
+from synclient.model.evaluation_round_list_response import EvaluationRoundListResponse
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -729,15 +795,27 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-evaluation_round_list_request = synclient.EvaluationRoundListRequest() # EvaluationRoundListRequest |  (optional)
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    eval_id = "evalId_example" # str | The ID of the specified Evaluation.
+    evaluation_round_list_request = EvaluationRoundListRequest(
+        next_page_token="next_page_token_example",
+    ) # EvaluationRoundListRequest |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Get all rounds of an Evaluation
+        api_response = api_instance.get_all_evaluation_rounds(eval_id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling EvaluationServicesApi->get_all_evaluation_rounds: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Get all rounds of an Evaluation
         api_response = api_instance.get_all_evaluation_rounds(eval_id, evaluation_round_list_request=evaluation_round_list_request)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->get_all_evaluation_rounds: %s\n" % e)
 ```
 
@@ -745,8 +823,8 @@ evaluation_round_list_request = synclient.EvaluationRoundListRequest() # Evaluat
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **eval_id** | **str**| The ID of the specified Evaluation. | 
- **evaluation_round_list_request** | [**EvaluationRoundListRequest**](EvaluationRoundListRequest.md)|  | [optional] 
+ **eval_id** | **str**| The ID of the specified Evaluation. |
+ **evaluation_round_list_request** | [**EvaluationRoundListRequest**](EvaluationRoundListRequest.md)|  | [optional]
 
 ### Return type
 
@@ -769,7 +847,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_all_submission_bundles**
-> PaginatedResultsOfSubmissionBundle get_all_submission_bundles(eval_id, limit=limit, offset=offset, status=status)
+> PaginatedResultsOfSubmissionBundle get_all_submission_bundles(eval_id)
 
 Gets a collection of bundled Submissions and SubmissionStatuses to a given Evaluation.
 
@@ -779,10 +857,10 @@ Gets a collection of bundled Submissions and SubmissionStatuses to a given Evalu
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
+from synclient.model.paginated_results_of_submission_bundle import PaginatedResultsOfSubmissionBundle
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -803,17 +881,27 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-limit = 10 # int | Limits the number of entities that will be fetched for this page. When null it will default to 10.'  (optional) (default to 10)
-offset = 0 # int | The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  (optional) (default to 0)
-status = 'status_example' # str | Submission Status (optional)
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    eval_id = "evalId_example" # str | The ID of the specified Evaluation.
+    limit = 10 # int | Limits the number of entities that will be fetched for this page. When null it will default to 10.'  (optional) if omitted the server will use the default value of 10
+    offset = 0 # int | The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  (optional) if omitted the server will use the default value of 0
+    status = "status_example" # str | Submission Status (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Gets a collection of bundled Submissions and SubmissionStatuses to a given Evaluation.
+        api_response = api_instance.get_all_submission_bundles(eval_id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling EvaluationServicesApi->get_all_submission_bundles: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Gets a collection of bundled Submissions and SubmissionStatuses to a given Evaluation.
         api_response = api_instance.get_all_submission_bundles(eval_id, limit=limit, offset=offset, status=status)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->get_all_submission_bundles: %s\n" % e)
 ```
 
@@ -821,10 +909,10 @@ status = 'status_example' # str | Submission Status (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **eval_id** | **str**| The ID of the specified Evaluation. | 
- **limit** | **int**| Limits the number of entities that will be fetched for this page. When null it will default to 10.&#39;  | [optional] [default to 10]
- **offset** | **int**| The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  | [optional] [default to 0]
- **status** | **str**| Submission Status | [optional] 
+ **eval_id** | **str**| The ID of the specified Evaluation. |
+ **limit** | **int**| Limits the number of entities that will be fetched for this page. When null it will default to 10.&#39;  | [optional] if omitted the server will use the default value of 10
+ **offset** | **int**| The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  | [optional] if omitted the server will use the default value of 0
+ **status** | **str**| Submission Status | [optional]
 
 ### Return type
 
@@ -847,7 +935,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_all_submission_statuses**
-> PaginatedResultsOfSubmissionStatus get_all_submission_statuses(eval_id, limit=limit, offset=offset, status=status)
+> PaginatedResultsOfSubmissionStatus get_all_submission_statuses(eval_id)
 
 Gets a collection of SubmissionStatuses to a specified Evaluation.
 
@@ -857,10 +945,10 @@ Gets a collection of SubmissionStatuses to a specified Evaluation.
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
+from synclient.model.paginated_results_of_submission_status import PaginatedResultsOfSubmissionStatus
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -881,17 +969,27 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-limit = 10 # int | Limits the number of entities that will be fetched for this page. When null it will default to 10.'  (optional) (default to 10)
-offset = 0 # int | The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  (optional) (default to 0)
-status = 'status_example' # str | Submission status (optional)
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    eval_id = "evalId_example" # str | The ID of the specified Evaluation.
+    limit = 10 # int | Limits the number of entities that will be fetched for this page. When null it will default to 10.'  (optional) if omitted the server will use the default value of 10
+    offset = 0 # int | The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  (optional) if omitted the server will use the default value of 0
+    status = "status_example" # str | Submission status (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Gets a collection of SubmissionStatuses to a specified Evaluation.
+        api_response = api_instance.get_all_submission_statuses(eval_id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling EvaluationServicesApi->get_all_submission_statuses: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Gets a collection of SubmissionStatuses to a specified Evaluation.
         api_response = api_instance.get_all_submission_statuses(eval_id, limit=limit, offset=offset, status=status)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->get_all_submission_statuses: %s\n" % e)
 ```
 
@@ -899,10 +997,10 @@ status = 'status_example' # str | Submission status (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **eval_id** | **str**| The ID of the specified Evaluation. | 
- **limit** | **int**| Limits the number of entities that will be fetched for this page. When null it will default to 10.&#39;  | [optional] [default to 10]
- **offset** | **int**| The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  | [optional] [default to 0]
- **status** | **str**| Submission status | [optional] 
+ **eval_id** | **str**| The ID of the specified Evaluation. |
+ **limit** | **int**| Limits the number of entities that will be fetched for this page. When null it will default to 10.&#39;  | [optional] if omitted the server will use the default value of 10
+ **offset** | **int**| The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  | [optional] if omitted the server will use the default value of 0
+ **status** | **str**| Submission status | [optional]
 
 ### Return type
 
@@ -925,7 +1023,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_all_submissions**
-> PaginatedResultsOfSubmission get_all_submissions(eval_id, limit=limit, offset=offset, status=status)
+> PaginatedResultsOfSubmission get_all_submissions(eval_id)
 
 Gets a collection of Submissions to a specified Evaluation.
 
@@ -935,10 +1033,10 @@ Gets a collection of Submissions to a specified Evaluation.
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
+from synclient.model.paginated_results_of_submission import PaginatedResultsOfSubmission
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -959,17 +1057,27 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-limit = 10 # int | Limits the number of entities that will be fetched for this page. When null it will default to 10, max value 100.  (optional) (default to 10)
-offset = 0 # int | The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  (optional) (default to 0)
-status = 'status_example' # str | Status of submission. (optional)
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    eval_id = "evalId_example" # str | The ID of the specified Evaluation.
+    limit = 10 # int | Limits the number of entities that will be fetched for this page. When null it will default to 10, max value 100.  (optional) if omitted the server will use the default value of 10
+    offset = 0 # int | The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  (optional) if omitted the server will use the default value of 0
+    status = "status_example" # str | Status of submission. (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Gets a collection of Submissions to a specified Evaluation.
+        api_response = api_instance.get_all_submissions(eval_id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling EvaluationServicesApi->get_all_submissions: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Gets a collection of Submissions to a specified Evaluation.
         api_response = api_instance.get_all_submissions(eval_id, limit=limit, offset=offset, status=status)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->get_all_submissions: %s\n" % e)
 ```
 
@@ -977,10 +1085,10 @@ status = 'status_example' # str | Status of submission. (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **eval_id** | **str**| The ID of the specified Evaluation. | 
- **limit** | **int**| Limits the number of entities that will be fetched for this page. When null it will default to 10, max value 100.  | [optional] [default to 10]
- **offset** | **int**| The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  | [optional] [default to 0]
- **status** | **str**| Status of submission. | [optional] 
+ **eval_id** | **str**| The ID of the specified Evaluation. |
+ **limit** | **int**| Limits the number of entities that will be fetched for this page. When null it will default to 10, max value 100.  | [optional] if omitted the server will use the default value of 10
+ **offset** | **int**| The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  | [optional] if omitted the server will use the default value of 0
+ **status** | **str**| Status of submission. | [optional]
 
 ### Return type
 
@@ -1003,7 +1111,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_available_evaluations_paginated**
-> PaginatedResultsOfEvaluation get_available_evaluations_paginated(active_only=active_only, evaluation_ids=evaluation_ids, limit=limit, offset=offset)
+> PaginatedResultsOfEvaluation get_available_evaluations_paginated()
 
 Gets a collection of Evaluations in which the user has SUBMIT permission, within a given range. 
 
@@ -1013,10 +1121,10 @@ Gets a collection of Evaluations in which the user has SUBMIT permission, within
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
+from synclient.model.paginated_results_of_evaluation import PaginatedResultsOfEvaluation
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1037,17 +1145,19 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    active_only = False # bool | Retrieve active only evaluation queues (optional) (default to False)
-evaluation_ids = 'evaluation_ids_example' # str | an optional, comma-delimited list of evaluation IDs to which the response is limited  (optional)
-limit = 10 # int | Limits the number of entities that will be fetched for this page. When null it will default to 10.'  (optional) (default to 10)
-offset = 0 # int | The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  (optional) (default to 0)
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    active_only = False # bool | Retrieve active only evaluation queues (optional) if omitted the server will use the default value of False
+    evaluation_ids = "evaluationIds_example" # str | an optional, comma-delimited list of evaluation IDs to which the response is limited  (optional)
+    limit = 10 # int | Limits the number of entities that will be fetched for this page. When null it will default to 10.'  (optional) if omitted the server will use the default value of 10
+    offset = 0 # int | The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  (optional) if omitted the server will use the default value of 0
 
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Gets a collection of Evaluations in which the user has SUBMIT permission, within a given range. 
         api_response = api_instance.get_available_evaluations_paginated(active_only=active_only, evaluation_ids=evaluation_ids, limit=limit, offset=offset)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->get_available_evaluations_paginated: %s\n" % e)
 ```
 
@@ -1055,10 +1165,10 @@ offset = 0 # int | The offset index determines where this page will start from. 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **active_only** | **bool**| Retrieve active only evaluation queues | [optional] [default to False]
- **evaluation_ids** | **str**| an optional, comma-delimited list of evaluation IDs to which the response is limited  | [optional] 
- **limit** | **int**| Limits the number of entities that will be fetched for this page. When null it will default to 10.&#39;  | [optional] [default to 10]
- **offset** | **int**| The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  | [optional] [default to 0]
+ **active_only** | **bool**| Retrieve active only evaluation queues | [optional] if omitted the server will use the default value of False
+ **evaluation_ids** | **str**| an optional, comma-delimited list of evaluation IDs to which the response is limited  | [optional]
+ **limit** | **int**| Limits the number of entities that will be fetched for this page. When null it will default to 10.&#39;  | [optional] if omitted the server will use the default value of 10
+ **offset** | **int**| The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  | [optional] if omitted the server will use the default value of 0
 
 ### Return type
 
@@ -1091,10 +1201,10 @@ Gets an Evaluation.   <p>  <b>Note:</b> The caller must be granted the <a  href=
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
+from synclient.model.evaluation import Evaluation
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1115,14 +1225,15 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    eval_id = "evalId_example" # str | The ID of the specified Evaluation.
 
+    # example passing only required values which don't have defaults set
     try:
         # Gets an Evaluation.
         api_response = api_instance.get_evaluation(eval_id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->get_evaluation: %s\n" % e)
 ```
 
@@ -1130,7 +1241,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **eval_id** | **str**| The ID of the specified Evaluation. | 
+ **eval_id** | **str**| The ID of the specified Evaluation. |
 
 ### Return type
 
@@ -1163,10 +1274,10 @@ Get Evaluation Round
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
+from synclient.model.evaluation_round import EvaluationRound
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1187,15 +1298,16 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-round_id = 'round_id_example' # str | The ID of the evaluation round
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    eval_id = "evalId_example" # str | The ID of the specified Evaluation.
+    round_id = "roundId_example" # str | The ID of the evaluation round
 
+    # example passing only required values which don't have defaults set
     try:
         # Get Evaluation Round
         api_response = api_instance.get_evaluation_round(eval_id, round_id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->get_evaluation_round: %s\n" % e)
 ```
 
@@ -1203,8 +1315,8 @@ round_id = 'round_id_example' # str | The ID of the evaluation round
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **eval_id** | **str**| The ID of the specified Evaluation. | 
- **round_id** | **str**| The ID of the evaluation round | 
+ **eval_id** | **str**| The ID of the specified Evaluation. |
+ **round_id** | **str**| The ID of the evaluation round |
 
 ### Return type
 
@@ -1227,7 +1339,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_evaluations_by_content_source_paginated**
-> PaginatedResultsOfEvaluation get_evaluations_by_content_source_paginated(id, access_type=access_type, active_only=active_only, evaluation_ids=evaluation_ids, limit=limit, offset=offset)
+> PaginatedResultsOfEvaluation get_evaluations_by_content_source_paginated(id)
 
 Gets Evaluations tied to a project.
 
@@ -1237,10 +1349,11 @@ Gets Evaluations tied to a project. <b>Note:</b> The response will contain only 
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
+from synclient.model.paginated_results_of_evaluation import PaginatedResultsOfEvaluation
+from synclient.model.accesstype import ACCESSTYPE
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1261,19 +1374,29 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    id = 'id_example' # str | the ID of the project
-access_type = synclient.ACCESSTYPE() # ACCESSTYPE | The type of access for the user to filter for, optional and defaults to <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a>  (optional)
-active_only = False # bool | If 'true' then return only those evaluations with rounds defined and for which the current time is in one of the rounds.  (optional) (default to False)
-evaluation_ids = 'evaluation_ids_example' # str | an optional, comma-delimited list of evaluation IDs to which the response is limited  (optional)
-limit = 10 # int | Limits the number of entities that will be fetched for this page. When null it will default to 10.  (optional) (default to 10)
-offset = 0 # int | The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  (optional) (default to 0)
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    id = "id_example" # str | the ID of the project
+    access_type = ACCESSTYPE("CREATE") # ACCESSTYPE | The type of access for the user to filter for, optional and defaults to <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a>  (optional)
+    active_only = False # bool | If 'true' then return only those evaluations with rounds defined and for which the current time is in one of the rounds.  (optional) if omitted the server will use the default value of False
+    evaluation_ids = "evaluationIds_example" # str | an optional, comma-delimited list of evaluation IDs to which the response is limited  (optional)
+    limit = 10 # int | Limits the number of entities that will be fetched for this page. When null it will default to 10.  (optional) if omitted the server will use the default value of 10
+    offset = 0 # int | The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  (optional) if omitted the server will use the default value of 0
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Gets Evaluations tied to a project.
+        api_response = api_instance.get_evaluations_by_content_source_paginated(id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling EvaluationServicesApi->get_evaluations_by_content_source_paginated: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Gets Evaluations tied to a project.
         api_response = api_instance.get_evaluations_by_content_source_paginated(id, access_type=access_type, active_only=active_only, evaluation_ids=evaluation_ids, limit=limit, offset=offset)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->get_evaluations_by_content_source_paginated: %s\n" % e)
 ```
 
@@ -1281,12 +1404,12 @@ offset = 0 # int | The offset index determines where this page will start from. 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**| the ID of the project | 
- **access_type** | [**ACCESSTYPE**](.md)| The type of access for the user to filter for, optional and defaults to &lt;a href&#x3D;\&quot;${org.sagebionetworks.repo.model.ACCESS_TYPE}\&quot;&gt;ACCESS_TYPE.READ&lt;/a&gt;  | [optional] 
- **active_only** | **bool**| If &#39;true&#39; then return only those evaluations with rounds defined and for which the current time is in one of the rounds.  | [optional] [default to False]
- **evaluation_ids** | **str**| an optional, comma-delimited list of evaluation IDs to which the response is limited  | [optional] 
- **limit** | **int**| Limits the number of entities that will be fetched for this page. When null it will default to 10.  | [optional] [default to 10]
- **offset** | **int**| The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  | [optional] [default to 0]
+ **id** | **str**| the ID of the project |
+ **access_type** | **ACCESSTYPE**| The type of access for the user to filter for, optional and defaults to &lt;a href&#x3D;\&quot;${org.sagebionetworks.repo.model.ACCESS_TYPE}\&quot;&gt;ACCESS_TYPE.READ&lt;/a&gt;  | [optional]
+ **active_only** | **bool**| If &#39;true&#39; then return only those evaluations with rounds defined and for which the current time is in one of the rounds.  | [optional] if omitted the server will use the default value of False
+ **evaluation_ids** | **str**| an optional, comma-delimited list of evaluation IDs to which the response is limited  | [optional]
+ **limit** | **int**| Limits the number of entities that will be fetched for this page. When null it will default to 10.  | [optional] if omitted the server will use the default value of 10
+ **offset** | **int**| The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  | [optional] if omitted the server will use the default value of 0
 
 ### Return type
 
@@ -1309,7 +1432,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_evaluations_paginated**
-> PaginatedResultsOfEvaluation get_evaluations_paginated(access_type=access_type, active_only=active_only, evaluation_ids=evaluation_ids, limit=limit, offset=offset)
+> PaginatedResultsOfEvaluation get_evaluations_paginated()
 
 Gets a collection of Evaluations, within a given range.
 
@@ -1319,10 +1442,10 @@ Gets a collection of Evaluations, within a given range.  <p>  <b>Note:</b> The r
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
+from synclient.model.paginated_results_of_evaluation import PaginatedResultsOfEvaluation
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1343,18 +1466,20 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    access_type = 'READ' # str | The type of access for the user to filter for, optional and defaults to <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a>  (optional) (default to 'READ')
-active_only = False # bool | If 'true' then return only those evaluations with rounds defined and for which the current time is in one of the rounds.  (optional) (default to False)
-evaluation_ids = 'evaluation_ids_example' # str | an optional, comma-delimited list of evaluation IDs to which the response is limited  (optional)
-limit = 10 # int | Maximum number of results returned (optional) (default to 10)
-offset = 0 # int | The index of the pagination offset. For a page size of 10, the first page would be at offset = 0, and the second page would be at offset = 10.  (optional) (default to 0)
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    access_type = "READ" # str | The type of access for the user to filter for, optional and defaults to <a href=\"${org.sagebionetworks.repo.model.ACCESS_TYPE}\">ACCESS_TYPE.READ</a>  (optional) if omitted the server will use the default value of "READ"
+    active_only = False # bool | If 'true' then return only those evaluations with rounds defined and for which the current time is in one of the rounds.  (optional) if omitted the server will use the default value of False
+    evaluation_ids = "evaluationIds_example" # str | an optional, comma-delimited list of evaluation IDs to which the response is limited  (optional)
+    limit = 10 # int | Maximum number of results returned (optional) if omitted the server will use the default value of 10
+    offset = 0 # int | The index of the pagination offset. For a page size of 10, the first page would be at offset = 0, and the second page would be at offset = 10.  (optional) if omitted the server will use the default value of 0
 
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Gets a collection of Evaluations, within a given range.
         api_response = api_instance.get_evaluations_paginated(access_type=access_type, active_only=active_only, evaluation_ids=evaluation_ids, limit=limit, offset=offset)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->get_evaluations_paginated: %s\n" % e)
 ```
 
@@ -1362,11 +1487,11 @@ offset = 0 # int | The index of the pagination offset. For a page size of 10, th
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **access_type** | **str**| The type of access for the user to filter for, optional and defaults to &lt;a href&#x3D;\&quot;${org.sagebionetworks.repo.model.ACCESS_TYPE}\&quot;&gt;ACCESS_TYPE.READ&lt;/a&gt;  | [optional] [default to &#39;READ&#39;]
- **active_only** | **bool**| If &#39;true&#39; then return only those evaluations with rounds defined and for which the current time is in one of the rounds.  | [optional] [default to False]
- **evaluation_ids** | **str**| an optional, comma-delimited list of evaluation IDs to which the response is limited  | [optional] 
- **limit** | **int**| Maximum number of results returned | [optional] [default to 10]
- **offset** | **int**| The index of the pagination offset. For a page size of 10, the first page would be at offset &#x3D; 0, and the second page would be at offset &#x3D; 10.  | [optional] [default to 0]
+ **access_type** | **str**| The type of access for the user to filter for, optional and defaults to &lt;a href&#x3D;\&quot;${org.sagebionetworks.repo.model.ACCESS_TYPE}\&quot;&gt;ACCESS_TYPE.READ&lt;/a&gt;  | [optional] if omitted the server will use the default value of "READ"
+ **active_only** | **bool**| If &#39;true&#39; then return only those evaluations with rounds defined and for which the current time is in one of the rounds.  | [optional] if omitted the server will use the default value of False
+ **evaluation_ids** | **str**| an optional, comma-delimited list of evaluation IDs to which the response is limited  | [optional]
+ **limit** | **int**| Maximum number of results returned | [optional] if omitted the server will use the default value of 10
+ **offset** | **int**| The index of the pagination offset. For a page size of 10, the first page would be at offset &#x3D; 0, and the second page would be at offset &#x3D; 10.  | [optional] if omitted the server will use the default value of 0
 
 ### Return type
 
@@ -1389,7 +1514,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_my_submission_bundles**
-> PaginatedResultsOfSubmissionBundle get_my_submission_bundles(eval_id, limit=limit, offset=offset)
+> PaginatedResultsOfSubmissionBundle get_my_submission_bundles(eval_id)
 
 Gets the requesting users bundled Submissions and SubmissionStatuses to a specified Evaluation.' 
 
@@ -1399,10 +1524,10 @@ Gets the requesting user's bundled Submissions and SubmissionStatuses to a speci
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
+from synclient.model.paginated_results_of_submission_bundle import PaginatedResultsOfSubmissionBundle
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1423,16 +1548,26 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-limit = 10 # int | Limits the number of entities that will be fetched for this page. When null it will default to 10.'  (optional) (default to 10)
-offset = 0 # int | The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  (optional) (default to 0)
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    eval_id = "evalId_example" # str | The ID of the specified Evaluation.
+    limit = 10 # int | Limits the number of entities that will be fetched for this page. When null it will default to 10.'  (optional) if omitted the server will use the default value of 10
+    offset = 0 # int | The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  (optional) if omitted the server will use the default value of 0
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Gets the requesting users bundled Submissions and SubmissionStatuses to a specified Evaluation.' 
+        api_response = api_instance.get_my_submission_bundles(eval_id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling EvaluationServicesApi->get_my_submission_bundles: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Gets the requesting users bundled Submissions and SubmissionStatuses to a specified Evaluation.' 
         api_response = api_instance.get_my_submission_bundles(eval_id, limit=limit, offset=offset)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->get_my_submission_bundles: %s\n" % e)
 ```
 
@@ -1440,9 +1575,9 @@ offset = 0 # int | The offset index determines where this page will start from. 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **eval_id** | **str**| The ID of the specified Evaluation. | 
- **limit** | **int**| Limits the number of entities that will be fetched for this page. When null it will default to 10.&#39;  | [optional] [default to 10]
- **offset** | **int**| The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  | [optional] [default to 0]
+ **eval_id** | **str**| The ID of the specified Evaluation. |
+ **limit** | **int**| Limits the number of entities that will be fetched for this page. When null it will default to 10.&#39;  | [optional] if omitted the server will use the default value of 10
+ **offset** | **int**| The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.  | [optional] if omitted the server will use the default value of 0
 
 ### Return type
 
@@ -1465,7 +1600,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_my_submissions**
-> PaginatedResultsOfSubmission get_my_submissions(eval_id, limit=limit, offset=offset)
+> PaginatedResultsOfSubmission get_my_submissions(eval_id)
 
 Gets the requesting user's Submissions to a specified Evaluation.
 
@@ -1475,10 +1610,10 @@ Gets the requesting user's Submissions to a specified Evaluation.
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
+from synclient.model.paginated_results_of_submission import PaginatedResultsOfSubmission
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1499,16 +1634,26 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-limit = 10 # int | Limits the number of entities that will be fetched for this page. When null it will default to 10. (optional) (default to 10)
-offset = 0 # int | The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.'  (optional) (default to 0)
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    eval_id = "evalId_example" # str | The ID of the specified Evaluation.
+    limit = 10 # int | Limits the number of entities that will be fetched for this page. When null it will default to 10. (optional) if omitted the server will use the default value of 10
+    offset = 0 # int | The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.'  (optional) if omitted the server will use the default value of 0
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Gets the requesting user's Submissions to a specified Evaluation.
+        api_response = api_instance.get_my_submissions(eval_id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling EvaluationServicesApi->get_my_submissions: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Gets the requesting user's Submissions to a specified Evaluation.
         api_response = api_instance.get_my_submissions(eval_id, limit=limit, offset=offset)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->get_my_submissions: %s\n" % e)
 ```
 
@@ -1516,9 +1661,9 @@ offset = 0 # int | The offset index determines where this page will start from. 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **eval_id** | **str**| The ID of the specified Evaluation. | 
- **limit** | **int**| Limits the number of entities that will be fetched for this page. When null it will default to 10. | [optional] [default to 10]
- **offset** | **int**| The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.&#39;  | [optional] [default to 0]
+ **eval_id** | **str**| The ID of the specified Evaluation. |
+ **limit** | **int**| Limits the number of entities that will be fetched for this page. When null it will default to 10. | [optional] if omitted the server will use the default value of 10
+ **offset** | **int**| The offset index determines where this page will start from. An index of 0 is the first entity. When null it will default to 0.&#39;  | [optional] if omitted the server will use the default value of 0
 
 ### Return type
 
@@ -1551,10 +1696,10 @@ Gets a Submission.  <p>  <b>Note:</b> The caller must be granted the <a href=\"$
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
+from synclient.model.submission_model import SubmissionModel
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1575,14 +1720,15 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    sub_id = 'sub_id_example' # str | The ID of the Submission
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    sub_id = "subId_example" # str | The ID of the Submission
 
+    # example passing only required values which don't have defaults set
     try:
         # Gets a Submission.
         api_response = api_instance.get_submission(sub_id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->get_submission: %s\n" % e)
 ```
 
@@ -1590,7 +1736,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **sub_id** | **str**| The ID of the Submission | 
+ **sub_id** | **str**| The ID of the Submission |
 
 ### Return type
 
@@ -1623,10 +1769,9 @@ Gets the number of Submissions to a specified Evaluation. <b>Note:</b> The calle
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1647,14 +1792,15 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    eval_id = "evalId_example" # str | The ID of the specified Evaluation.
 
+    # example passing only required values which don't have defaults set
     try:
         # Gets the number of Submissions to a specified Evaluation.
         api_response = api_instance.get_submission_count(eval_id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->get_submission_count: %s\n" % e)
 ```
 
@@ -1662,7 +1808,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **eval_id** | **str**| The ID of the specified Evaluation. | 
+ **eval_id** | **str**| The ID of the specified Evaluation. |
 
 ### Return type
 
@@ -1695,10 +1841,10 @@ Gets the SubmissionStatus object associated with a specified Submission. <p> <b>
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
+from synclient.model.submission_status_model import SubmissionStatusModel
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1719,14 +1865,15 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    sub_id = 'sub_id_example' # str | The ID of the Submission
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    sub_id = "subId_example" # str | The ID of the Submission
 
+    # example passing only required values which don't have defaults set
     try:
         # Gets the SubmissionStatus object associated with a specified Submission.
         api_response = api_instance.get_submission_status(sub_id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->get_submission_status: %s\n" % e)
 ```
 
@@ -1734,7 +1881,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **sub_id** | **str**| The ID of the Submission | 
+ **sub_id** | **str**| The ID of the Submission |
 
 ### Return type
 
@@ -1767,10 +1914,10 @@ Find out whether a Team and its members are eligible to submit to a given Evalua
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
+from synclient.model.team_submission_eligibility import TeamSubmissionEligibility
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1791,15 +1938,16 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-id = 'id_example' # str | The ID of a Team.
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    eval_id = "evalId_example" # str | The ID of the specified Evaluation.
+    id = "id_example" # str | The ID of a Team.
 
+    # example passing only required values which don't have defaults set
     try:
         # Find out whether a Team and its members are eligible to submit to a given Evaluation queue (at the current time).' 
         api_response = api_instance.get_team_submission_eligibility(eval_id, id)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->get_team_submission_eligibility: %s\n" % e)
 ```
 
@@ -1807,8 +1955,8 @@ id = 'id_example' # str | The ID of a Team.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **eval_id** | **str**| The ID of the specified Evaluation. | 
- **id** | **str**| The ID of a Team. | 
+ **eval_id** | **str**| The ID of the specified Evaluation. |
+ **id** | **str**| The ID of a Team. |
 
 ### Return type
 
@@ -1841,10 +1989,10 @@ Determines whether the logged in user has a certain <a href=\"${org.sagebionetwo
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
+from synclient.model.boolean_result import BooleanResult
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1865,15 +2013,16 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-access_type = 'access_type_example' # str | Synapse access type
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    eval_id = "evalId_example" # str | The ID of the specified Evaluation.
+    access_type = "accessType_example" # str | Synapse access type
 
+    # example passing only required values which don't have defaults set
     try:
         # Determines whether a specified Synapse user has a certain access type on evaluation.
         api_response = api_instance.has_access2(eval_id, access_type)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->has_access2: %s\n" % e)
 ```
 
@@ -1881,8 +2030,8 @@ access_type = 'access_type_example' # str | Synapse access type
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **eval_id** | **str**| The ID of the specified Evaluation. | 
- **access_type** | **str**| Synapse access type | 
+ **eval_id** | **str**| The ID of the specified Evaluation. |
+ **access_type** | **str**| Synapse access type |
 
 ### Return type
 
@@ -1905,7 +2054,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **redirect_url_for_file_handle**
-> str redirect_url_for_file_handle(file_handle_id, sub_id, redirect=redirect)
+> str redirect_url_for_file_handle(file_handle_id, sub_id)
 
 Gets a pre-signed URL to access a requested File contained within a specified Submission. 
 
@@ -1915,10 +2064,9 @@ Gets a pre-signed URL to access a requested File contained within a specified Su
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -1939,16 +2087,26 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    file_handle_id = 'file_handle_id_example' # str | the ID of the requested FileHandle contained in the Submission.
-sub_id = 'sub_id_example' # str | The ID of the Submission
-redirect = True # bool | To redirect (optional)
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    file_handle_id = "fileHandleId_example" # str | the ID of the requested FileHandle contained in the Submission.
+    sub_id = "subId_example" # str | The ID of the Submission
+    redirect = True # bool | To redirect (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Gets a pre-signed URL to access a requested File contained within a specified Submission. 
+        api_response = api_instance.redirect_url_for_file_handle(file_handle_id, sub_id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling EvaluationServicesApi->redirect_url_for_file_handle: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Gets a pre-signed URL to access a requested File contained within a specified Submission. 
         api_response = api_instance.redirect_url_for_file_handle(file_handle_id, sub_id, redirect=redirect)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->redirect_url_for_file_handle: %s\n" % e)
 ```
 
@@ -1956,9 +2114,9 @@ redirect = True # bool | To redirect (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **file_handle_id** | **str**| the ID of the requested FileHandle contained in the Submission. | 
- **sub_id** | **str**| The ID of the Submission | 
- **redirect** | **bool**| To redirect | [optional] 
+ **file_handle_id** | **str**| the ID of the requested FileHandle contained in the Submission. |
+ **sub_id** | **str**| The ID of the Submission |
+ **redirect** | **bool**| To redirect | [optional]
 
 ### Return type
 
@@ -1991,10 +2149,9 @@ User requests to cancel their submission. Only the user who submitted a submissi
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -2015,13 +2172,14 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    sub_id = 'sub_id_example' # str | The ID of the Submission
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    sub_id = "subId_example" # str | The ID of the Submission
 
+    # example passing only required values which don't have defaults set
     try:
         # User requests to cancel their submission.
         api_instance.request_to_cancel_submission(sub_id)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->request_to_cancel_submission: %s\n" % e)
 ```
 
@@ -2029,7 +2187,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **sub_id** | **str**| The ID of the Submission | 
+ **sub_id** | **str**| The ID of the Submission |
 
 ### Return type
 
@@ -2052,7 +2210,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_acl**
-> AccessControlList update_acl(access_control_list=access_control_list)
+> AccessControlList update_acl()
 
 Updates the supplied access control list (ACL) for an evaluation.
 
@@ -2062,10 +2220,10 @@ Updates the supplied access control list (ACL) for an evaluation. The <a href=\"
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
+from synclient.model.access_control_list import AccessControlList
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -2086,14 +2244,31 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    access_control_list = synclient.AccessControlList() # AccessControlList | The ACL being updated. (optional)
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    access_control_list = AccessControlList(
+        created_by="created_by_example",
+        creation_date="creation_date_example",
+        etag="etag_example",
+        id="id_example",
+        modified_by="modified_by_example",
+        modified_on="modified_on_example",
+        resource_access=[
+            ResourceAccess(
+                access_type=[
+                    ACCESSTYPE("CREATE"),
+                ],
+                principal_id=1,
+            ),
+        ],
+    ) # AccessControlList | The ACL being updated. (optional)
 
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Updates the supplied access control list (ACL) for an evaluation.
         api_response = api_instance.update_acl(access_control_list=access_control_list)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->update_acl: %s\n" % e)
 ```
 
@@ -2101,7 +2276,7 @@ with synclient.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **access_control_list** | [**AccessControlList**](AccessControlList.md)| The ACL being updated. | [optional] 
+ **access_control_list** | [**AccessControlList**](AccessControlList.md)| The ACL being updated. | [optional]
 
 ### Return type
 
@@ -2124,7 +2299,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_evaluation**
-> Evaluation update_evaluation(eval_id, evaluation=evaluation)
+> Evaluation update_evaluation(eval_id)
 
 Updates an Evaluation.
 
@@ -2134,10 +2309,10 @@ Updates an Evaluation.
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
+from synclient.model.evaluation import Evaluation
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -2158,15 +2333,42 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-evaluation = synclient.Evaluation() # Evaluation |  (optional)
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    eval_id = "evalId_example" # str | The ID of the specified Evaluation.
+    evaluation = Evaluation(
+        content_source="content_source_example",
+        created_on="created_on_example",
+        description="description_example",
+        etag="etag_example",
+        id="id_example",
+        name="name_example",
+        owner_id="owner_id_example",
+        quota=SubmissionQuota(
+            first_round_start="first_round_start_example",
+            number_of_rounds=1,
+            round_duration_millis=1,
+            submission_limit=1,
+        ),
+        status=EvaluationStatus("PLANNED"),
+        submission_instructions_message="submission_instructions_message_example",
+        submission_receipt_message="submission_receipt_message_example",
+    ) # Evaluation |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Updates an Evaluation.
+        api_response = api_instance.update_evaluation(eval_id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling EvaluationServicesApi->update_evaluation: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Updates an Evaluation.
         api_response = api_instance.update_evaluation(eval_id, evaluation=evaluation)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->update_evaluation: %s\n" % e)
 ```
 
@@ -2174,8 +2376,8 @@ evaluation = synclient.Evaluation() # Evaluation |  (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **eval_id** | **str**| The ID of the specified Evaluation. | 
- **evaluation** | [**Evaluation**](Evaluation.md)|  | [optional] 
+ **eval_id** | **str**| The ID of the specified Evaluation. |
+ **evaluation** | [**Evaluation**](Evaluation.md)|  | [optional]
 
 ### Return type
 
@@ -2198,7 +2400,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_evaluation_round**
-> EvaluationRound update_evaluation_round(eval_id, round_id, evaluation_round=evaluation_round)
+> EvaluationRound update_evaluation_round(eval_id, round_id)
 
 Update Evaluation Round
 
@@ -2208,10 +2410,10 @@ Update Evaluation Round
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
+from synclient.model.evaluation_round import EvaluationRound
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -2232,16 +2434,38 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-round_id = 'round_id_example' # str | The ID of the evaluation round
-evaluation_round = synclient.EvaluationRound() # EvaluationRound |  (optional)
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    eval_id = "evalId_example" # str | The ID of the specified Evaluation.
+    round_id = "roundId_example" # str | The ID of the evaluation round
+    evaluation_round = EvaluationRound(
+        etag="etag_example",
+        evaluation_id="evaluation_id_example",
+        id="id_example",
+        limits=[
+            EvaluationRoundLimit(
+                limit_type=EvaluationRoundLimitType("TOTAL"),
+                maximum_submissions=1,
+            ),
+        ],
+        round_end="round_end_example",
+        round_start="round_start_example",
+    ) # EvaluationRound |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Update Evaluation Round
+        api_response = api_instance.update_evaluation_round(eval_id, round_id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling EvaluationServicesApi->update_evaluation_round: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Update Evaluation Round
         api_response = api_instance.update_evaluation_round(eval_id, round_id, evaluation_round=evaluation_round)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->update_evaluation_round: %s\n" % e)
 ```
 
@@ -2249,9 +2473,9 @@ evaluation_round = synclient.EvaluationRound() # EvaluationRound |  (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **eval_id** | **str**| The ID of the specified Evaluation. | 
- **round_id** | **str**| The ID of the evaluation round | 
- **evaluation_round** | [**EvaluationRound**](EvaluationRound.md)|  | [optional] 
+ **eval_id** | **str**| The ID of the specified Evaluation. |
+ **round_id** | **str**| The ID of the evaluation round |
+ **evaluation_round** | [**EvaluationRound**](EvaluationRound.md)|  | [optional]
 
 ### Return type
 
@@ -2274,7 +2498,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_submission_status**
-> SubmissionStatusModel update_submission_status(sub_id, submission_status_model=submission_status_model)
+> SubmissionStatusModel update_submission_status(sub_id)
 
 Updates a SubmissionStatus object.
 
@@ -2284,10 +2508,10 @@ Updates a SubmissionStatus object.   <p>  Synapse employs an Optimistic Concurre
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
+from synclient.model.submission_status_model import SubmissionStatusModel
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -2308,15 +2532,73 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    sub_id = 'sub_id_example' # str | The ID of the Submission
-submission_status_model = synclient.SubmissionStatusModel() # SubmissionStatusModel |  (optional)
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    sub_id = "subId_example" # str | The ID of the Submission
+    submission_status_model = SubmissionStatusModel(
+        annotations=AnnotationsAnnotation(
+            double_annos=[
+                DoubleAnnotation(
+                    is_private=True,
+                    key="key_example",
+                    value=3.14,
+                ),
+            ],
+            long_annos=[
+                LongAnnotation(
+                    is_private=True,
+                    key="key_example",
+                    value=1,
+                ),
+            ],
+            object_id="object_id_example",
+            scope_id="scope_id_example",
+            string_annos=[
+                StringAnnotation(
+                    is_private=True,
+                    key="key_example",
+                    value="value_example",
+                ),
+            ],
+            version=1,
+        ),
+        can_cancel=True,
+        cancel_requested=True,
+        entity_id="entity_id_example",
+        etag="etag_example",
+        id="id_example",
+        modified_on="modified_on_example",
+        status=SubmissionStatusEnum("OPEN"),
+        status_version=3.14,
+        submission_annotations=AnnotationsV2(
+            annotations={
+                "key": AnnotationsValue(
+                    type=AnnotationsValueType("STRING"),
+                    value=[
+                        "value_example",
+                    ],
+                ),
+            },
+            etag="etag_example",
+            id="id_example",
+        ),
+        version_number=1,
+    ) # SubmissionStatusModel |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Updates a SubmissionStatus object.
+        api_response = api_instance.update_submission_status(sub_id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling EvaluationServicesApi->update_submission_status: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Updates a SubmissionStatus object.
         api_response = api_instance.update_submission_status(sub_id, submission_status_model=submission_status_model)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->update_submission_status: %s\n" % e)
 ```
 
@@ -2324,8 +2606,8 @@ submission_status_model = synclient.SubmissionStatusModel() # SubmissionStatusMo
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **sub_id** | **str**| The ID of the Submission | 
- **submission_status_model** | [**SubmissionStatusModel**](SubmissionStatusModel.md)|  | [optional] 
+ **sub_id** | **str**| The ID of the Submission |
+ **submission_status_model** | [**SubmissionStatusModel**](SubmissionStatusModel.md)|  | [optional]
 
 ### Return type
 
@@ -2348,7 +2630,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_submission_status_batch**
-> BatchUploadResponse update_submission_status_batch(eval_id, submission_status_batch=submission_status_batch)
+> BatchUploadResponse update_submission_status_batch(eval_id)
 
 Update multiple SubmissionStatuses.
 
@@ -2358,10 +2640,11 @@ Update multiple SubmissionStatuses. The maximum batch size is 500.  To allow upl
 
 * Bearer (JWT) Authentication (bearerAuth):
 ```python
-from __future__ import print_function
 import time
 import synclient
-from synclient.rest import ApiException
+from synclient.api import evaluation_services_api
+from synclient.model.batch_upload_response import BatchUploadResponse
+from synclient.model.submission_status_batch import SubmissionStatusBatch
 from pprint import pprint
 # Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
 # See configuration.py for a list of all supported configuration parameters.
@@ -2382,15 +2665,80 @@ configuration = synclient.Configuration(
 # Enter a context with an instance of the API client
 with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = synclient.EvaluationServicesApi(api_client)
-    eval_id = 'eval_id_example' # str | The ID of the specified Evaluation.
-submission_status_batch = synclient.SubmissionStatusBatch() # SubmissionStatusBatch |  (optional)
+    api_instance = evaluation_services_api.EvaluationServicesApi(api_client)
+    eval_id = "evalId_example" # str | The ID of the specified Evaluation.
+    submission_status_batch = SubmissionStatusBatch(
+        batch_token="batch_token_example",
+        is_first_batch=True,
+        is_last_batch=True,
+        statuses=[
+            SubmissionStatusModel(
+                annotations=AnnotationsAnnotation(
+                    double_annos=[
+                        DoubleAnnotation(
+                            is_private=True,
+                            key="key_example",
+                            value=3.14,
+                        ),
+                    ],
+                    long_annos=[
+                        LongAnnotation(
+                            is_private=True,
+                            key="key_example",
+                            value=1,
+                        ),
+                    ],
+                    object_id="object_id_example",
+                    scope_id="scope_id_example",
+                    string_annos=[
+                        StringAnnotation(
+                            is_private=True,
+                            key="key_example",
+                            value="value_example",
+                        ),
+                    ],
+                    version=1,
+                ),
+                can_cancel=True,
+                cancel_requested=True,
+                entity_id="entity_id_example",
+                etag="etag_example",
+                id="id_example",
+                modified_on="modified_on_example",
+                status=SubmissionStatusEnum("OPEN"),
+                status_version=3.14,
+                submission_annotations=AnnotationsV2(
+                    annotations={
+                        "key": AnnotationsValue(
+                            type=AnnotationsValueType("STRING"),
+                            value=[
+                                "value_example",
+                            ],
+                        ),
+                    },
+                    etag="etag_example",
+                    id="id_example",
+                ),
+                version_number=1,
+            ),
+        ],
+    ) # SubmissionStatusBatch |  (optional)
 
+    # example passing only required values which don't have defaults set
+    try:
+        # Update multiple SubmissionStatuses.
+        api_response = api_instance.update_submission_status_batch(eval_id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling EvaluationServicesApi->update_submission_status_batch: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
     try:
         # Update multiple SubmissionStatuses.
         api_response = api_instance.update_submission_status_batch(eval_id, submission_status_batch=submission_status_batch)
         pprint(api_response)
-    except ApiException as e:
+    except synclient.ApiException as e:
         print("Exception when calling EvaluationServicesApi->update_submission_status_batch: %s\n" % e)
 ```
 
@@ -2398,8 +2746,8 @@ submission_status_batch = synclient.SubmissionStatusBatch() # SubmissionStatusBa
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **eval_id** | **str**| The ID of the specified Evaluation. | 
- **submission_status_batch** | [**SubmissionStatusBatch**](SubmissionStatusBatch.md)|  | [optional] 
+ **eval_id** | **str**| The ID of the specified Evaluation. |
+ **submission_status_batch** | [**SubmissionStatusBatch**](SubmissionStatusBatch.md)|  | [optional]
 
 ### Return type
 

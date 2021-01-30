@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 **in_reply_to_root** | **str** | The unique identifier of the root message being replied to | [optional] 
 **is_notification_message** | **bool** | A notification message is sent from a noreply email address, delivery failures are not sent back to the sender | [optional] 
 **notification_unsubscribe_endpoint** | **str** | the portal prefix for one-click email unsubscription. A signed, serialized token is appended to create the complete URL. If omitted, the default endpoint will be used.  | [optional] 
-**recipients** | **list[str]** | The unique identifiers of the intended recipients of a message | [optional] 
+**recipients** | **[str]** | The unique identifiers of the intended recipients of a message | [optional] 
 **subject** | **str** | Topic of this message. Optional | [optional] 
 **to** | **str** | The email addresses in the &#39;to&#39; field of the email message  | [optional] 
 **user_profile_setting_endpoint** | **str** | the portal link to user profile setting page. If omitted, the default endpoint will be used. | [optional] 

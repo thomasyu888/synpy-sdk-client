@@ -4,7 +4,7 @@ A Submission to a Synapse Evaluation is a pointer to a versioned Entity. Submiss
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**contributors** | [**list[SubmissionContributor]**](SubmissionContributor.md) | User ids of the submitter and (if a team submission) the team members involved in creating the submission.  | [optional] 
+**contributors** | [**[SubmissionContributor]**](SubmissionContributor.md) | User ids of the submitter and (if a team submission) the team members involved in creating the submission.  | [optional] 
 **created_on** | **str** | The date on which Submission was created. | [optional] 
 **docker_digest** | **str** | For Docker repositories, the digest from the commit. Null for other entity types. | [optional] 
 **docker_repository_name** | **str** | For Docker repositories, the name of the submitted repository. Null for other entity types. | [optional] 

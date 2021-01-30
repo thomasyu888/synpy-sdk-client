@@ -4,7 +4,7 @@ Results of validating an object against a schema
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**all_validation_messages** | **list[str]** | If the object is not valid according to the schema, a the flat list of error messages will be provided with one error message per sub-schema.  | [optional] 
+**all_validation_messages** | **[str]** | If the object is not valid according to the schema, a the flat list of error messages will be provided with one error message per sub-schema.  | [optional] 
 **is_valid** | **bool** | True if the object is currently valid according to the schema. | [optional] 
 **object_etag** | **str** | The etag of the object at the time of validation. Note: If this etag does not match the current etag of the object then these validation results should be considered out of date.  | [optional] 
 **object_id** | **str** | The identifier of the object that was validated. | [optional] 
