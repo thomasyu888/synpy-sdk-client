@@ -22,14 +22,20 @@ from synclient.model_utils import (  # noqa: F401
     none_type,
     validate_and_convert_types
 )
+from synclient.model.create_discussion_reply import CreateDiscussionReply
 from synclient.model.create_discussion_thread import CreateDiscussionThread
+from synclient.model.discussion_reply_bundle import DiscussionReplyBundle
 from synclient.model.discussion_thread_bundle import DiscussionThreadBundle
 from synclient.model.entity_id_list import EntityIdList
 from synclient.model.entity_thread_counts import EntityThreadCounts
+from synclient.model.forum import Forum
 from synclient.model.message_url import MessageURL
+from synclient.model.paginated_ids import PaginatedIds
 from synclient.model.paginated_results_of_discussion_reply_bundle import PaginatedResultsOfDiscussionReplyBundle
 from synclient.model.paginated_results_of_discussion_thread_bundle import PaginatedResultsOfDiscussionThreadBundle
 from synclient.model.reply_count import ReplyCount
+from synclient.model.thread_count import ThreadCount
+from synclient.model.update_reply_message import UpdateReplyMessage
 from synclient.model.update_thread_message import UpdateThreadMessage
 from synclient.model.update_thread_title import UpdateThreadTitle
 
@@ -45,6 +51,120 @@ class DiscussionServicesApi(object):
         if api_client is None:
             api_client = ApiClient()
         self.api_client = api_client
+
+        def __create_reply(
+            self,
+            **kwargs
+        ):
+            """Create a new reply to a thread.  # noqa: E501
+
+            This API is used to create a new reply to a thread.  Target users: anyone who has READ permission to the project.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.create_reply(async_req=True)
+            >>> result = thread.get()
+
+
+            Keyword Args:
+                create_discussion_reply (CreateDiscussionReply): - This object contains information needed to create a reply.. [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                DiscussionReplyBundle
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            return self.call_with_http_info(**kwargs)
+
+        self.create_reply = Endpoint(
+            settings={
+                'response_type': (DiscussionReplyBundle,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/reply',
+                'operation_id': 'create_reply',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'create_discussion_reply',
+                ],
+                'required': [],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'create_discussion_reply':
+                        (CreateDiscussionReply,),
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                    'create_discussion_reply': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__create_reply
+        )
 
         def __create_thread(
             self,
@@ -158,6 +278,123 @@ class DiscussionServicesApi(object):
             },
             api_client=api_client,
             callable=__create_thread
+        )
+
+        def __delete_reply(
+            self,
+            reply_id,
+            **kwargs
+        ):
+            """Delete Reply  # noqa: E501
+
+            This API is used to mark a reply as deleted.  Target users: only forum's moderator can mark a reply as deleted.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.delete_reply(reply_id, async_req=True)
+            >>> result = thread.get()
+
+            Args:
+                reply_id (str): The ID of the Reply.
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                None
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['reply_id'] = \
+                reply_id
+            return self.call_with_http_info(**kwargs)
+
+        self.delete_reply = Endpoint(
+            settings={
+                'response_type': None,
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/reply/{replyId}',
+                'operation_id': 'delete_reply',
+                'http_method': 'DELETE',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'reply_id',
+                ],
+                'required': [
+                    'reply_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'reply_id':
+                        (str,),
+                },
+                'attribute_map': {
+                    'reply_id': 'replyId',
+                },
+                'location_map': {
+                    'reply_id': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__delete_reply
         )
 
         def __delete_thread(
@@ -275,6 +512,386 @@ class DiscussionServicesApi(object):
             },
             api_client=api_client,
             callable=__delete_thread
+        )
+
+        def __get_forum(
+            self,
+            forum_id,
+            **kwargs
+        ):
+            """Get a Forum.   # noqa: E501
+
+            This API is used to get the Forum''s metadata for a given its ID.  Target users: anyone who has READ permission to the project.'   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.get_forum(forum_id, async_req=True)
+            >>> result = thread.get()
+
+            Args:
+                forum_id (str): The ID of the Forum.
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                Forum
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['forum_id'] = \
+                forum_id
+            return self.call_with_http_info(**kwargs)
+
+        self.get_forum = Endpoint(
+            settings={
+                'response_type': (Forum,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/forum/{forumId}',
+                'operation_id': 'get_forum',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'forum_id',
+                ],
+                'required': [
+                    'forum_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'forum_id':
+                        (str,),
+                },
+                'attribute_map': {
+                    'forum_id': 'forumId',
+                },
+                'location_map': {
+                    'forum_id': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_forum
+        )
+
+        def __get_forum_by_project_id(
+            self,
+            project_id,
+            **kwargs
+        ):
+            """Get the Forum of a Project.  # noqa: E501
+
+            This API is used to get the Forum's metadata for a given project ID.  Target users: anyone who has READ permission to the project.'   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.get_forum_by_project_id(project_id, async_req=True)
+            >>> result = thread.get()
+
+            Args:
+                project_id (str): The ID of a Project.
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                Forum
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['project_id'] = \
+                project_id
+            return self.call_with_http_info(**kwargs)
+
+        self.get_forum_by_project_id = Endpoint(
+            settings={
+                'response_type': (Forum,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/project/{projectId}/forum',
+                'operation_id': 'get_forum_by_project_id',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'project_id',
+                ],
+                'required': [
+                    'project_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'project_id':
+                        (str,),
+                },
+                'attribute_map': {
+                    'project_id': 'projectId',
+                },
+                'location_map': {
+                    'project_id': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_forum_by_project_id
+        )
+
+        def __get_forum_moderators(
+            self,
+            forum_id,
+            **kwargs
+        ):
+            """Returns a page of Forum moderators.  # noqa: E501
+
+            Returns a page of moderators for a given forum ID.  Target users: anyone who has READ permission to the project.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.get_forum_moderators(forum_id, async_req=True)
+            >>> result = thread.get()
+
+            Args:
+                forum_id (str): The ID of the Forum.
+
+            Keyword Args:
+                limit (int): Limits the size of the page returned.. [optional] if omitted the server will use the default value of 10
+                offset (int): The index of the pagination offset. For a page size of 10, the first page would be at offset = 0, and the second page would be at offset = 10.' . [optional] if omitted the server will use the default value of 0
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                PaginatedIds
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['forum_id'] = \
+                forum_id
+            return self.call_with_http_info(**kwargs)
+
+        self.get_forum_moderators = Endpoint(
+            settings={
+                'response_type': (PaginatedIds,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/forum/{forumId}/moderators',
+                'operation_id': 'get_forum_moderators',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'forum_id',
+                    'limit',
+                    'offset',
+                ],
+                'required': [
+                    'forum_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                    'limit',
+                    'offset',
+                ]
+            },
+            root_map={
+                'validations': {
+                    ('limit',): {
+
+                        'inclusive_maximum': 100,
+                        'inclusive_minimum': 10,
+                    },
+                    ('offset',): {
+
+                        'inclusive_minimum': 0,
+                    },
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'forum_id':
+                        (str,),
+                    'limit':
+                        (int,),
+                    'offset':
+                        (int,),
+                },
+                'attribute_map': {
+                    'forum_id': 'forumId',
+                    'limit': 'limit',
+                    'offset': 'offset',
+                },
+                'location_map': {
+                    'forum_id': 'path',
+                    'limit': 'query',
+                    'offset': 'query',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_forum_moderators
         )
 
         def __get_replies_for_thread(
@@ -453,6 +1070,125 @@ class DiscussionServicesApi(object):
             callable=__get_replies_for_thread
         )
 
+        def __get_reply(
+            self,
+            reply_id,
+            **kwargs
+        ):
+            """Get a Reply.  # noqa: E501
+
+            This API is used to get a reply and its statistic given its ID.  Target users: anyone who has READ permission to the project.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.get_reply(reply_id, async_req=True)
+            >>> result = thread.get()
+
+            Args:
+                reply_id (str): The ID of the Reply.
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                DiscussionReplyBundle
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['reply_id'] = \
+                reply_id
+            return self.call_with_http_info(**kwargs)
+
+        self.get_reply = Endpoint(
+            settings={
+                'response_type': (DiscussionReplyBundle,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/reply/{replyId}',
+                'operation_id': 'get_reply',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'reply_id',
+                ],
+                'required': [
+                    'reply_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'reply_id':
+                        (str,),
+                },
+                'attribute_map': {
+                    'reply_id': 'replyId',
+                },
+                'location_map': {
+                    'reply_id': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_reply
+        )
+
         def __get_reply_count_for_thread(
             self,
             thread_id,
@@ -589,6 +1325,125 @@ class DiscussionServicesApi(object):
             callable=__get_reply_count_for_thread
         )
 
+        def __get_reply_url(
+            self,
+            message_key,
+            **kwargs
+        ):
+            """Get the message URL of a reply.  # noqa: E501
+
+            This API is used to get the message URL of a reply. The message URL is the URL to download the file which contains the reply message.  Target users: anyone who has READ permission to the project. The resulting URL will be signed with Content-Type =\"text/plain; charset=utf-8\"; therefore, this header must be included with the GET on the URL.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.get_reply_url(message_key, async_req=True)
+            >>> result = thread.get()
+
+            Args:
+                message_key (str): DiscussionReplyBundle.messageKey
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                MessageURL
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['message_key'] = \
+                message_key
+            return self.call_with_http_info(**kwargs)
+
+        self.get_reply_url = Endpoint(
+            settings={
+                'response_type': (MessageURL,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/reply/messageUrl',
+                'operation_id': 'get_reply_url',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'message_key',
+                ],
+                'required': [
+                    'message_key',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'message_key':
+                        (str,),
+                },
+                'attribute_map': {
+                    'message_key': 'messageKey',
+                },
+                'location_map': {
+                    'message_key': 'query',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_reply_url
+        )
+
         def __get_thread(
             self,
             thread_id,
@@ -706,6 +1561,138 @@ class DiscussionServicesApi(object):
             },
             api_client=api_client,
             callable=__get_thread
+        )
+
+        def __get_thread_count(
+            self,
+            forum_id,
+            **kwargs
+        ):
+            """Get the total number of threads for a Forum.  # noqa: E501
+
+            This API is used to get the total number of threads for a given forum ID.  Target users: anyone who has READ permission to the project.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.get_thread_count(forum_id, async_req=True)
+            >>> result = thread.get()
+
+            Args:
+                forum_id (str): The ID of the Forum.
+
+            Keyword Args:
+                filter (str): Filter deleted or not deleted threads.. [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                ThreadCount
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['forum_id'] = \
+                forum_id
+            return self.call_with_http_info(**kwargs)
+
+        self.get_thread_count = Endpoint(
+            settings={
+                'response_type': (ThreadCount,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/forum/{forumId}/threadcount',
+                'operation_id': 'get_thread_count',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'forum_id',
+                    'filter',
+                ],
+                'required': [
+                    'forum_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                    'filter',
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                    ('filter',): {
+
+                        "DELETED_ONLY": "DELETED_ONLY",
+                        "EXCLUDE_DELETED": "EXCLUDE_DELETED",
+                        "NO_FILTER": "NO_FILTER"
+                    },
+                },
+                'openapi_types': {
+                    'forum_id':
+                        (str,),
+                    'filter':
+                        (str,),
+                },
+                'attribute_map': {
+                    'forum_id': 'forumId',
+                    'filter': 'filter',
+                },
+                'location_map': {
+                    'forum_id': 'path',
+                    'filter': 'query',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_thread_count
         )
 
         def __get_thread_counts(
@@ -939,6 +1926,181 @@ class DiscussionServicesApi(object):
             },
             api_client=api_client,
             callable=__get_thread_url
+        )
+
+        def __get_threads(
+            self,
+            forum_id,
+            **kwargs
+        ):
+            """Get N number of threads for a Forum.  # noqa: E501
+
+            This API is used to get N number of threads for a given forum ID.  Target users: anyone who has READ permission to the project.'   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.get_threads(forum_id, async_req=True)
+            >>> result = thread.get()
+
+            Args:
+                forum_id (str): The ID of a Forum.
+
+            Keyword Args:
+                ascending (bool): The direction of sort: true for ascending, and false for descending. [optional]
+                filter (str): Filter deleted or not deleted threads.. [optional]
+                limit (int): Limits the size of the page returned. For example, a page size of 10 require limit = 10. . [optional] if omitted the server will use the default value of 10
+                offset (float): - The index of the pagination offset. For a page size of 10, the first page would be at offset = 0, and the second page would be at offset = 10.. [optional] if omitted the server will use the default value of 0
+                sort (str): The field to sort the resulting threads on.. [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                PaginatedResultsOfDiscussionThreadBundle
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['forum_id'] = \
+                forum_id
+            return self.call_with_http_info(**kwargs)
+
+        self.get_threads = Endpoint(
+            settings={
+                'response_type': (PaginatedResultsOfDiscussionThreadBundle,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/forum/{forumId}/threads',
+                'operation_id': 'get_threads',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'forum_id',
+                    'ascending',
+                    'filter',
+                    'limit',
+                    'offset',
+                    'sort',
+                ],
+                'required': [
+                    'forum_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                    'filter',
+                    'sort',
+                ],
+                'validation': [
+                    'limit',
+                    'offset',
+                ]
+            },
+            root_map={
+                'validations': {
+                    ('limit',): {
+
+                        'inclusive_maximum': 20,
+                        'inclusive_minimum': 10,
+                    },
+                    ('offset',): {
+
+                        'inclusive_minimum': 0,
+                    },
+                },
+                'allowed_values': {
+                    ('filter',): {
+
+                        "DELETED_ONLY": "DELETED_ONLY",
+                        "EXCLUDE_DELETED": "EXCLUDE_DELETED",
+                        "NO_FILTER": "NO_FILTER"
+                    },
+                    ('sort',): {
+
+                        "NUMBER_OF_REPLIES": "NUMBER_OF_REPLIES",
+                        "NUMBER_OF_VIEWS": "NUMBER_OF_VIEWS",
+                        "PINNED_AND_LAST_ACTIVITY": "PINNED_AND_LAST_ACTIVITY",
+                        "THREAD_TITLE": "THREAD_TITLE"
+                    },
+                },
+                'openapi_types': {
+                    'forum_id':
+                        (str,),
+                    'ascending':
+                        (bool,),
+                    'filter':
+                        (str,),
+                    'limit':
+                        (int,),
+                    'offset':
+                        (float,),
+                    'sort':
+                        (str,),
+                },
+                'attribute_map': {
+                    'forum_id': 'forumId',
+                    'ascending': 'ascending',
+                    'filter': 'filter',
+                    'limit': 'limit',
+                    'offset': 'offset',
+                    'sort': 'sort',
+                },
+                'location_map': {
+                    'forum_id': 'path',
+                    'ascending': 'query',
+                    'filter': 'query',
+                    'limit': 'query',
+                    'offset': 'query',
+                    'sort': 'query',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_threads
         )
 
         def __get_threads_for_entity(
@@ -1454,6 +2616,132 @@ class DiscussionServicesApi(object):
             },
             api_client=api_client,
             callable=__unpin_thread
+        )
+
+        def __update_reply_message(
+            self,
+            reply_id,
+            **kwargs
+        ):
+            """Update the message of a reply.  # noqa: E501
+
+            This API is used to update the message of a reply.  Target users: only the author of the reply can update its message.'   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.update_reply_message(reply_id, async_req=True)
+            >>> result = thread.get()
+
+            Args:
+                reply_id (str): The ID of the Reply.
+
+            Keyword Args:
+                update_reply_message (UpdateReplyMessage): [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                DiscussionReplyBundle
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['reply_id'] = \
+                reply_id
+            return self.call_with_http_info(**kwargs)
+
+        self.update_reply_message = Endpoint(
+            settings={
+                'response_type': (DiscussionReplyBundle,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/reply/{replyId}/message',
+                'operation_id': 'update_reply_message',
+                'http_method': 'PUT',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'reply_id',
+                    'update_reply_message',
+                ],
+                'required': [
+                    'reply_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'reply_id':
+                        (str,),
+                    'update_reply_message':
+                        (UpdateReplyMessage,),
+                },
+                'attribute_map': {
+                    'reply_id': 'replyId',
+                },
+                'location_map': {
+                    'reply_id': 'path',
+                    'update_reply_message': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__update_reply_message
         )
 
         def __update_thread_message(

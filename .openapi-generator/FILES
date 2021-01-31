@@ -27,6 +27,7 @@ docs/ChallengeTeamPagedResults.md
 docs/ColumnModel.md
 docs/ColumnType.md
 docs/Count.md
+docs/CreateDiscussionReply.md
 docs/CreateDiscussionThread.md
 docs/CsvTableDescriptor.md
 docs/DataType.md
@@ -86,6 +87,7 @@ docs/FormData.md
 docs/FormGroup.md
 docs/FormRejection.md
 docs/FormServicesApi.md
+docs/Forum.md
 docs/IdList.md
 docs/JoinTeamSignedToken.md
 docs/JsonSchemaObjectBinding.md
@@ -183,8 +185,10 @@ docs/TeamMember.md
 docs/TeamMembershipStatus.md
 docs/TeamServicesApi.md
 docs/TeamSubmissionEligibility.md
+docs/ThreadCount.md
 docs/TrashServicesApi.md
 docs/TrashedEntity.md
+docs/UpdateReplyMessage.md
 docs/UpdateThreadMessage.md
 docs/UpdateThreadTitle.md
 docs/Used.md
@@ -256,6 +260,7 @@ synclient/model/challenge_team_paged_results.py
 synclient/model/column_model.py
 synclient/model/column_type.py
 synclient/model/count.py
+synclient/model/create_discussion_reply.py
 synclient/model/create_discussion_thread.py
 synclient/model/csv_table_descriptor.py
 synclient/model/data_type.py
@@ -308,6 +313,7 @@ synclient/model/form_change_request.py
 synclient/model/form_data.py
 synclient/model/form_group.py
 synclient/model/form_rejection.py
+synclient/model/forum.py
 synclient/model/id_list.py
 synclient/model/join_team_signed_token.py
 synclient/model/json_schema_object_binding.py
@@ -400,7 +406,9 @@ synclient/model/team.py
 synclient/model/team_member.py
 synclient/model/team_membership_status.py
 synclient/model/team_submission_eligibility.py
+synclient/model/thread_count.py
 synclient/model/trashed_entity.py
+synclient/model/update_reply_message.py
 synclient/model/update_thread_message.py
 synclient/model/update_thread_title.py
 synclient/model/used.py
@@ -426,4 +434,8 @@ synclient/models/__init__.py
 synclient/rest.py
 test-requirements.txt
 test/__init__.py
+test/test_create_discussion_reply.py
+test/test_forum.py
+test/test_thread_count.py
+test/test_update_reply_message.py
 tox.ini

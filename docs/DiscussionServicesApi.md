@@ -4,20 +4,108 @@ All URIs are relative to *https://repo-prod.prod.sagebase.org/repo/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**create_reply**](DiscussionServicesApi.md#create_reply) | **POST** /reply | Create a new reply to a thread.
 [**create_thread**](DiscussionServicesApi.md#create_thread) | **POST** /thread | Create a new thread in a forum.
+[**delete_reply**](DiscussionServicesApi.md#delete_reply) | **DELETE** /reply/{replyId} | Delete Reply
 [**delete_thread**](DiscussionServicesApi.md#delete_thread) | **DELETE** /thread/{threadId} | Delete a Thread.
+[**get_forum**](DiscussionServicesApi.md#get_forum) | **GET** /forum/{forumId} | Get a Forum. 
+[**get_forum_by_project_id**](DiscussionServicesApi.md#get_forum_by_project_id) | **GET** /project/{projectId}/forum | Get the Forum of a Project.
+[**get_forum_moderators**](DiscussionServicesApi.md#get_forum_moderators) | **GET** /forum/{forumId}/moderators | Returns a page of Forum moderators.
 [**get_replies_for_thread**](DiscussionServicesApi.md#get_replies_for_thread) | **GET** /thread/{threadId}/replies | Get N number of replies for a given thread ID.
+[**get_reply**](DiscussionServicesApi.md#get_reply) | **GET** /reply/{replyId} | Get a Reply.
 [**get_reply_count_for_thread**](DiscussionServicesApi.md#get_reply_count_for_thread) | **GET** /thread/{threadId}/replycount | Get the total number of replies for a given Thread. 
+[**get_reply_url**](DiscussionServicesApi.md#get_reply_url) | **GET** /reply/messageUrl | Get the message URL of a reply.
 [**get_thread**](DiscussionServicesApi.md#get_thread) | **GET** /thread/{threadId} | Get a thread.
+[**get_thread_count**](DiscussionServicesApi.md#get_thread_count) | **GET** /forum/{forumId}/threadcount | Get the total number of threads for a Forum.
 [**get_thread_counts**](DiscussionServicesApi.md#get_thread_counts) | **POST** /entity/threadcounts | Get number of threads that belong to projects user can view and references the given entity. 
 [**get_thread_url**](DiscussionServicesApi.md#get_thread_url) | **GET** /thread/messageUrl | Get the message URL of a thread.
+[**get_threads**](DiscussionServicesApi.md#get_threads) | **GET** /forum/{forumId}/threads | Get N number of threads for a Forum.
 [**get_threads_for_entity**](DiscussionServicesApi.md#get_threads_for_entity) | **GET** /entity/{id}/threads | This API is used to get N number of threads that belongs to projects user can view and references the given entity. 
 [**pin_thread**](DiscussionServicesApi.md#pin_thread) | **PUT** /thread/{threadId}/pin | Pin a Thread.
 [**restore_deleted_thread**](DiscussionServicesApi.md#restore_deleted_thread) | **PUT** /thread/{threadId}/restore | Restore a deleted thread.
 [**unpin_thread**](DiscussionServicesApi.md#unpin_thread) | **PUT** /thread/{threadId}/unpin | Unpin a thread.
+[**update_reply_message**](DiscussionServicesApi.md#update_reply_message) | **PUT** /reply/{replyId}/message | Update the message of a reply.
 [**update_thread_message**](DiscussionServicesApi.md#update_thread_message) | **PUT** /thread/{threadId}/message | Update the message of a thread.
 [**update_thread_title**](DiscussionServicesApi.md#update_thread_title) | **PUT** /thread/{threadId}/title | Update the title of a Thread.
 
+
+# **create_reply**
+> DiscussionReplyBundle create_reply()
+
+Create a new reply to a thread.
+
+This API is used to create a new reply to a thread.  Target users: anyone who has READ permission to the project. 
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+```python
+import time
+import synclient
+from synclient.api import discussion_services_api
+from synclient.model.create_discussion_reply import CreateDiscussionReply
+from synclient.model.discussion_reply_bundle import DiscussionReplyBundle
+from pprint import pprint
+# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = synclient.Configuration(
+    host = "https://repo-prod.prod.sagebase.org/repo/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = synclient.Configuration(
+    access_token = 'YOUR_BEARER_TOKEN'
+)
+
+# Enter a context with an instance of the API client
+with synclient.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = discussion_services_api.DiscussionServicesApi(api_client)
+    create_discussion_reply = CreateDiscussionReply(
+        message_markdown="message_markdown_example",
+        thread_id="thread_id_example",
+    ) # CreateDiscussionReply | - This object contains information needed to create a reply. (optional)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
+    try:
+        # Create a new reply to a thread.
+        api_response = api_instance.create_reply(create_discussion_reply=create_discussion_reply)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling DiscussionServicesApi->create_reply: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **create_discussion_reply** | [**CreateDiscussionReply**](CreateDiscussionReply.md)| - This object contains information needed to create a reply. | [optional]
+
+### Return type
+
+[**DiscussionReplyBundle**](DiscussionReplyBundle.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**201** | Success |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_thread**
 > DiscussionThreadBundle create_thread()
@@ -98,6 +186,77 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **delete_reply**
+> delete_reply(reply_id)
+
+Delete Reply
+
+This API is used to mark a reply as deleted.  Target users: only forum's moderator can mark a reply as deleted. 
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+```python
+import time
+import synclient
+from synclient.api import discussion_services_api
+from pprint import pprint
+# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = synclient.Configuration(
+    host = "https://repo-prod.prod.sagebase.org/repo/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = synclient.Configuration(
+    access_token = 'YOUR_BEARER_TOKEN'
+)
+
+# Enter a context with an instance of the API client
+with synclient.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = discussion_services_api.DiscussionServicesApi(api_client)
+    reply_id = "replyId_example" # str | The ID of the Reply.
+
+    # example passing only required values which don't have defaults set
+    try:
+        # Delete Reply
+        api_instance.delete_reply(reply_id)
+    except synclient.ApiException as e:
+        print("Exception when calling DiscussionServicesApi->delete_reply: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **reply_id** | **str**| The ID of the Reply. |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | This resource was deleted. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **delete_thread**
 > delete_thread(thread_id)
 
@@ -166,6 +325,238 @@ void (empty response body)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **204** | The resource has been deleted. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_forum**
+> Forum get_forum(forum_id)
+
+Get a Forum. 
+
+This API is used to get the Forum''s metadata for a given its ID.  Target users: anyone who has READ permission to the project.' 
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+```python
+import time
+import synclient
+from synclient.api import discussion_services_api
+from synclient.model.forum import Forum
+from pprint import pprint
+# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = synclient.Configuration(
+    host = "https://repo-prod.prod.sagebase.org/repo/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = synclient.Configuration(
+    access_token = 'YOUR_BEARER_TOKEN'
+)
+
+# Enter a context with an instance of the API client
+with synclient.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = discussion_services_api.DiscussionServicesApi(api_client)
+    forum_id = "forumId_example" # str | The ID of the Forum.
+
+    # example passing only required values which don't have defaults set
+    try:
+        # Get a Forum. 
+        api_response = api_instance.get_forum(forum_id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling DiscussionServicesApi->get_forum: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **forum_id** | **str**| The ID of the Forum. |
+
+### Return type
+
+[**Forum**](Forum.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_forum_by_project_id**
+> Forum get_forum_by_project_id(project_id)
+
+Get the Forum of a Project.
+
+This API is used to get the Forum's metadata for a given project ID.  Target users: anyone who has READ permission to the project.' 
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+```python
+import time
+import synclient
+from synclient.api import discussion_services_api
+from synclient.model.forum import Forum
+from pprint import pprint
+# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = synclient.Configuration(
+    host = "https://repo-prod.prod.sagebase.org/repo/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = synclient.Configuration(
+    access_token = 'YOUR_BEARER_TOKEN'
+)
+
+# Enter a context with an instance of the API client
+with synclient.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = discussion_services_api.DiscussionServicesApi(api_client)
+    project_id = "projectId_example" # str | The ID of a Project.
+
+    # example passing only required values which don't have defaults set
+    try:
+        # Get the Forum of a Project.
+        api_response = api_instance.get_forum_by_project_id(project_id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling DiscussionServicesApi->get_forum_by_project_id: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **project_id** | **str**| The ID of a Project. |
+
+### Return type
+
+[**Forum**](Forum.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_forum_moderators**
+> PaginatedIds get_forum_moderators(forum_id)
+
+Returns a page of Forum moderators.
+
+Returns a page of moderators for a given forum ID.  Target users: anyone who has READ permission to the project. 
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+```python
+import time
+import synclient
+from synclient.api import discussion_services_api
+from synclient.model.paginated_ids import PaginatedIds
+from pprint import pprint
+# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = synclient.Configuration(
+    host = "https://repo-prod.prod.sagebase.org/repo/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = synclient.Configuration(
+    access_token = 'YOUR_BEARER_TOKEN'
+)
+
+# Enter a context with an instance of the API client
+with synclient.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = discussion_services_api.DiscussionServicesApi(api_client)
+    forum_id = "forumId_example" # str | The ID of the Forum.
+    limit = 10 # int | Limits the size of the page returned. (optional) if omitted the server will use the default value of 10
+    offset = 0 # int | The index of the pagination offset. For a page size of 10, the first page would be at offset = 0, and the second page would be at offset = 10.'  (optional) if omitted the server will use the default value of 0
+
+    # example passing only required values which don't have defaults set
+    try:
+        # Returns a page of Forum moderators.
+        api_response = api_instance.get_forum_moderators(forum_id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling DiscussionServicesApi->get_forum_moderators: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
+    try:
+        # Returns a page of Forum moderators.
+        api_response = api_instance.get_forum_moderators(forum_id, limit=limit, offset=offset)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling DiscussionServicesApi->get_forum_moderators: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **forum_id** | **str**| The ID of the Forum. |
+ **limit** | **int**| Limits the size of the page returned. | [optional] if omitted the server will use the default value of 10
+ **offset** | **int**| The index of the pagination offset. For a page size of 10, the first page would be at offset &#x3D; 0, and the second page would be at offset &#x3D; 10.&#39;  | [optional] if omitted the server will use the default value of 0
+
+### Return type
+
+[**PaginatedIds**](PaginatedIds.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -261,6 +652,79 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **get_reply**
+> DiscussionReplyBundle get_reply(reply_id)
+
+Get a Reply.
+
+This API is used to get a reply and its statistic given its ID.  Target users: anyone who has READ permission to the project. 
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+```python
+import time
+import synclient
+from synclient.api import discussion_services_api
+from synclient.model.discussion_reply_bundle import DiscussionReplyBundle
+from pprint import pprint
+# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = synclient.Configuration(
+    host = "https://repo-prod.prod.sagebase.org/repo/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = synclient.Configuration(
+    access_token = 'YOUR_BEARER_TOKEN'
+)
+
+# Enter a context with an instance of the API client
+with synclient.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = discussion_services_api.DiscussionServicesApi(api_client)
+    reply_id = "replyId_example" # str | The ID of the Reply.
+
+    # example passing only required values which don't have defaults set
+    try:
+        # Get a Reply.
+        api_response = api_instance.get_reply(reply_id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling DiscussionServicesApi->get_reply: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **reply_id** | **str**| The ID of the Reply. |
+
+### Return type
+
+[**DiscussionReplyBundle**](DiscussionReplyBundle.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **get_reply_count_for_thread**
 > ReplyCount get_reply_count_for_thread(thread_id, filter)
 
@@ -336,6 +800,79 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **get_reply_url**
+> MessageURL get_reply_url(message_key)
+
+Get the message URL of a reply.
+
+This API is used to get the message URL of a reply. The message URL is the URL to download the file which contains the reply message.  Target users: anyone who has READ permission to the project. The resulting URL will be signed with Content-Type =\"text/plain; charset=utf-8\"; therefore, this header must be included with the GET on the URL. 
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+```python
+import time
+import synclient
+from synclient.api import discussion_services_api
+from synclient.model.message_url import MessageURL
+from pprint import pprint
+# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = synclient.Configuration(
+    host = "https://repo-prod.prod.sagebase.org/repo/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = synclient.Configuration(
+    access_token = 'YOUR_BEARER_TOKEN'
+)
+
+# Enter a context with an instance of the API client
+with synclient.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = discussion_services_api.DiscussionServicesApi(api_client)
+    message_key = "messageKey_example" # str | DiscussionReplyBundle.messageKey
+
+    # example passing only required values which don't have defaults set
+    try:
+        # Get the message URL of a reply.
+        api_response = api_instance.get_reply_url(message_key)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling DiscussionServicesApi->get_reply_url: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **message_key** | **str**| DiscussionReplyBundle.messageKey |
+
+### Return type
+
+[**MessageURL**](MessageURL.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **get_thread**
 > DiscussionThreadBundle get_thread(thread_id)
 
@@ -392,6 +929,90 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**DiscussionThreadBundle**](DiscussionThreadBundle.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_thread_count**
+> ThreadCount get_thread_count(forum_id)
+
+Get the total number of threads for a Forum.
+
+This API is used to get the total number of threads for a given forum ID.  Target users: anyone who has READ permission to the project. 
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+```python
+import time
+import synclient
+from synclient.api import discussion_services_api
+from synclient.model.thread_count import ThreadCount
+from pprint import pprint
+# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = synclient.Configuration(
+    host = "https://repo-prod.prod.sagebase.org/repo/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = synclient.Configuration(
+    access_token = 'YOUR_BEARER_TOKEN'
+)
+
+# Enter a context with an instance of the API client
+with synclient.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = discussion_services_api.DiscussionServicesApi(api_client)
+    forum_id = "forumId_example" # str | The ID of the Forum.
+    filter = "DELETED_ONLY" # str | Filter deleted or not deleted threads. (optional)
+
+    # example passing only required values which don't have defaults set
+    try:
+        # Get the total number of threads for a Forum.
+        api_response = api_instance.get_thread_count(forum_id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling DiscussionServicesApi->get_thread_count: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
+    try:
+        # Get the total number of threads for a Forum.
+        api_response = api_instance.get_thread_count(forum_id, filter=filter)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling DiscussionServicesApi->get_thread_count: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **forum_id** | **str**| The ID of the Forum. |
+ **filter** | **str**| Filter deleted or not deleted threads. | [optional]
+
+### Return type
+
+[**ThreadCount**](ThreadCount.md)
 
 ### Authorization
 
@@ -544,6 +1165,98 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**MessageURL**](MessageURL.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_threads**
+> PaginatedResultsOfDiscussionThreadBundle get_threads(forum_id)
+
+Get N number of threads for a Forum.
+
+This API is used to get N number of threads for a given forum ID.  Target users: anyone who has READ permission to the project.' 
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+```python
+import time
+import synclient
+from synclient.api import discussion_services_api
+from synclient.model.paginated_results_of_discussion_thread_bundle import PaginatedResultsOfDiscussionThreadBundle
+from pprint import pprint
+# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = synclient.Configuration(
+    host = "https://repo-prod.prod.sagebase.org/repo/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = synclient.Configuration(
+    access_token = 'YOUR_BEARER_TOKEN'
+)
+
+# Enter a context with an instance of the API client
+with synclient.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = discussion_services_api.DiscussionServicesApi(api_client)
+    forum_id = "forumId_example" # str | The ID of a Forum.
+    ascending = True # bool | The direction of sort: true for ascending, and false for descending (optional)
+    filter = "DELETED_ONLY" # str | Filter deleted or not deleted threads. (optional)
+    limit = 10 # int | Limits the size of the page returned. For example, a page size of 10 require limit = 10.  (optional) if omitted the server will use the default value of 10
+    offset = 0 # float | - The index of the pagination offset. For a page size of 10, the first page would be at offset = 0, and the second page would be at offset = 10. (optional) if omitted the server will use the default value of 0
+    sort = "NUMBER_OF_REPLIES" # str | The field to sort the resulting threads on. (optional)
+
+    # example passing only required values which don't have defaults set
+    try:
+        # Get N number of threads for a Forum.
+        api_response = api_instance.get_threads(forum_id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling DiscussionServicesApi->get_threads: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
+    try:
+        # Get N number of threads for a Forum.
+        api_response = api_instance.get_threads(forum_id, ascending=ascending, filter=filter, limit=limit, offset=offset, sort=sort)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling DiscussionServicesApi->get_threads: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **forum_id** | **str**| The ID of a Forum. |
+ **ascending** | **bool**| The direction of sort: true for ascending, and false for descending | [optional]
+ **filter** | **str**| Filter deleted or not deleted threads. | [optional]
+ **limit** | **int**| Limits the size of the page returned. For example, a page size of 10 require limit &#x3D; 10.  | [optional] if omitted the server will use the default value of 10
+ **offset** | **float**| - The index of the pagination offset. For a page size of 10, the first page would be at offset &#x3D; 0, and the second page would be at offset &#x3D; 10. | [optional] if omitted the server will use the default value of 0
+ **sort** | **str**| The field to sort the resulting threads on. | [optional]
+
+### Return type
+
+[**PaginatedResultsOfDiscussionThreadBundle**](PaginatedResultsOfDiscussionThreadBundle.md)
 
 ### Authorization
 
@@ -862,6 +1575,93 @@ void (empty response body)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **204** | Success |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **update_reply_message**
+> DiscussionReplyBundle update_reply_message(reply_id)
+
+Update the message of a reply.
+
+This API is used to update the message of a reply.  Target users: only the author of the reply can update its message.' 
+
+### Example
+
+* Bearer (JWT) Authentication (bearerAuth):
+```python
+import time
+import synclient
+from synclient.api import discussion_services_api
+from synclient.model.update_reply_message import UpdateReplyMessage
+from synclient.model.discussion_reply_bundle import DiscussionReplyBundle
+from pprint import pprint
+# Defining the host is optional and defaults to https://repo-prod.prod.sagebase.org/repo/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = synclient.Configuration(
+    host = "https://repo-prod.prod.sagebase.org/repo/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = synclient.Configuration(
+    access_token = 'YOUR_BEARER_TOKEN'
+)
+
+# Enter a context with an instance of the API client
+with synclient.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = discussion_services_api.DiscussionServicesApi(api_client)
+    reply_id = "replyId_example" # str | The ID of the Reply.
+    update_reply_message = UpdateReplyMessage(
+        message_markdown="message_markdown_example",
+    ) # UpdateReplyMessage |  (optional)
+
+    # example passing only required values which don't have defaults set
+    try:
+        # Update the message of a reply.
+        api_response = api_instance.update_reply_message(reply_id)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling DiscussionServicesApi->update_reply_message: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
+    try:
+        # Update the message of a reply.
+        api_response = api_instance.update_reply_message(reply_id, update_reply_message=update_reply_message)
+        pprint(api_response)
+    except synclient.ApiException as e:
+        print("Exception when calling DiscussionServicesApi->update_reply_message: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **reply_id** | **str**| The ID of the Reply. |
+ **update_reply_message** | [**UpdateReplyMessage**](UpdateReplyMessage.md)|  | [optional]
+
+### Return type
+
+[**DiscussionReplyBundle**](DiscussionReplyBundle.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**201** | Success |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

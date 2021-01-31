@@ -31,6 +31,7 @@ from synclient.model.challenge_team_paged_results import ChallengeTeamPagedResul
 from synclient.model.column_model import ColumnModel
 from synclient.model.column_type import ColumnType
 from synclient.model.count import Count
+from synclient.model.create_discussion_reply import CreateDiscussionReply
 from synclient.model.create_discussion_thread import CreateDiscussionThread
 from synclient.model.csv_table_descriptor import CsvTableDescriptor
 from synclient.model.data_type import DataType
@@ -83,6 +84,7 @@ from synclient.model.form_change_request import FormChangeRequest
 from synclient.model.form_data import FormData
 from synclient.model.form_group import FormGroup
 from synclient.model.form_rejection import FormRejection
+from synclient.model.forum import Forum
 from synclient.model.id_list import IdList
 from synclient.model.join_team_signed_token import JoinTeamSignedToken
 from synclient.model.json_schema_object_binding import JsonSchemaObjectBinding
@@ -175,7 +177,9 @@ from synclient.model.team import Team
 from synclient.model.team_member import TeamMember
 from synclient.model.team_membership_status import TeamMembershipStatus
 from synclient.model.team_submission_eligibility import TeamSubmissionEligibility
+from synclient.model.thread_count import ThreadCount
 from synclient.model.trashed_entity import TrashedEntity
+from synclient.model.update_reply_message import UpdateReplyMessage
 from synclient.model.update_thread_message import UpdateThreadMessage
 from synclient.model.update_thread_title import UpdateThreadTitle
 from synclient.model.used import Used
