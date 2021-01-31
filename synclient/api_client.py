@@ -755,10 +755,10 @@ class Endpoint(object):
         Example:
 
         api_instance = AccessApprovalServicesApi()
-        api_instance.get_team_access_approvals  # this is an instance of the class Endpoint
-        api_instance.get_team_access_approvals()  # this invokes api_instance.get_team_access_approvals.__call__()
+        api_instance.create_access_approval  # this is an instance of the class Endpoint
+        api_instance.create_access_approval()  # this invokes api_instance.create_access_approval.__call__()
         which then invokes the callable functions stored in that endpoint at
-        api_instance.get_team_access_approvals.callable or self.callable in this class
+        api_instance.create_access_approval.callable or self.callable in this class
 
         """
         return self.callable(self, *args, **kwargs)

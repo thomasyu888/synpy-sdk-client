@@ -10,16 +10,27 @@
 # sys.setrecursionlimit(n)
 
 from synclient.model.accesstype import ACCESSTYPE
+from synclient.model.access_approval import AccessApproval
+from synclient.model.access_approval_info import AccessApprovalInfo
+from synclient.model.access_approval_notification import AccessApprovalNotification
+from synclient.model.access_approval_notification_request import AccessApprovalNotificationRequest
+from synclient.model.access_approval_notification_response import AccessApprovalNotificationResponse
 from synclient.model.access_control_list import AccessControlList
 from synclient.model.access_requirement import AccessRequirement
+from synclient.model.accessor_group import AccessorGroup
+from synclient.model.accessor_group_request import AccessorGroupRequest
+from synclient.model.accessor_group_response import AccessorGroupResponse
 from synclient.model.activity import Activity
 from synclient.model.alias_list import AliasList
 from synclient.model.annotations_annotation import AnnotationsAnnotation
 from synclient.model.annotations_v2 import AnnotationsV2
 from synclient.model.annotations_value import AnnotationsValue
 from synclient.model.annotations_value_type import AnnotationsValueType
+from synclient.model.approval_state import ApprovalState
 from synclient.model.async_job_id import AsyncJobId
 from synclient.model.attachment_metadata import AttachmentMetadata
+from synclient.model.batch_access_approval_info_request import BatchAccessApprovalInfoRequest
+from synclient.model.batch_access_approval_info_response import BatchAccessApprovalInfoResponse
 from synclient.model.batch_upload_response import BatchUploadResponse
 from synclient.model.bind_schema_to_entity_request import BindSchemaToEntityRequest
 from synclient.model.boolean_result import BooleanResult
@@ -103,6 +114,7 @@ from synclient.model.membership_request import MembershipRequest
 from synclient.model.message_to_user import MessageToUser
 from synclient.model.message_url import MessageURL
 from synclient.model.name_identifier_scheme import NameIdentifierScheme
+from synclient.model.notification_type import NotificationType
 from synclient.model.object_type import ObjectType
 from synclient.model.object_type_schema import ObjectTypeSchema
 from synclient.model.paginated_column_models import PaginatedColumnModels
