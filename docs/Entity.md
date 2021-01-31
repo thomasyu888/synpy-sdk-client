@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **id** | **str** | The unique immutable ID for this entity. A new ID will be generated for new Entities. Once issued, this ID is guaranteed to never change or be re-issued  | [optional] 
 **modified_by** | **str** | The ID of the user that last modified this entity. | [optional] 
 **modified_on** | **str** | The date this entity was last modified. | [optional] 
-**name** | **str** | The name of this entity. Must be 256 characters or less. Names may only contain: letters, numbers, spaces, underscores, hyphens, periods, plus signs, apostrophes, and parentheses  | [optional] 
+**name** | **str** | The name of this entity. Names may only contain: letters, numbers, spaces, underscores, hyphens, periods, plus signs, apostrophes, and parentheses  | [optional] 
 **parent_id** | **str** | The ID of the Entity that is the parent of this Entity. | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
