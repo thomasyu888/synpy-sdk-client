@@ -685,7 +685,7 @@ class EntityServicesApi(object):
             callable=__create_entity_acl
         )
 
-        def __delete_activity(
+        def __delete_activity_for_entity(
             self,
             id,
             **kwargs
@@ -696,7 +696,7 @@ class EntityServicesApi(object):
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
 
-            >>> thread = api.delete_activity(id, async_req=True)
+            >>> thread = api.delete_activity_for_entity(id, async_req=True)
             >>> result = thread.get()
 
             Args:
@@ -752,14 +752,14 @@ class EntityServicesApi(object):
                 id
             return self.call_with_http_info(**kwargs)
 
-        self.delete_activity = Endpoint(
+        self.delete_activity_for_entity = Endpoint(
             settings={
                 'response_type': None,
                 'auth': [
                     'bearerAuth'
                 ],
                 'endpoint_path': '/entity/{id}/generatedBy',
-                'operation_id': 'delete_activity',
+                'operation_id': 'delete_activity_for_entity',
                 'http_method': 'DELETE',
                 'servers': None,
             },
@@ -806,7 +806,7 @@ class EntityServicesApi(object):
                 ]
             },
             api_client=api_client,
-            callable=__delete_activity
+            callable=__delete_activity_for_entity
         )
 
         def __delete_entity(
@@ -1332,7 +1332,7 @@ class EntityServicesApi(object):
             callable=__file_preview_redirect_url_for_version
         )
 
-        def __get_activity(
+        def __get_activity_for_entity(
             self,
             id,
             **kwargs
@@ -1343,7 +1343,7 @@ class EntityServicesApi(object):
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
 
-            >>> thread = api.get_activity(id, async_req=True)
+            >>> thread = api.get_activity_for_entity(id, async_req=True)
             >>> result = thread.get()
 
             Args:
@@ -1399,14 +1399,14 @@ class EntityServicesApi(object):
                 id
             return self.call_with_http_info(**kwargs)
 
-        self.get_activity = Endpoint(
+        self.get_activity_for_entity = Endpoint(
             settings={
                 'response_type': (Activity,),
                 'auth': [
                     'bearerAuth'
                 ],
                 'endpoint_path': '/entity/{id}/generatedBy',
-                'operation_id': 'get_activity',
+                'operation_id': 'get_activity_for_entity',
                 'http_method': 'GET',
                 'servers': None,
             },
@@ -1455,7 +1455,7 @@ class EntityServicesApi(object):
                 ]
             },
             api_client=api_client,
-            callable=__get_activity
+            callable=__get_activity_for_entity
         )
 
         def __get_activity_for_entity_version(
@@ -4811,7 +4811,7 @@ class EntityServicesApi(object):
 
             Args:
                 id (str): The ID of an Entity.
-                generated_by (str): The id of the activity to connect to the entity. You must be the creator of the <a href=\"${org.sagebionetworks.repo.model.provenance.Activity}\">Activity</a> used here.' 
+                generated_by (str): The id of the activity to connect to the entity. You must be the creator of the Activity used here.' 
 
             Keyword Args:
                 body ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}): Sets the generatedBy relationship for the current version of an Entity.. [optional]

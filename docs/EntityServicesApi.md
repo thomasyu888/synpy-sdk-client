@@ -9,12 +9,12 @@ Method | HTTP request | Description
 [**clear_bound_schema**](EntityServicesApi.md#clear_bound_schema) | **DELETE** /entity/{id}/schema/binding | Clear the bound JSON schema from this Entity.
 [**create_entity**](EntityServicesApi.md#create_entity) | **POST** /entity | Create a new Entity.
 [**create_entity_acl**](EntityServicesApi.md#create_entity_acl) | **POST** /entity/{id}/acl | Create a new Access Control List (ACL), overriding inheritance.
-[**delete_activity**](EntityServicesApi.md#delete_activity) | **DELETE** /entity/{id}/generatedBy | Deletes the activity relationship for the current version of an Entity.
+[**delete_activity_for_entity**](EntityServicesApi.md#delete_activity_for_entity) | **DELETE** /entity/{id}/generatedBy | Deletes the activity relationship for the current version of an Entity.
 [**delete_entity**](EntityServicesApi.md#delete_entity) | **DELETE** /entity/{id} | Deletes an Entity
 [**delete_entity_acl**](EntityServicesApi.md#delete_entity_acl) | **DELETE** /entity/{id}/acl | Delete the Access Control List (ACL) for a given Entity.
 [**delete_entity_version**](EntityServicesApi.md#delete_entity_version) | **DELETE** /entity/{id}/version/{versionNumber} | Delete a specific version of a FileEntity.
 [**file_preview_redirect_url_for_version**](EntityServicesApi.md#file_preview_redirect_url_for_version) | **GET** /entity/{id}/version/{versionNumber}/filepreview | Get the URL of the preview file associated with a specific version of a FileEntity. 
-[**get_activity**](EntityServicesApi.md#get_activity) | **GET** /entity/{id}/generatedBy | Get an existing activity for the current version of an Entity.
+[**get_activity_for_entity**](EntityServicesApi.md#get_activity_for_entity) | **GET** /entity/{id}/generatedBy | Get an existing activity for the current version of an Entity.
 [**get_activity_for_entity_version**](EntityServicesApi.md#get_activity_for_entity_version) | **GET** /entity/{id}/version/{versionNumber}/generatedBy | Get an existing activity for a specific version of an Entity.
 [**get_all_versions_of_entity**](EntityServicesApi.md#get_all_versions_of_entity) | **GET** /entity/{id}/version | Get all versions of an Entity one page at a time.
 [**get_bound_json_schema**](EntityServicesApi.md#get_bound_json_schema) | **GET** /entity/{id}/schema/binding | Get information about a JSON schema bound to an Entity.
@@ -470,8 +470,8 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **delete_activity**
-> delete_activity(id)
+# **delete_activity_for_entity**
+> delete_activity_for_entity(id)
 
 Deletes the activity relationship for the current version of an Entity.
 
@@ -511,17 +511,17 @@ with synclient.ApiClient(configuration) as api_client:
     # example passing only required values which don't have defaults set
     try:
         # Deletes the activity relationship for the current version of an Entity.
-        api_instance.delete_activity(id)
+        api_instance.delete_activity_for_entity(id)
     except synclient.ApiException as e:
-        print("Exception when calling EntityServicesApi->delete_activity: %s\n" % e)
+        print("Exception when calling EntityServicesApi->delete_activity_for_entity: %s\n" % e)
 
     # example passing only required values which don't have defaults set
     # and optional values
     try:
         # Deletes the activity relationship for the current version of an Entity.
-        api_instance.delete_activity(id, body=body)
+        api_instance.delete_activity_for_entity(id, body=body)
     except synclient.ApiException as e:
-        print("Exception when calling EntityServicesApi->delete_activity: %s\n" % e)
+        print("Exception when calling EntityServicesApi->delete_activity_for_entity: %s\n" % e)
 ```
 
 ### Parameters
@@ -883,8 +883,8 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **get_activity**
-> Activity get_activity(id)
+# **get_activity_for_entity**
+> Activity get_activity_for_entity(id)
 
 Get an existing activity for the current version of an Entity.
 
@@ -925,19 +925,19 @@ with synclient.ApiClient(configuration) as api_client:
     # example passing only required values which don't have defaults set
     try:
         # Get an existing activity for the current version of an Entity.
-        api_response = api_instance.get_activity(id)
+        api_response = api_instance.get_activity_for_entity(id)
         pprint(api_response)
     except synclient.ApiException as e:
-        print("Exception when calling EntityServicesApi->get_activity: %s\n" % e)
+        print("Exception when calling EntityServicesApi->get_activity_for_entity: %s\n" % e)
 
     # example passing only required values which don't have defaults set
     # and optional values
     try:
         # Get an existing activity for the current version of an Entity.
-        api_response = api_instance.get_activity(id, body=body)
+        api_response = api_instance.get_activity_for_entity(id, body=body)
         pprint(api_response)
     except synclient.ApiException as e:
-        print("Exception when calling EntityServicesApi->get_activity: %s\n" % e)
+        print("Exception when calling EntityServicesApi->get_activity_for_entity: %s\n" % e)
 ```
 
 ### Parameters
@@ -3107,7 +3107,7 @@ with synclient.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = entity_services_api.EntityServicesApi(api_client)
     id = "id_example" # str | The ID of an Entity.
-    generated_by = "generatedBy_example" # str | The id of the activity to connect to the entity. You must be the creator of the <a href=\"${org.sagebionetworks.repo.model.provenance.Activity}\">Activity</a> used here.' 
+    generated_by = "generatedBy_example" # str | The id of the activity to connect to the entity. You must be the creator of the Activity used here.' 
     body = {} # {str: (bool, date, datetime, dict, float, int, list, str, none_type)} | Sets the generatedBy relationship for the current version of an Entity. (optional)
 
     # example passing only required values which don't have defaults set
@@ -3133,7 +3133,7 @@ with synclient.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **str**| The ID of an Entity. |
- **generated_by** | **str**| The id of the activity to connect to the entity. You must be the creator of the &lt;a href&#x3D;\&quot;${org.sagebionetworks.repo.model.provenance.Activity}\&quot;&gt;Activity&lt;/a&gt; used here.&#39;  |
+ **generated_by** | **str**| The id of the activity to connect to the entity. You must be the creator of the Activity used here.&#39;  |
  **body** | **{str: (bool, date, datetime, dict, float, int, list, str, none_type)}**| Sets the generatedBy relationship for the current version of an Entity. | [optional]
 
 ### Return type

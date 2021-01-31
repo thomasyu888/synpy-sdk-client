@@ -16,6 +16,7 @@
 # Import APIs into API package:
 from synclient.api.access_approval_services_api import AccessApprovalServicesApi
 from synclient.api.access_requirement_services_api import AccessRequirementServicesApi
+from synclient.api.activity_services_api import ActivityServicesApi
 from synclient.api.certified_user_services_api import CertifiedUserServicesApi
 from synclient.api.challenge_services_api import ChallengeServicesApi
 from synclient.api.discussion_services_api import DiscussionServicesApi
