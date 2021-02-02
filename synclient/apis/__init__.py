@@ -19,6 +19,7 @@ from synclient.api.access_requirement_services_api import AccessRequirementServi
 from synclient.api.activity_services_api import ActivityServicesApi
 from synclient.api.certified_user_services_api import CertifiedUserServicesApi
 from synclient.api.challenge_services_api import ChallengeServicesApi
+from synclient.api.data_access_services_api import DataAccessServicesApi
 from synclient.api.discussion_services_api import DiscussionServicesApi
 from synclient.api.docker_commit_services_api import DockerCommitServicesApi
 from synclient.api.doi_services_api import DoiServicesApi

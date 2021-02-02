@@ -396,7 +396,11 @@ class Configuration(object):
         return [
             {
                 'url': "https://repo-prod.prod.sagebase.org/repo/v1",
-                'description': "No description provided",
+                'description': "Production server",
+            },
+            {
+                'url': "https://repo-staging.prod.sagebase.org/repo/v1",
+                'description': "Staging server",
             }
         ]
 

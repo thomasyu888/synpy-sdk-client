@@ -1,10 +1,10 @@
-# ACCESSTYPE
+# AccessType
 
-The enumeration of possible permission.
+The type of access change for this user. Users can gain access, renew access, or have access revoked.
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**value** | **str** | The enumeration of possible permission. |  must be one of ["CREATE", "READ", "UPDATE", "DELETE", "CHANGE_PERMISSIONS", "DOWNLOAD", "UPLOAD", "PARTICIPATE", "SUBMIT", "READ_PRIVATE_SUBMISSION", "UPDATE_SUBMISSION", "DELETE_SUBMISSION", "TEAM_MEMBERSHIP_UPDATE", "SEND_MESSAGE", "CHANGE_SETTINGS", "MODERATE", ]
+**value** | **str** | The type of access change for this user. Users can gain access, renew access, or have access revoked. |  must be one of ["GAIN_ACCESS", "RENEW_ACCESS", "REVOKE_ACCESS", ]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

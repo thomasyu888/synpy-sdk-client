@@ -23,7 +23,9 @@ from synclient.model_utils import (  # noqa: F401
     validate_and_convert_types
 )
 from synclient.model.access_requirement import AccessRequirement
+from synclient.model.access_requirement_conversion_request import AccessRequirementConversionRequest
 from synclient.model.paginated_results_of_access_requirement import PaginatedResultsOfAccessRequirement
+from synclient.model.restrictable_object_descriptor_response import RestrictableObjectDescriptorResponse
 
 
 class AccessRequirementServicesApi(object):
@@ -37,6 +39,234 @@ class AccessRequirementServicesApi(object):
         if api_client is None:
             api_client = ApiClient()
         self.api_client = api_client
+
+        def __convert_access_requirement(
+            self,
+            **kwargs
+        ):
+            """Convert an ACTAccessRequirement to a ManagedACTAccessRequirement.  # noqa: E501
+
+            Convert an ACTAccessRequirement to a ManagedACTAccessRequirement.  Only ACT member can perform this action.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.convert_access_requirement(async_req=True)
+            >>> result = thread.get()
+
+
+            Keyword Args:
+                access_requirement_conversion_request (AccessRequirementConversionRequest): [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                AccessRequirement
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            return self.call_with_http_info(**kwargs)
+
+        self.convert_access_requirement = Endpoint(
+            settings={
+                'response_type': (AccessRequirement,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/accessRequirement/conversion',
+                'operation_id': 'convert_access_requirement',
+                'http_method': 'PUT',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'access_requirement_conversion_request',
+                ],
+                'required': [],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'access_requirement_conversion_request':
+                        (AccessRequirementConversionRequest,),
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                    'access_requirement_conversion_request': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__convert_access_requirement
+        )
+
+        def __create_access_requirement(
+            self,
+            **kwargs
+        ):
+            """Add an Access Requirement to an Entity, or Team.  # noqa: E501
+
+            Add an Access Requirement to an Entity, or Team. This service may only be used by the Synapse Access and Compliance Team.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.create_access_requirement(async_req=True)
+            >>> result = thread.get()
+
+
+            Keyword Args:
+                access_requirement (AccessRequirement): the Access Requirement to create. [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                AccessRequirement
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            return self.call_with_http_info(**kwargs)
+
+        self.create_access_requirement = Endpoint(
+            settings={
+                'response_type': (AccessRequirement,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/accessRequirement',
+                'operation_id': 'create_access_requirement',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'access_requirement',
+                ],
+                'required': [],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'access_requirement':
+                        (AccessRequirement,),
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                    'access_requirement': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__create_access_requirement
+        )
 
         def __create_lock_access_requirement(
             self,
@@ -155,6 +385,244 @@ class AccessRequirementServicesApi(object):
             },
             api_client=api_client,
             callable=__create_lock_access_requirement
+        )
+
+        def __delete_access_requirements(
+            self,
+            requirement_id,
+            **kwargs
+        ):
+            """Delete an Access Requirement.  # noqa: E501
+
+            Delete an Access Requirement. This service may only be used by the Synapse Access and Compliance Team.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.delete_access_requirements(requirement_id, async_req=True)
+            >>> result = thread.get()
+
+            Args:
+                requirement_id (str): the ID of the requirement.
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                str
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['requirement_id'] = \
+                requirement_id
+            return self.call_with_http_info(**kwargs)
+
+        self.delete_access_requirements = Endpoint(
+            settings={
+                'response_type': (str,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/accessRequirement/{requirementId}',
+                'operation_id': 'delete_access_requirements',
+                'http_method': 'DELETE',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'requirement_id',
+                ],
+                'required': [
+                    'requirement_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'requirement_id':
+                        (str,),
+                },
+                'attribute_map': {
+                    'requirement_id': 'requirementId',
+                },
+                'location_map': {
+                    'requirement_id': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__delete_access_requirements
+        )
+
+        def __get_access_requirement(
+            self,
+            requirement_id,
+            **kwargs
+        ):
+            """Get an Access Requirement.  # noqa: E501
+
+            Get an Access Requirement to an Entity, or Team based on its ID.  # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.get_access_requirement(requirement_id, async_req=True)
+            >>> result = thread.get()
+
+            Args:
+                requirement_id (str): the ID of the requirement.
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                AccessRequirement
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['requirement_id'] = \
+                requirement_id
+            return self.call_with_http_info(**kwargs)
+
+        self.get_access_requirement = Endpoint(
+            settings={
+                'response_type': (AccessRequirement,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/accessRequirement/{requirementId}',
+                'operation_id': 'get_access_requirement',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'requirement_id',
+                ],
+                'required': [
+                    'requirement_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'requirement_id':
+                        (str,),
+                },
+                'attribute_map': {
+                    'requirement_id': 'requirementId',
+                },
+                'location_map': {
+                    'requirement_id': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_access_requirement
         )
 
         def __get_entity_access_requirements(
@@ -299,6 +767,131 @@ class AccessRequirementServicesApi(object):
             callable=__get_entity_access_requirements
         )
 
+        def __get_subjects(
+            self,
+            requirement_id,
+            **kwargs
+        ):
+            """Retrieve a page of subjects for a given Access Requirement ID.  # noqa: E501
+
+            Retrieve a page of subjects for a given Access Requirement ID.  # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.get_subjects(requirement_id, async_req=True)
+            >>> result = thread.get()
+
+            Args:
+                requirement_id (str): the ID of the requirement.
+
+            Keyword Args:
+                next_page_token (str): Next page. [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                RestrictableObjectDescriptorResponse
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['requirement_id'] = \
+                requirement_id
+            return self.call_with_http_info(**kwargs)
+
+        self.get_subjects = Endpoint(
+            settings={
+                'response_type': (RestrictableObjectDescriptorResponse,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/accessRequirement/{requirementId}/subjects',
+                'operation_id': 'get_subjects',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'requirement_id',
+                    'next_page_token',
+                ],
+                'required': [
+                    'requirement_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'requirement_id':
+                        (str,),
+                    'next_page_token':
+                        (str,),
+                },
+                'attribute_map': {
+                    'requirement_id': 'requirementId',
+                    'next_page_token': 'nextPageToken',
+                },
+                'location_map': {
+                    'requirement_id': 'path',
+                    'next_page_token': 'query',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_subjects
+        )
+
         def __get_team_access_requirements(
             self,
             id,
@@ -439,4 +1032,130 @@ class AccessRequirementServicesApi(object):
             },
             api_client=api_client,
             callable=__get_team_access_requirements
+        )
+
+        def __update_access_requirement(
+            self,
+            requirement_id,
+            **kwargs
+        ):
+            """Modify an existing Access Requirement.  # noqa: E501
+
+            Modify an existing Access Requirement.  This service may only be used by the Synapse Access and Compliance Team.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.update_access_requirement(requirement_id, async_req=True)
+            >>> result = thread.get()
+
+            Args:
+                requirement_id (str): the ID of the requirement.
+
+            Keyword Args:
+                access_requirement (AccessRequirement): The modified Access Requirement.. [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                AccessRequirement
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['requirement_id'] = \
+                requirement_id
+            return self.call_with_http_info(**kwargs)
+
+        self.update_access_requirement = Endpoint(
+            settings={
+                'response_type': (AccessRequirement,),
+                'auth': [
+                    'bearerAuth'
+                ],
+                'endpoint_path': '/accessRequirement/{requirementId}',
+                'operation_id': 'update_access_requirement',
+                'http_method': 'PUT',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'requirement_id',
+                    'access_requirement',
+                ],
+                'required': [
+                    'requirement_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'requirement_id':
+                        (str,),
+                    'access_requirement':
+                        (AccessRequirement,),
+                },
+                'attribute_map': {
+                    'requirement_id': 'requirementId',
+                },
+                'location_map': {
+                    'requirement_id': 'path',
+                    'access_requirement': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__update_access_requirement
         )
