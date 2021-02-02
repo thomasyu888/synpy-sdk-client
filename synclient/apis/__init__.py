@@ -17,6 +17,7 @@
 from synclient.api.access_approval_services_api import AccessApprovalServicesApi
 from synclient.api.access_requirement_services_api import AccessRequirementServicesApi
 from synclient.api.activity_services_api import ActivityServicesApi
+from synclient.api.asynchronous_job_services_api import AsynchronousJobServicesApi
 from synclient.api.certified_user_services_api import CertifiedUserServicesApi
 from synclient.api.challenge_services_api import ChallengeServicesApi
 from synclient.api.data_access_services_api import DataAccessServicesApi

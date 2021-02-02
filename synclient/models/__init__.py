@@ -32,6 +32,10 @@ from synclient.model.annotations_value import AnnotationsValue
 from synclient.model.annotations_value_type import AnnotationsValueType
 from synclient.model.approval_state import ApprovalState
 from synclient.model.async_job_id import AsyncJobId
+from synclient.model.asynch_job_state import AsynchJobState
+from synclient.model.asynchronous_job_status import AsynchronousJobStatus
+from synclient.model.asynchronous_request_body import AsynchronousRequestBody
+from synclient.model.asynchronous_response_body import AsynchronousResponseBody
 from synclient.model.attachment_metadata import AttachmentMetadata
 from synclient.model.batch_access_approval_info_request import BatchAccessApprovalInfoRequest
 from synclient.model.batch_access_approval_info_response import BatchAccessApprovalInfoResponse

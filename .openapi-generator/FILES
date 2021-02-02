@@ -27,6 +27,11 @@ docs/AnnotationsValue.md
 docs/AnnotationsValueType.md
 docs/ApprovalState.md
 docs/AsyncJobId.md
+docs/AsynchJobState.md
+docs/AsynchronousJobServicesApi.md
+docs/AsynchronousJobStatus.md
+docs/AsynchronousRequestBody.md
+docs/AsynchronousResponseBody.md
 docs/AttachmentMetadata.md
 docs/BatchAccessApprovalInfoRequest.md
 docs/BatchAccessApprovalInfoResponse.md
@@ -264,6 +269,7 @@ synclient/api/__init__.py
 synclient/api/access_approval_services_api.py
 synclient/api/access_requirement_services_api.py
 synclient/api/activity_services_api.py
+synclient/api/asynchronous_job_services_api.py
 synclient/api/certified_user_services_api.py
 synclient/api/challenge_services_api.py
 synclient/api/data_access_services_api.py
@@ -310,6 +316,10 @@ synclient/model/annotations_value.py
 synclient/model/annotations_value_type.py
 synclient/model/approval_state.py
 synclient/model/async_job_id.py
+synclient/model/asynch_job_state.py
+synclient/model/asynchronous_job_status.py
+synclient/model/asynchronous_request_body.py
+synclient/model/asynchronous_response_body.py
 synclient/model/attachment_metadata.py
 synclient/model/batch_access_approval_info_request.py
 synclient/model/batch_access_approval_info_response.py
@@ -526,5 +536,9 @@ synclient/models/__init__.py
 synclient/rest.py
 test-requirements.txt
 test/__init__.py
-test/test_json_schema_services_api.py
+test/test_asynch_job_state.py
+test/test_asynchronous_job_services_api.py
+test/test_asynchronous_job_status.py
+test/test_asynchronous_request_body.py
+test/test_asynchronous_response_body.py
 tox.ini
