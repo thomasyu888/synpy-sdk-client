@@ -48,6 +48,9 @@ from synclient.model.column_type import ColumnType
 from synclient.model.count import Count
 from synclient.model.create_discussion_reply import CreateDiscussionReply
 from synclient.model.create_discussion_thread import CreateDiscussionThread
+from synclient.model.create_organization_request import CreateOrganizationRequest
+from synclient.model.create_schema_request import CreateSchemaRequest
+from synclient.model.create_schema_response import CreateSchemaResponse
 from synclient.model.csv_table_descriptor import CsvTableDescriptor
 from synclient.model.data_type import DataType
 from synclient.model.data_type_response import DataTypeResponse
@@ -100,10 +103,20 @@ from synclient.model.form_data import FormData
 from synclient.model.form_group import FormGroup
 from synclient.model.form_rejection import FormRejection
 from synclient.model.forum import Forum
+from synclient.model.get_validation_schema_request import GetValidationSchemaRequest
+from synclient.model.get_validation_schema_response import GetValidationSchemaResponse
 from synclient.model.id_list import IdList
 from synclient.model.join_team_signed_token import JoinTeamSignedToken
+from synclient.model.json_schema import JsonSchema
+from synclient.model.json_schema_info import JsonSchemaInfo
 from synclient.model.json_schema_object_binding import JsonSchemaObjectBinding
 from synclient.model.json_schema_version_info import JsonSchemaVersionInfo
+from synclient.model.list_json_schema_info_request import ListJsonSchemaInfoRequest
+from synclient.model.list_json_schema_info_response import ListJsonSchemaInfoResponse
+from synclient.model.list_json_schema_version_info_request import ListJsonSchemaVersionInfoRequest
+from synclient.model.list_json_schema_version_info_response import ListJsonSchemaVersionInfoResponse
+from synclient.model.list_organizations_request import ListOrganizationsRequest
+from synclient.model.list_organizations_response import ListOrganizationsResponse
 from synclient.model.list_request import ListRequest
 from synclient.model.list_response import ListResponse
 from synclient.model.list_validation_results_request import ListValidationResultsRequest
@@ -121,6 +134,7 @@ from synclient.model.name_identifier_scheme import NameIdentifierScheme
 from synclient.model.notification_type import NotificationType
 from synclient.model.object_type import ObjectType
 from synclient.model.object_type_schema import ObjectTypeSchema
+from synclient.model.organization import Organization
 from synclient.model.paginated_column_models import PaginatedColumnModels
 from synclient.model.paginated_ids import PaginatedIds
 from synclient.model.paginated_results_of_access_requirement import PaginatedResultsOfAccessRequirement
@@ -195,6 +209,7 @@ from synclient.model.submission_status_enum import SubmissionStatusEnum
 from synclient.model.submission_status_form import SubmissionStatusForm
 from synclient.model.submission_status_model import SubmissionStatusModel
 from synclient.model.sum_file_sizes import SumFileSizes
+from synclient.model.type import TYPE
 from synclient.model.table_bundle import TableBundle
 from synclient.model.table_file_handle_results import TableFileHandleResults
 from synclient.model.table_update_request import TableUpdateRequest

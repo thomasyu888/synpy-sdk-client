@@ -84,23 +84,23 @@ class JsonSchema(ModelNormal):
             'ref': (str,),  # noqa: E501
             'schema': (str,),  # noqa: E501
             'const': (str,),  # noqa: E501
-            '_else': (JsonSchema,),  # noqa: E501
+            '_else': ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},),  # noqa: E501
             'enum': ([str],),  # noqa: E501
-            '_if': (JsonSchema,),  # noqa: E501
-            'all_of': ([JsonSchema],),  # noqa: E501
-            'any_of': ([JsonSchema],),  # noqa: E501
-            'definitions': ({str: (JsonSchema,)},),  # noqa: E501
+            '_if': ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},),  # noqa: E501
+            'all_of': ([object],),  # noqa: E501
+            'any_of': ([object],),  # noqa: E501
+            'definitions': ({str: (object,)},),  # noqa: E501
             'description': (str,),  # noqa: E501
             'format': (str,),  # noqa: E501
-            'items': (JsonSchema,),  # noqa: E501
+            'items': ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},),  # noqa: E501
             'max_length': (int,),  # noqa: E501
             'min_length': (int,),  # noqa: E501
-            'one_of': ([JsonSchema],),  # noqa: E501
+            'one_of': ([object],),  # noqa: E501
             'pattern': (str,),  # noqa: E501
-            'properties': ({str: (JsonSchema,)},),  # noqa: E501
+            'properties': ({str: (object,)},),  # noqa: E501
             'required': ([str],),  # noqa: E501
             'source': (str,),  # noqa: E501
-            'then': (JsonSchema,),  # noqa: E501
+            'then': ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},),  # noqa: E501
             'title': (str,),  # noqa: E501
             'type': (TYPE,),  # noqa: E501
         }
@@ -186,23 +186,23 @@ class JsonSchema(ModelNormal):
             ref (str): https://json-schema.org/draft/2019-09/json-schema-core.html#rfc.section.8.2.4.1 . [optional]  # noqa: E501
             schema (str): https://json-schema.org/draft/2019-09/json-schema-core.html#rfc.section.8.1.1 . [optional]  # noqa: E501
             const (str): https://json-schema.org/draft/2019-09/json-schema-validation.html#rfc.section.6.1.3 . [optional]  # noqa: E501
-            _else (JsonSchema): [optional]  # noqa: E501
+            _else ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}): Json Object. [optional]  # noqa: E501
             enum ([str]): https://json-schema.org/draft/2019-09/json-schema-validation.html#rfc.section.6.1.2 . [optional]  # noqa: E501
-            _if (JsonSchema): [optional]  # noqa: E501
-            all_of ([JsonSchema]): Use allOf to 'extend' or 'implement' one or more schemas. https://json-schema.org/draft/2019-09/json-schema-core.html#rfc.section.9.2.1.1 . [optional]  # noqa: E501
-            any_of ([JsonSchema]): https://json-schema.org/draft/2019-09/json-schema-core.html#rfc.section.9.2.1.2 . [optional]  # noqa: E501
-            definitions ({str: (JsonSchema,)}): In an effort to support draft-07 implementations, we are using 'definitions' instead of '$defs'. https://json-schema.org/draft/2019-09/json-schema-validation.html#rfc.appendix.A . [optional]  # noqa: E501
+            _if ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}): Json Object. [optional]  # noqa: E501
+            all_of ([object]): Use allOf to 'extend' or 'implement' one or more schemas. https://json-schema.org/draft/2019-09/json-schema-core.html#rfc.section.9.2.1.1 . [optional]  # noqa: E501
+            any_of ([object]): https://json-schema.org/draft/2019-09/json-schema-core.html#rfc.section.9.2.1.2 . [optional]  # noqa: E501
+            definitions ({str: (object,)}): In an effort to support draft-07 implementations, we are using 'definitions' instead of '$defs'. https://json-schema.org/draft/2019-09/json-schema-validation.html#rfc.appendix.A . [optional]  # noqa: E501
             description (str): https://json-schema.org/draft/2019-09/json-schema-hypermedia.html#rfc.section.6.5.2' . [optional]  # noqa: E501
             format (str): https://json-schema.org/draft/2019-09/json-schema-validation.html#rfc.section.7.3' . [optional]  # noqa: E501
-            items (JsonSchema): [optional]  # noqa: E501
+            items ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}): Json Object. [optional]  # noqa: E501
             max_length (int): https://tools.ietf.org/html/draft-handrews-json-schema-validation-02#section-6.3.1'. [optional]  # noqa: E501
             min_length (int): https://tools.ietf.org/html/draft-handrews-json-schema-validation-02#section-6.3.2' . [optional]  # noqa: E501
-            one_of ([JsonSchema]): https://json-schema.org/draft/2019-09/json-schema-core.html#rfc.section.9.2.1.3' . [optional]  # noqa: E501
+            one_of ([object]): https://json-schema.org/draft/2019-09/json-schema-core.html#rfc.section.9.2.1.3' . [optional]  # noqa: E501
             pattern (str): https://tools.ietf.org/html/draft-handrews-json-schema-validation-02#section-6.3.3 . [optional]  # noqa: E501
-            properties ({str: (JsonSchema,)}): https://json-schema.org/draft/2019-09/json-schema-core.html#rfc.section.9.3.2.1. [optional]  # noqa: E501
+            properties ({str: (object,)}): https://json-schema.org/draft/2019-09/json-schema-core.html#rfc.section.9.3.2.1. [optional]  # noqa: E501
             required ([str]): https://json-schema.org/draft/2019-09/json-schema-validation.html#rfc.section.6.5.3. [optional]  # noqa: E501
             source (str): Used to indicate that this schema is derived from another object/schema. The value should be a URL reference to the original work. The 'source' is solely descriptive and should have no impact on validation. . [optional]  # noqa: E501
-            then (JsonSchema): [optional]  # noqa: E501
+            then ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}): Json Object. [optional]  # noqa: E501
             title (str): https://json-schema.org/draft/2019-09/json-schema-hypermedia.html#rfc.section.6.5.1 . [optional]  # noqa: E501
             type (TYPE): [optional]  # noqa: E501
         """
